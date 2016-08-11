@@ -1,20 +1,25 @@
 package com.scut.cs.domain;
 
+import com.scut.cs.domain.basicEnum.RoleTypeEnum;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by NeilHY on 2016/8/9.
  */
 @Entity
-public class Admin {
+public class Admin implements UserDetails{
+    private static final long serialVersionUID=1L;
     @Id
     @Column(name = "adminId")
     private Long id;
 
     @Column(nullable = false,length = 20)
-    private String userName;
+    private String username;
 
     @Column(nullable = false,length = 20)
     private String password;
@@ -22,21 +27,21 @@ public class Admin {
     @Column(nullable = false)
     private String college;
 
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.EAGER)
-    @JoinColumn(name = "roleID", referencedColumnName = "roleId")
-    private RoleType roleType;
+//    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.EAGER)
+//    @JoinColumn(name = "roleID", referencedColumnName = "roleId")
+//    private RoleType roleType;
+    @Column(nullable = false)
+    private String roleType;
 
     public Admin() {
     }
 
-    public Admin(Long id,String userName, String password, String college, RoleType role) {
-        this.id=id;
-        this.userName = userName;
+    public Admin(Long id, String username, String password, String college, String roleType) {
+        this.id = id;
+        this.username = username;
         this.password = password;
         this.college = college;
-        this.roleType = role;
-        Date date = new Date();
-        date=Calendar.getInstance().getTime();
+        this.roleType = roleType;
     }
 
     public Long getId() {
@@ -47,16 +52,45 @@ public class Admin {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> auths = new ArrayList<>();
+        String role=this.getRoleType();
+        auths.add(new SimpleGrantedAuthority(role));
+        return auths;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -71,11 +105,15 @@ public class Admin {
         this.college = college;
     }
 
-    public RoleType getRoleType() {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getRoleType() {
         return roleType;
     }
 
-    public void setRoleType(RoleType roleType) {
+    public void setRoleType(String roleType) {
         this.roleType = roleType;
     }
 }

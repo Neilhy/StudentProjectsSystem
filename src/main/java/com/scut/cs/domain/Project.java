@@ -22,23 +22,27 @@ public class Project {
     @Column(length = 20)
     private String rank;
     private String filePath;
+    private String teacher;
+    private String note;
+
     private Date projectDate;
     @Column(nullable = false)
     private String state;
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
-    @JoinTable(name = "Project_student",
-            joinColumns =@JoinColumn(name = "project_ID",referencedColumnName = "projectId"),
+    @JoinTable(joinColumns =@JoinColumn(name = "project_ID",referencedColumnName = "projectId"),
             inverseJoinColumns = @JoinColumn(name="student_ID",referencedColumnName = "studentId"))
     private List<Student> studentList;
 
     public Project() {
     }
 
-    public Project(String projectName, String level, String rank, String filePath, Date projectDate, String state, List<Student> studentList) {
+    public Project(String projectName, String level, String rank, String filePath, String teacher, String note, Date projectDate, String state, List<Student> studentList) {
         this.projectName = projectName;
         this.level = level;
         this.rank = rank;
         this.filePath = filePath;
+        this.teacher = teacher;
+        this.note = note;
         this.projectDate = projectDate;
         this.state = state;
         this.studentList = studentList;
@@ -105,6 +109,23 @@ public class Project {
     }
 
     public void setStudentList(List<Student> studentList) {
+
         this.studentList = studentList;
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
