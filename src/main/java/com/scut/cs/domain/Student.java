@@ -12,8 +12,12 @@ public class Student {
 
 
     @Id
+    @GeneratedValue
     @Column(name = "studentId")
     private Long id;
+
+    @Column(nullable = false,unique = true)
+    private Long registerId;//学号
 
     @Column(nullable = false,length = 20)
     private String studentName;
@@ -27,6 +31,9 @@ public class Student {
     @Column(nullable = false)
     private Short grade;
 
+    @Column(nullable = false,columnDefinition = "TINYINT UNSIGNED default 0")
+    private Integer captainOrNot; //判断是否是队长,0表示队员，1表示队长。
+
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
 //    @JoinTable(name = "project_student",
 //            joinColumns =@JoinColumn(name = "student_ID",referencedColumnName = "studentId"),
@@ -36,12 +43,13 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String studentName, String college, String className, Short grade, List<Project> projectList) {
-        this.id = id;
+    public Student(Long registerId, String studentName, String college, String className, Short grade,Integer captainOrNot, List<Project> projectList) {
+        this.registerId = registerId;
         this.studentName = studentName;
         this.college = college;
         this.className = className;
         this.grade = grade;
+        this.captainOrNot=captainOrNot;
         this.projectList = projectList;
     }
 
@@ -51,6 +59,14 @@ public class Student {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getRegisterId() {
+        return registerId;
+    }
+
+    public void setRegisterId(Long registerId) {
+        this.registerId = registerId;
     }
 
     public String getStudentName() {
@@ -83,6 +99,14 @@ public class Student {
 
     public void setGrade(Short grade) {
         this.grade = grade;
+    }
+
+    public Integer getCaptainOrNot() {
+        return captainOrNot;
+    }
+
+    public void setCaptainOrNot(Integer captainOrNot) {
+        this.captainOrNot = captainOrNot;
     }
 
     public List<Project> getProjectList() {

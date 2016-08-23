@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
 <link rel="stylesheet" href="css/xgxt_login.css" />
@@ -9,7 +9,7 @@
 
 <div id="header">
 	<div class="header_title">
-		<img src="img/logo.gif"/> 
+		<img src="images/Login/logo.gif"/>
 		<div class="header_text">
 			<span>华南理工大学学生课外学术科技创新竞赛成果录入系统</span>
 		</div>
@@ -23,18 +23,24 @@
 			<span class="con_title_sp">欢迎登录系统</span>
 		</div>
 		<div class="con_panel">
-			<div class="con_input">
-				<span>用户名：</span><input type="text" placeholder="学号/工号"/>
-			</div>
-			<div class="con_input">
-				<span>密&nbsp;&nbsp;&nbsp;&nbsp;码：</span><input type="text" placeholder="密码"/>
-			</div>
-			<!--<div class="con_select">-->
+			<p th:if="${param.logout}" class="bg-warning">已成功注销</p>
+			<p th:if="${param.error}" class="bg-danger">有错误，请重试</p>
+
+			<form name="form" th:action="@{/login}" action="/login" method="post">
+				<div class="con_input">
+					<span>用户名：</span><input type="text" name="username" placeholder="学号/工号"/>
+				</div>
+				<div class="con_input">
+					<span>密&nbsp;&nbsp;&nbsp;&nbsp;码：</span><input type="password" name="password" placeholder="密码"/>
+				</div>
+				<!--<div class="con_select">-->
 				<!--<input type="radio" name="t1" value="学生" />校团委-->
 				<!--<input type="radio" name="t1" value="教师" />学生科协-->
 				<!---->
-			<!--</div>-->
-			<input type="submit" value="登    录" class="submit-btn"/>
+				<!--</div>-->
+				<input id="loginBtn" type="submit" value="登    录" class="submit-btn"/>
+			</form>
+
 		</div>
 	</div>
 	

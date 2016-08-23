@@ -1,6 +1,5 @@
 package com.scut.cs.domain;
 
-import com.scut.cs.domain.basicEnum.RoleTypeEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,10 +14,11 @@ import java.util.*;
 public class Admin implements UserDetails{
     private static final long serialVersionUID=1L;
     @Id
+    @GeneratedValue
     @Column(name = "adminId")
     private Long id;
 
-    @Column(nullable = false,length = 20)
+    @Column(nullable = false,length = 20,unique = true)
     private String username;
 
     @Column(nullable = false,length = 20)
@@ -32,6 +32,9 @@ public class Admin implements UserDetails{
 //    private RoleType roleType;
     @Column(nullable = false)
     private String roleType;
+
+    @Column(nullable = false,columnDefinition = "TINYINT UNSIGNED default 1")
+    private Integer status;
 
     public Admin() {
     }
@@ -115,5 +118,13 @@ public class Admin implements UserDetails{
 
     public void setRoleType(String roleType) {
         this.roleType = roleType;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

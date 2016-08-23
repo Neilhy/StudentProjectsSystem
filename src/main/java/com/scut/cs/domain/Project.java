@@ -21,13 +21,19 @@ public class Project {
     private String level;
     @Column(length = 20)
     private String rank;
-    private String filePath;
+    @Column(nullable = false)
+    private String captainCollege;
+
     private String teacher;
     private String note;
-
     private Date projectDate;
-    @Column(nullable = false)
-    private String state;
+
+    private String filePath;
+    private String msgForbid; //管理员对该项目不予以通过的理由
+
+    @Column(nullable = false,length = 10)
+    private String state="未审核";
+
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinTable(joinColumns =@JoinColumn(name = "project_ID",referencedColumnName = "projectId"),
             inverseJoinColumns = @JoinColumn(name="student_ID",referencedColumnName = "studentId"))
@@ -36,14 +42,14 @@ public class Project {
     public Project() {
     }
 
-    public Project(String projectName, String level, String rank, String filePath, String teacher, String note, Date projectDate, String state, List<Student> studentList) {
+    public Project(String projectName, String level, String rank,String captainCollege, String teacher, String note, String projectDate, String state, List<Student> studentList) {
         this.projectName = projectName;
         this.level = level;
         this.rank = rank;
-        this.filePath = filePath;
+        this.captainCollege=captainCollege;
         this.teacher = teacher;
         this.note = note;
-        this.projectDate = projectDate;
+        this.projectDate = Date.valueOf(projectDate);
         this.state = state;
         this.studentList = studentList;
     }
@@ -78,6 +84,14 @@ public class Project {
 
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+    public String getCaptainCollege() {
+        return captainCollege;
+    }
+
+    public void setCaptainCollege(String captainCollege) {
+        this.captainCollege = captainCollege;
     }
 
     public String getFilePath() {
@@ -127,5 +141,13 @@ public class Project {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getMsgForbid() {
+        return msgForbid;
+    }
+
+    public void setMsgForbid(String msgForbid) {
+        this.msgForbid = msgForbid;
     }
 }
