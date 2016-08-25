@@ -45,6 +45,7 @@ public class AdminsServiceImpl implements AdminsService {
         return null;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public int changeRoleType(String username, String roleType) {
         Admin adminOld = adminRepository.findByUsername(username);
@@ -72,7 +73,7 @@ public class AdminsServiceImpl implements AdminsService {
         List<String> usernames = new ArrayList<>();
         for (String username : usernameList) {
             if (null == deleteAdmin(username)) {
-                throw new IllegalArgumentException("用户名为："+username+" 的用户不存在！！");     //TODO 验证能不能继续正常执行程序
+                throw new IllegalArgumentException("用户名为："+username+" 的用户不存在！！");     //TODO 可以在Controller层捕抓异常
             }
             usernames.add(username);
         }

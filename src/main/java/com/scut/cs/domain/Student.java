@@ -1,6 +1,12 @@
 package com.scut.cs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -8,8 +14,8 @@ import java.util.Set;
  * Created by NeilHY on 2016/8/7.
  */
 @Entity
-public class Student {
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+public class Student implements Serializable {
 
     @Id
     @GeneratedValue
@@ -31,13 +37,14 @@ public class Student {
     @Column(nullable = false)
     private Short grade;
 
-    @Column(nullable = false,columnDefinition = "TINYINT UNSIGNED default 0")
-    private Integer captainOrNot; //判断是否是队长,0表示队员，1表示队长。
+    @Column(nullable = false,columnDefinition = "TINYINT UNSIGNED")
+    private Integer captainOrNot=0; //判断是否是队长,0表示队员，1表示队长。
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
-//    @JoinTable(name = "project_student",
-//            joinColumns =@JoinColumn(name = "student_ID",referencedColumnName = "studentId"),
-//            inverseJoinColumns = @JoinColumn(name="project_ID",referencedColumnName = "projectId"))
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinTable(name="ProjectStudentList",
+            joinColumns ={@JoinColumn(name = "studentId")},
+            inverseJoinColumns = {@JoinColumn(name="projectId")})
     private List<Project> projectList;
 
     public Student() {
@@ -109,6 +116,7 @@ public class Student {
         this.captainOrNot = captainOrNot;
     }
 
+//    @JsonBackReference
     public List<Project> getProjectList() {
         return projectList;
     }

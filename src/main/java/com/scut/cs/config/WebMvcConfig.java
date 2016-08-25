@@ -1,6 +1,6 @@
 package com.scut.cs.config;
 
-import com.scut.cs.web.RequestUrls;
+import com.scut.cs.web.request.RequestUrls;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;

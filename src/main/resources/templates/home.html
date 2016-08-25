@@ -21,31 +21,125 @@
                 xhr.setRequestHeader(header, token);
             });
             $("#testAddProject").click(function(){
-                $.post("/addProject",
-                        {
-                            "projectName":"三星比赛",
-                            "level":"省级",
-                            "rank":"一等奖",
-                            "captainCollege":"计算机科学与工程学院",
-                            "teacher":"我",
-                            "note":"很好",
-                            "projectDate":"2016-8-20",
-//                            "state":"未审核",
-                            "studentList":[
-                                {"registerId":201430560001,"studentName":"一号","college":"计算机科学与工程学院","className":"计算机科学与工程1班","grade":2014,"captainOrNot":1,"projectList":null},
-                                {"registerId":201430560002,"studentName":"二号","college":"计算机科学与工程学院","className":"计算机科学与工程2班","grade":2014,"captainOrNot":0,"projectList":null},
-                                {"registerId":201430560003,"studentName":"三号","college":"计算机科学与工程学院","className":"网络工程","grade":2014,"projectList":null},
-                                {"registerId":201430560004,"studentName":"四号","college":"计算机科学与工程学院","className":"信息安全","grade":2014,"projectList":null},
-                                {"registerId":201430560005,"studentName":"五号","college":"计算机科学与工程学院","className":"计算机创新班","grade":2014,"projectList":null},
-                                {"registerId":201430560006,"studentName":"六号","college":"计算机科学与工程学院","className":"计算机联合班","grade":2014,"projectList":null},
-                                {"registerId":201430560007,"studentName":"七号","college":"计算机科学与工程学院","className":"网络工程","grade":2014,"projectList":null}
-                            ]
-                        },function (data,status) {
-                            alert("Data:"+data.id+"\nStatus:"+status);
-                        });
+                $.ajax({
+                    type: "POST",
+                    url: "/addProject",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        projectName:"华为比赛",
+                        level:"省级",
+                        rank:"一等奖",
+                        captainCollege:"计算机科学与工程学院",
+                        teacher:"我",
+                        note:"很好",
+                        projectDate:"2016-8-20",
+                        studentList:[
+                            {registerId:201430560001,studentName:"一号",college:"计算机科学与工程学院",className:"计算机科学与工程1班",grade:2014,captainOrNot:1},
+                            {registerId:201430560002,studentName:"二号",college:"计算机科学与工程学院",className:"计算机科学与工程2班",grade:2014},
+                            {registerId:201430560003,studentName:"三号",college:"计算机科学与工程学院",className:"网络工程",grade:2014},
+                            {registerId:201430560004,studentName:"四号",college:"计算机科学与工程学院",className:"信息安全",grade:2014},
+                            {registerId:201430560005,studentName:"五号",college:"计算机科学与工程学院",className:"计算机创新班",grade:2014},
+                            {registerId:201430560006,studentName:"六号",college:"计算机科学与工程学院",className:"计算机联合班",grade:2014},
+                            {registerId:201430560007,studentName:"七号",college:"计算机科学与工程学院",className:"网络工程",grade:2014}
+                        ]
+                    }),
+                    dataType:"json",
+                    success: function (data,status) {
+                        alert(JSON.parse(data)+"   "+status);
+                        $("#addProject").val(JSON.parse(data));
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/addProject",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        projectName:"三星比赛",
+                        level:"市级",
+                        rank:"二等奖",
+                        captainCollege:"建筑学院",
+                        teacher:"我",
+                        note:"很好",
+                        projectDate:"2016-8-21",
+                        studentList:[
+                            {registerId:201430560008,studentName:"一号",college:"建筑学院",className:"建筑1班",grade:2014,captainOrNot:1},
+                            {registerId:201430560009,studentName:"二号",college:"建筑学院",className:"建筑2班",grade:2014},
+                            {registerId:201430560010,studentName:"三号",college:"建筑学院",className:"建筑3班",grade:2014},
+                            {registerId:201430560011,studentName:"四号",college:"建筑学院",className:"建筑4班",grade:2014},
+                            {registerId:201430560012,studentName:"五号",college:"建筑学院",className:"建筑5班",grade:2014},
+                            {registerId:201430560013,studentName:"六号",college:"建筑学院",className:"建筑6班",grade:2014},
+                            {registerId:201430560014,studentName:"七号",college:"建筑学院",className:"建筑1班",grade:2014}
+                        ]
+                    }),
+                    dataType:"json",
+                    success: function (data,status) {
+                        alert(JSON.parse(data)+"   "+status);
+                        $("#addProject").val(JSON.parse(data));
+                    }
+                });
+//                $.post("/addProject",
+//                        {
+//                            projectName:"三星比赛",
+//                            level:"省级",
+//                            rank:"一等奖",
+//                            captainCollege:"计算机科学与工程学院",
+//                            teacher:"我",
+//                            note:"很好",
+//                            projectDate:"2016-8-20",
+//                            studentList:[
+//                                {registerId:201430560008,studentName:"一号",college:"计算机科学与工程学院",className:"计算机科学与工程1班",grade:2014,captainOrNot:1,projectList:null},
+//                                {registerId:201430560009,studentName:"二号",college:"计算机科学与工程学院",className:"计算机科学与工程2班",grade:2014,captainOrNot:0,projectList:null},
+//                                {registerId:201430560010,studentName:"三号",college:"计算机科学与工程学院",className:"网络工程",grade:2014,captainOrNot:0,projectList:null},
+//                                {registerId:201430560011,studentName:"四号",college:"计算机科学与工程学院",className:"信息安全",grade:2014,captainOrNot:0,projectList:null},
+//                                {registerId:201430560012,studentName:"五号",college:"计算机科学与工程学院",className:"计算机创新班",grade:2014,captainOrNot:0,projectList:null},
+//                                {registerId:201430560013,studentName:"六号",college:"计算机科学与工程学院",className:"计算机联合班",grade:2014,captainOrNot:0,projectList:null},
+//                                {registerId:201430560014,studentName:"七号",college:"计算机科学与工程学院",className:"网络工程",grade:2014,captainOrNot:0,projectList:null}
+//                            ]
+//                        },function (data,status) {
+//                            alert(status);
+//                            $("#addProject").html(data);
+//                        },"json");
             });
-
-
+            $("#testGetProject").click(function() {
+                $.get("/getProjects", function (data, status) {
+                    alert(JSON.parse(data)+"   "+status);
+                    $("#getProjects").val(JSON.parse(data));
+                });
+            });
+            $("#testAddStudents").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/addStudents",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        projectId:parseInt($('#projectId1').val()),
+                        studentList:[
+                            {registerId:parseInt($('#projectId2').val()),studentName:"一号",college:"建筑学院",className:"建筑1班",grade:2014,captainOrNot:1}
+                        ]
+                    }),
+                    dataType: "json",
+                    success: function (data, status) {
+                        alert(JSON.parse(data) + "   " + status);
+                        $("#deleteProjects").val(JSON.parse(data));
+                    }
+                });
+            });
+            $("#testDeleteProjects").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/deleteProjects",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(
+//                        [parseInt($('#projectId1').val()), parseInt($('#projectId2').val())]
+                            [parseInt($('#projectId1').val())]
+                    ),
+                    dataType: "json",
+                    success: function (data, status) {
+                        alert(JSON.parse(data) + "   " + status);
+                        $("#deleteProjects").val(JSON.parse(data));
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -171,17 +265,30 @@
                     <button id="testGetProject">点我获取Projects从服务器</button>
                 </div>
                 <div>
-                    <button id="testDeleteProjects">点我从服务器删除指定Projects</button>
+                    <button id="testAddStudents">点我添加学生到服务器</button>
                 </div>
                 <div>
-                    <form action="/test1" method="post">
-                        <label>
-                            <input type="text" name="string" value=""/>
-                        </label>
-                        <input type="submit" value="post now"/>
-                        <!--<input type="hidden" name="${_csrf.parameterName}" value=$("meta[name='_csrf']").attr("content")/>-->
-                    </form>
+                    <p>id:
+                        <input id="projectId1" type="text" name="projectId" value="" />
+                        <input id="projectId2" type="text" name="projectId" value="" />
+                    </p>
+                    <button id="testDeleteProjects">点我从服务器删除指定Projects</button>
                 </div>
+                <br/>
+                <div>
+                    <textarea id="addProject"></textarea>
+                    <textarea id="getProjects"></textarea>
+                    <textarea id="deleteProjects"></textarea>
+                </div>
+                <!--<div>-->
+                    <!--<form action="/test1" method="post">-->
+                        <!--<label>-->
+                            <!--<input  type="text" name="string" value=""/>-->
+                        <!--</label>-->
+                        <!--<input type="submit" value="post now"/>-->
+                        <!--&lt;!&ndash;<input type="hidden" name="${_csrf.parameterName}" value=$("meta[name='_csrf']").attr("content")/>&ndash;&gt;-->
+                    <!--</form>-->
+                <!--</div>-->
 
             </div>
 

@@ -1,15 +1,24 @@
 package com.scut.cs.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
+
+import static javafx.scene.input.KeyCode.J;
 
 /**
  * Created by NeilHY on 2016/8/7.
  */
 @Entity
-public class Project {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+public class Project implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "projectId")
@@ -31,12 +40,13 @@ public class Project {
     private String filePath;
     private String msgForbid; //管理员对该项目不予以通过的理由
 
-    @Column(nullable = false,length = 10)
+    @Column(nullable = false,length= 10)
     private String state="未审核";
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
-    @JoinTable(joinColumns =@JoinColumn(name = "project_ID",referencedColumnName = "projectId"),
-            inverseJoinColumns = @JoinColumn(name="student_ID",referencedColumnName = "studentId"))
+    @JoinTable(name="ProjectStudentList",
+            joinColumns ={@JoinColumn(name = "projectId")},
+            inverseJoinColumns = {@JoinColumn(name="studentId")})
     private List<Student> studentList;
 
     public Project() {
@@ -122,6 +132,7 @@ public class Project {
         return studentList;
     }
 
+//    @JsonManagedReference
     public void setStudentList(List<Student> studentList) {
 
         this.studentList = studentList;
@@ -149,5 +160,19 @@ public class Project {
 
     public void setMsgForbid(String msgForbid) {
         this.msgForbid = msgForbid;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectName='" + projectName + '\'' +
+                ", level='" + level + '\'' +
+                ", rank='" + rank + '\'' +
+                ", captainCollege='" + captainCollege + '\'' +
+                ", teacher='" + teacher + '\'' +
+                ", note='" + note + '\'' +
+                ", projectDate=" + projectDate +
+                ", studentList=" + studentList +
+                '}';
     }
 }

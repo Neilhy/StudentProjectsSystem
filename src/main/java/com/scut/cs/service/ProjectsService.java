@@ -1,6 +1,8 @@
 package com.scut.cs.service;
 
 import com.scut.cs.domain.Project;
+import com.scut.cs.web.request.AddStudents;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ public interface ProjectsService {
     List<Project> getCollegeProjects(String college);
 
     Project addProject(Project project);
+
+    Project addStudents(AddStudents addStudents);
 
     Project modifyProject(Project project);
 
