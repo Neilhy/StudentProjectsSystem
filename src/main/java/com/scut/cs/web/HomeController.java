@@ -47,8 +47,7 @@ public class HomeController {
                 projectList=projectsService.getCollegeProjects(admin.getCollege());
             }
             System.out.println("要返回数据了");
-            return null;
-//            return projectList;
+            return projectList;
         }
         return null;
     }

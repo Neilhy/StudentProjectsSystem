@@ -1,0 +1,64 @@
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <script src="../scripts/jquery-1.9.1.min.js"></script>
+    <script src="../scripts/vendor/jquery.ui.widget.js"></script>
+    <script src="../scripts/jquery.iframe-transport.js"></script>
+    <script src="../scripts/jquery.fileupload.js"></script>
+    <script src="../bootstrap2.3.2/js/bootstrap.min.js"></script>
+    <link href="../bootstrap2.3.2/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $(document).ajaxSend(function(e, xhr, options) {
+                xhr.setRequestHeader(header, token);
+            });
+//            $("#btnFileUp").click(function() {
+//                alert("uploading");
+//                    $("#file").fileupload({
+//                        url: '/upload',
+//                        done: function (e, result) {
+//                            alert(result.result);
+//                        }
+////                        _initXHRData: function (options) {
+////                            options.headers[header] = token;
+////                            if (options.contentRange) {
+////                                options.headers['Content-Range'] = options.contentRange;
+////                            }
+////                        }
+//
+//                    });
+//            });
+//        });
+//            $(function () {
+                $('#file').fileupload({
+                    dataType: 'json',
+                    add: function (e, data) {
+                        data.context = $('<button/>').text('Upload')
+                                .appendTo(document.body)
+                                .click(function () {
+                                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+                                    data.submit();
+                                });
+                    },
+                    done: function (e, data) {
+                        data.context.text('Upload finished.');
+                    }
+                });
+//            });
+        });
+    </script>
+    <title>FileUp</title>
+</head>
+<body>
+    <div>
+        <input type="file" name="file" id="file" data-url="/upload" /><br/>
+    </div>
+</body>
+</html>

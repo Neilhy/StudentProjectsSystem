@@ -11,4 +11,6 @@ public class RequestUrls {
     public static final String AddStudentsUrl = "/addStudents";
     public static final String DeleteProjectListUrl = "/deleteProjects";
 
+    public static final String UpLoadUrl = "/upload";
+
 }
