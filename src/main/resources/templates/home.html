@@ -103,7 +103,8 @@
 //                        },"json");
             });
             $("#testGetProject").click(function() {
-                $.get("/getProjects", function (data, status) {
+                var url='/getProjects/'+$('#projectId1').val()+'/'+$('#projectId2').val();
+                $.get(url, function (data, status) {
                     alert(JSON.parse(data)+"   "+status);
                     $("#getProjects").val(JSON.parse(data));
                 });

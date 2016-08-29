@@ -8,14 +8,12 @@ import com.scut.cs.service.ProjectsService;
 import com.scut.cs.web.request.AddStudents;
 import com.scut.cs.web.request.RequestUrls;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,28 +24,27 @@ import static javafx.scene.input.KeyCode.R;
  */
 @RestController
 public class HomeController {
-    @Autowired
-    AdminsService adminsService;
+
     @Autowired
     ProjectsService projectsService;
 
     @RequestMapping(value = RequestUrls.GetProjectsUrl,method = RequestMethod.GET)
-    public List<Project> getProjects() {
+    public Page<Project> getProjects(@PathVariable int page, @PathVariable int size) {
         System.out.println("开始getProjects。。。");
         SecurityContext context= SecurityContextHolder.getContext();
         Authentication authentication=context.getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails) {
             Admin admin= (Admin) authentication.getPrincipal();
             String roleType=admin.getRoleType();
-            List<Project> projectList = null;
+            Page<Project> projectPage = null;
             if (roleType.equals(RoleTypes.ADMIN) ||roleType.equals(RoleTypes.INNER)
                     || roleType.equals(RoleTypes.INNER_SPEC)) {
-                projectList=projectsService.getAllProjects();
+                projectPage=projectsService.getAllProjects(page,size);
             } else if (roleType.equals(RoleTypes.OUTER) || roleType.equals(RoleTypes.OUTER_SPEC)) {
-                projectList=projectsService.getCollegeProjects(admin.getCollege());
+                projectPage=projectsService.getCollegeProjects(admin.getCollege(),page,size);
             }
             System.out.println("要返回数据了");
-            return projectList;
+            return projectPage;
         }
         return null;
     }
@@ -71,7 +68,7 @@ public class HomeController {
         try {
             return projectsService.deleteProjectList(idList);
         } catch (IllegalArgumentException e) {
-            System.out.println("捕获到参数异常，并且返回空list");
+            System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
             return null;
         }
     }

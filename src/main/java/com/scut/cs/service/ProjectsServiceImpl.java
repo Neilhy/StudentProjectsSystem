@@ -6,6 +6,8 @@ import com.scut.cs.domain.dao.ProjectRepository;
 import com.scut.cs.domain.dao.StudentRepository;
 import com.scut.cs.web.request.AddStudents;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,17 +30,15 @@ public class ProjectsServiceImpl implements ProjectsService {
 
     @PreAuthorize("hasRole('ROLE_INNER') or hasRole('ROLE_ADMIN')")
     @Override
-    public List<Project> getAllProjects() {
-        return projectRepository.findAll();//TODO 分页和排序
-
-//        return null;
+    public Page<Project> getAllProjects(int page,int size) {
+        return projectRepository.findAll(new PageRequest(page,size));//TODO 分页和排序
     }
 
     @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_OUTER_SPEC')")
     @Override
-    public List<Project> getCollegeProjects(String college) {
+    public Page<Project> getCollegeProjects(String college,int page,int size) {
         if (college != null && !college.equals("")) {
-            return projectRepository.findByCaptainCollege(college);
+            return projectRepository.findByCaptainCollege(college,new PageRequest(page,size));
         }
         return null;
     }
@@ -62,21 +62,8 @@ public class ProjectsServiceImpl implements ProjectsService {
             Long projectId=addStudents.getProjectId();
             Project project=projectRepository.findOne(projectId);
             if (null!= project) {
-                if (project.getId()%2==1) {
-                    project.getStudentList().addAll(addStudents.getStudentList());
-                    return projectRepository.save(project);
-                } else {
-                    List<Student> studentList = new ArrayList<>();
-                    for (Student student : addStudents.getStudentList()) {
-                        List<Project> projectList = new ArrayList<>();
-                        projectList.add(project);
-                        student.setProjectList(projectList);
-                        studentList.add(student);
-                    }
-                    studentRepository.save(studentList);
-                    return project;
-                }
-
+                project.getStudentList().addAll(addStudents.getStudentList());
+                return projectRepository.save(project);
             }
         }
         return null;

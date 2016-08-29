@@ -2,6 +2,7 @@ package com.scut.cs.service;
 
 import com.scut.cs.domain.Project;
 import com.scut.cs.web.request.AddStudents;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.List;
  */
 public interface ProjectsService {
 
-    List<Project> getAllProjects();
+    Page<Project> getAllProjects(int page,int size);
 
-    List<Project> getCollegeProjects(String college);
+    Page<Project> getCollegeProjects(String college,int page,int size);
 
     Project addProject(Project project);
 

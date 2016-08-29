@@ -1,6 +1,8 @@
 package com.scut.cs.domain.dao;
 
 import com.scut.cs.domain.Project;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +19,7 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Query("select p from Project p where p.projectName= :name and p.rank= :rank and p.projectDate= :date")
     Project withNameAndRankAndDateQuery(@Param("name") String name, @Param("rank") String rank, @Param("date") Date date);
 
-    List<Project> findByCaptainCollege(String captainCollege);
+    Page<Project> findByCaptainCollege(String captainCollege, Pageable pageable);
 
     @Modifying
     @Transactional

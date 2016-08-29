@@ -4,7 +4,7 @@
 
 .header {
     height: 70px;
-    background-image: url(../images/topbg.png);
+    background-image: url('../images/topbg.png');
     color: white;
     font-weight: bold;
     position: relative;
@@ -47,7 +47,7 @@
 }
 
 .nav {
-    background-image: url(../images/navbg.png);
+    background-image: url('../images/navbg.png');
     margin: 0;
     padding-left: 16%;
     border-bottom: 1px solid #d3d1d1;
@@ -55,7 +55,7 @@
 
 .breadcrumb {
     margin: 0;
-    background-color: none !important;
+    background-color: transparent;
 }
 
 .date {
@@ -101,22 +101,22 @@
 
 
 .accordion-toggle {
-    background-image: url(../images/left-title-bg.png);
+    background-image: url('../images/left-title-bg.png');
 }
 
     .accordion-toggle:hover {
-        background-image: url(../images/left-title-bg-h.png);
+        background-image: url('../images/left-title-bg-h.png');
         text-decoration: none;
         color: white !important;
     }
 
 .accordion-inner:hover {
-    background-image: url(../images/left-title-bg-h.png);
+    background-image: url('../images/left-title-bg-h.png');
     text-decoration: none;
     color: white !important;
     cursor: pointer;
 }
 
 .content {
-    margin;
+    /*margin;*/
 }

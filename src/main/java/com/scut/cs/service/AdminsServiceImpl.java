@@ -21,7 +21,13 @@ public class AdminsServiceImpl implements AdminsService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public List<Admin> getAllAdmins() {
-        return adminRepository.findAll();//TODO 分页和排序
+        List<Admin> adminList=adminRepository.findAll();//TODO 分页和排序
+        List<Admin> adminsNew=new ArrayList<>();
+        for (Admin admin : adminList) {
+            admin.setPassword(null);
+            adminsNew.add(admin);
+        }
+        return adminsNew;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
