@@ -23,7 +23,7 @@ import static javafx.scene.input.KeyCode.R;
  * Created by NeilHY on 2016/8/17.
  */
 @RestController
-public class HomeController {
+public class ProjectController {
 
     @Autowired
     ProjectsService projectsService;

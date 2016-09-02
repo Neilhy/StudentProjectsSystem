@@ -1,16 +1,18 @@
-
+/*
 body{
-	padding:30px 0;
-	margin: auto 100px;
-	}
+		  padding:30px 0;
+		  margin: auto 100px;
+	  }*/
+body{
+	margin:0px;
 
+}
 /*#header{
 	width: auto;
 	min-height: 60px;
 	line-height: 60px;
 	}*/
 .header_title img{
-	margin:0 auto;
 	width:300px;
 	height: 80px;
 }
@@ -25,10 +27,11 @@ body{
 }
 
 #content{
+
 	width: 100%;
 	height:28em;
 	text-align: center;
-	background: url("../images/Login/background.jpg") ;
+	background: url('../images/Login/background.jpg') ;
 	/*filter:alpha(opacity=s);
     -moz-opacity:0.75;
     -khtml-opacity: 0.75;
@@ -50,7 +53,7 @@ body{
 	height: 20em;
 	margin-top:4em;
 	float: right;
-	filter:alpha(opacity=0.9);
+	filter:alpha(opacity=90);
     -moz-opacity:0.9;
     -khtml-opacity: 0.9;
      opacity: 0.9;

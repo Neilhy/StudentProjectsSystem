@@ -38,7 +38,11 @@
 //        });
 //            $(function () {
                 $('#file').fileupload({
-                    dataType: 'json',
+                    autoUpload: true,
+//                    acceptFileTypes:  '.*?\.(([J|j][P|P][E|e]{0,1}[G|g])|([G|g][I|i][F|f]))',
+//                    acceptFileTypes:  /(\.|\/)(gif|jpe?g|png)$/i,
+                    singleFileUploads : true,
+//                    dataType: 'json',
                     add: function (e, data) {
                         data.context = $('<button/>').text('Upload')
                                 .appendTo(document.body)
@@ -48,7 +52,12 @@
                                 });
                     },
                     done: function (e, data) {
+                        alert("success");
                         data.context.text('Upload finished.');
+                    },
+                    fail: function(e, data) {
+                        //错误提示
+                        alert('Fail!');
                     }
                 });
 //            });
