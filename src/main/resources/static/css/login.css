@@ -1,8 +1,8 @@
 
 body{
-	padding:30px 0;
+	padding:20px 0;
 	margin: auto 100px;
-	}
+}
 
 /*#header{
 	width: auto;
@@ -12,14 +12,14 @@ body{
 .header_title img{
 	margin:0 auto;
 	width:300px;
-	height: 80px;
+	height: 60px;
 }
 .header_title .header_text{
-	margin: 25px 25%;
+	margin: 5px 25%;
 	font-family:"微软雅黑";
 	font-style: normal;
 	font-size: 1.5em;
-	font-weight:500 ;	
+	font-weight:500 ;
 	padding-left: 1em;
 	color:lightslategrey;
 }
@@ -34,47 +34,47 @@ body{
     -khtml-opacity: 0.75;
      opacity: 0.75;*/
 	background-size: 100% 100%;
-	}
-	
-	
+}
+
+
 #footer{
 	width: auto;
 	min-height: 60px;
 	line-height:60px;
-	}
+}
 #footer{
 	border-top: thin solid #39A631;
-	}
+}
 .con{
 	width: 35%;
 	height: 20em;
 	margin-top:4em;
 	float: right;
 	filter:alpha(opacity=0.9);
-    -moz-opacity:0.9;
-    -khtml-opacity: 0.9;
-     opacity: 0.9;
-	}
+	-moz-opacity:0.9;
+	-khtml-opacity: 0.9;
+	opacity: 0.9;
+}
 .con{
 	border: thin solid whitesmoke;
 	background: whitesmoke;
-	}
+}
 .con_title{
 	/*/background-color: lightgray;*/
 	width: auto;
 	height: 3.5em;
 	line-height: 3.5em;
 	text-align: center;
-	}
+}
 .con_title_sp{
 	font-family: "微软雅黑";
 	font-size: 1.5em;
 	font-weight: 800;
 	color: rgba(51, 51, 51, 0.41);
-	}
+}
 .con_input{
 	margin: 2em 0 1em 0;
-	}
+}
 .submit-btn{
 	width: 8em;
 	height: 2em;
@@ -85,25 +85,25 @@ body{
 	font-family:"微软雅黑";
 	font-size: 1em;
 	font-weight: bold;
-	}
+}
 .con_input span{
 	font-family: "微软雅黑";
 	font-size: 1em;
 	/*font-weight: bold;*/
 	color: #333;
-	}
+}
 .con_input input{
 	width: 15em;
 	padding: 0.5em 1em;
 	border: 1px solid #bbb;
-	}
+}
 .submit-btn{
 	margin: 1em 0 1em 0;
-	}
+}
 .con_select{
 	margin-left: 2em;
 	font-family:"微软雅黑";
 	font-size: 1em;
 	color: #333;
-	}
+}
 
