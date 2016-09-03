@@ -55,7 +55,7 @@
 
 .breadcrumb {
     margin: 0;
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 .date {
@@ -71,6 +71,7 @@
     border: 1px solid #d3d1d1;
     background-color: #fff;
     overflow: auto;
+
 }
 
 .content-right {
@@ -118,5 +119,5 @@
 }
 
 .content {
-    /*margin;*/
+
 }

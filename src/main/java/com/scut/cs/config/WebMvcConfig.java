@@ -17,6 +17,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController(RequestUrls.LoginUrl).setViewName("login");
         registry.addViewController(RequestUrls.HomeUrl).setViewName("home");
+        registry.addViewController("/Index2").setViewName("Index2");
+        registry.addViewController("/test").setViewName("test");
         registry.addViewController("/file").setViewName("testFileUpload");
     }
 
