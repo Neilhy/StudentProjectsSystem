@@ -4,14 +4,21 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="css/lib/bootstrap.min.css" rel="stylesheet" />
-    <title>用户展示</title>
+    <title>添加项目</title>
     <link href="css/Common.css" rel="stylesheet" />
-    <link href="css/projectManagement.css" rel="stylesheet" />
+
 </head>
 <style>
     .content{
-        margin: 30px auto;
-        padding: 0 200px;
+        margin: 0px 0px;
+        padding: 30px 200px;
+        background: #eee;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: inset 0 1px 1px 0 #c7c7c7;
+        -moz-box-shadow: inset 0 1px 1px 0 #c7c7c7;
+        box-shadow: inset 0 1px 1px 0 #c7c7c7;
     }
 
 </style>
@@ -65,7 +72,12 @@
             </select>
         </div>
     </div>
-
+    <div class="control-group">
+        <label class="control-label" for="className">班级</label>
+        <div class="controls">
+            <input type="text" id="className">
+        </div>
+    </div>
 
     <div class="control-group">
         <label class="control-label" for="competitionName">竞赛名称</label>
@@ -77,12 +89,12 @@
         <label class="control-label" for="competitionRank">竞赛等级</label>
         <div class="controls">
             <select id="competitionRank">
-                <option>国际级</option>
-                <option>国家级</option>
-                <option>省级</option>
-                <option>市级</option>
-                <option>校级</option>
-                <option>院级</option>
+                <option value="国际级">国际级</option>
+                <option value="国际级">国家级</option>
+                <option value="省级">省级</option>
+                <option value="市级">市级</option>
+                <option value="校级">校级</option>
+                <option value="院级">院级</option>
             </select>
         </div>
     </div>
@@ -103,8 +115,8 @@
     <div class="control-group">
         <label class="control-label" >参赛方式</label>
         <div class="controls">
-            <input type="radio" name="competitionMethod" value="1"/>团队
-            <input type="radio" name="competitionMethod" value="2"/>个人
+            <input type="radio" name="competitionMethod" value="team"/>团队
+            <input type="radio" name="competitionMethod" value="person"/>个人
         </div>
     </div>
 
@@ -112,18 +124,19 @@
         <label class="control-label" for="competitionPrize">所获奖项</label>
         <div class="controls">
             <select id="competitionPrize">
-                <option>一等奖</option>
-                <option>二等奖</option>
-                <option>三等奖</option>
-                <option>优胜奖</option>
-                <option>特等奖</option>
+                <option value="一等奖">一等奖</option>
+                <option value="二等奖">二等奖</option>
+                <option value="三等奖">三等奖</option>
+                <option value="优胜奖">优胜奖</option>
+                <option value="特等奖">特等奖</option>
+                <option value="其他">其他</option>
             </select>
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="comPic">奖状证明</label>
+        <label class="control-label" for="competitionPhoto">奖状证明</label>
         <div class="controls">
-            <input type="file" id="comPic"/>
+            <input type="file" id="competitionPhoto"/>
         </div>
     </div>
     <div class="control-group">
@@ -132,12 +145,13 @@
             <textarea id="note"></textarea>
         </div>
     </div>
-    <div class="control-group">
-        <div class="controls">
-           <button class="btn btn-primary" id="add" onclick="add();">保存</button>
-        </div>
-    </div>
+
 </form>
+    <button class="btn btn-primary"  id="add" >保存</button>
 </div>
+<script src="scripts/lib/jquery-1.9.1.min.js"></script>
+
+<script src="scripts/lib/layer/layer.js"></script>
+<script src="scripts/projectAdd.js"></script>
 </body>
 </html>

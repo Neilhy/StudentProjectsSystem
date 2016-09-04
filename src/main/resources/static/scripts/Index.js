@@ -130,12 +130,7 @@
     $(".accordion-inner").click(function () {
         $(".active").html($(this).find(".left-body").text());
     });
-    $("#project_management").click(function () {
-        $("#frame").src="/projectManagement";
-    });
-    $("#user_management").click(function () {
-        $("#frame").src="/userManagement";
-    });
+
 
 
 
