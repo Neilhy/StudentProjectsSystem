@@ -3,7 +3,7 @@
 
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-    $.ajaxSend(function(e, xhr, options) {
+    $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
     $("#testAddProject").click(function(){
@@ -126,6 +126,15 @@
                 $("#deleteProjects").val(JSON.parse(data));
             }
         });
+    });
+    $(".accordion-inner").click(function () {
+        $(".active").html($(this).find(".left-body").text());
+    });
+    $("#project_management").click(function () {
+        $("#frame").src="/projectManagement";
+    });
+    $("#user_management").click(function () {
+        $("#frame").src="/userManagement";
     });
 
 

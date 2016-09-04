@@ -43,7 +43,7 @@ function load(curr) {
 }
 
 function openadd() {
-    $("#myModalLabel").text("添加成绩");
+    $("#myModalLabel").text("添加项目");
     $("#userName").attr("readonly", false);
     $("input").val("");
     $("#addModal").modal("show");
@@ -53,22 +53,39 @@ function openadd() {
 
 
 function add() {
-    if ($("#userName").val() == "") {
-        layer.tips('不能为空', '#userName');
+    if ($("#college").val() == "") {
+        layer.tips('不能为空', '#college');
         return;
     }
-    if ($("#Chinese").val() == "") {
-        layer.tips('不能为空', '#Chinese');
+    if ($("#schoolId").val() == "") {
+        layer.tips('不能为空', '#schoolId');
         return;
     }
-    if ($("#Math").val() == "") {
-        layer.tips('不能为空', '#Math');
+    if ($("#Name").val() == "") {
+        layer.tips('不能为空', '#Name');
         return;
     }
-    if ($("#English").val() == "") {
-        layer.tips('不能为空', '#English');
+    if ($("#competitionName").val() == "") {
+        layer.tips('不能为空', '#competitionName');
         return;
     }
+    if ($("#competitionRank").val() == "") {
+        layer.tips('不能为空', '#competitionRank');
+        return;
+    }
+    if ($("#competitionHost").val() == "") {
+        layer.tips('不能为空', '#competitionHost');
+        return;
+    }
+    if ($("#competitionTime").val() == "") {
+        layer.tips('不能为空', '#competitionTime');
+        return;
+    }if ($("#competitionMethod").val() == "") {
+        layer.tips('不能为空', '#competitionMethod');
+        return;
+    }
+
+
     var formdata = {
         flag: "add",
         userName: $("#userName").val(),
