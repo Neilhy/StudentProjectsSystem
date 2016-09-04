@@ -10,12 +10,6 @@
     position: relative;
 }
 
-.logo {
-    position: absolute;
-    left: 1%;
-    width: 5%;
-}
-
 .logo-title {
     display: inline-block;
     margin-left: 7%;
@@ -30,10 +24,7 @@
 }
 
 
-.mymsg, .mymsg:hover, .mymsg:visited {
-    color: white;
-    text-decoration: none;
-}
+
 
 .caret {
     margin-top: 13px !important;
@@ -98,26 +89,25 @@
     font-weight: bold;
 }
 
-
+.mymsg, .mymsg:hover, .mymsg:visited {
+    color: white;
+    text-decoration: none;
+}
 
 
 .accordion-toggle {
     background-image: url('../images/left-title-bg.png');
 }
 
-    .accordion-toggle:hover {
+.accordion-toggle:hover {
         background-image: url('../images/left-title-bg-h.png');
         text-decoration: none;
         color: white !important;
-    }
-
-.accordion-inner:hover {
-    background-image: url('../images/left-title-bg-h.png');
-    text-decoration: none;
-    color: white !important;
-    cursor: pointer;
 }
 
-.content {
-
+.accordion-inner select{
+    width:90%;
+}
+.accordion-inner form>input:first-child{
+    width:80%;
 }
