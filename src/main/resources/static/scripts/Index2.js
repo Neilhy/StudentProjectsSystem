@@ -175,3 +175,15 @@ function del(userName) {
     });
 
 }
+
+$(function(){
+    $('input:radio[name="comMethod"]').change( function(){
+        $("#partner").toggle();
+    });
+})
+
+$(function () {
+    getSelectItems('college','学院');
+    getSelectItems('level','竞赛等级');
+    getSelectItems('comPrize','所获奖项');
+});

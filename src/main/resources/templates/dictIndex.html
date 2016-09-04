@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- 安全头部，防拦截 -->
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+	<link href="css/lib/bootstrap.min.css" rel="stylesheet" />
+	<title>数据字典</title>
+	<link href="css/Common.css" rel="stylesheet" />
+	<link href="css/dictIndex.css" rel="stylesheet" />
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="select" >
+			<!--<p>数据类型：
+				<select id="dataType" onchange="changeType()">
+					<option>新建</option>
+					<a th:if = "${not #lists.isEmpty(keywords)}">
+						<option th:each="keyword:${keywords}" th:value="${keyword}"
+								th:text="${keyword}">
+						</option>
+					</a>
+				</select> </p>
+			<input type="text" name="newType" id="newType" placeholder="新的数据类型名称"/>-->
+		</div>
+		<div class="add">
+			<a class="btn btn-success" onclick="insertRow();">添加选项</a>
+		</div>
+		<div class="w">
+			<div class="span12">
+				<table class="table table-condensed table-bordered table-hover tab" id="tab">
+					<thead>
+					<tr>
+						<th>编号</th>
+						<th>名称</th>
+						<th>标记</th>
+					</tr>
+					</thead>
+					<tbody id="tbody">
+						<!-- 待插入项 -->
+						<tr>
+							<td>1</td>
+							<td>
+								<input type="text" name="itemName"/>
+							</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="save">
+					<a class="btn btn-success" onclick="saveEdit()">保存</a>
+				</div>
+				<div id="page" class="tr"></div>
+			</div>
+		</div>
+		<!--<input type="button" value="导出Excel" onclick="exportExcel()" />-->
+	</div>
+</div>
+
+<script src="scripts/lib/jquery-1.9.1.min.js"></script>
+<script src="scripts/lib/bootstrap.min.js"></script>
+<!--<script src="../layer-v2.3/layer/layer.js"></script>-->
+<!--<script src="../laypage-v1.3/laypage/laypage.js"></script>-->
+<script src="scripts/dict.js"></script>
+<script>
+	$(function () {
+		getKeywords();
+	})
+</script>
+</body>
+
+</html>
