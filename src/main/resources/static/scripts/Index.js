@@ -142,7 +142,3 @@ $(window).resize(function () {
     $(".content-left,.content-right").height($(window).height() - 130);
 });
 
-$(function () {
-    getSelectItems('college','学院');
-});
-

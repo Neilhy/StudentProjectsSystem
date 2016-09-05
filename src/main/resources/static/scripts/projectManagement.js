@@ -200,7 +200,5 @@ $(function(){
 })
 
 $(function () {
-    getSelectItems('college','学院');
-    getSelectItems('level','竞赛等级');
-    getSelectItems('comPrize','所获奖项');
+    setSelectItems('college-show','学院');
 });

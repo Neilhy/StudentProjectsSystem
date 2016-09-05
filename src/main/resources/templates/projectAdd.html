@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>添加项目</title>
     <link href="css/Common.css" rel="stylesheet" />
     <link href="css/lib/BeatPicker.min.css" rel="stylesheet" />
@@ -28,7 +30,7 @@
             <label class="control-label" for="college">学院</label>
             <div class="controls">
                 <select id="college">
-                    <option value="机械与汽车工程学院">机械与汽车工程学院</option>
+                    <!--<option value="机械与汽车工程学院">机械与汽车工程学院</option>
                     <option value="建筑学院">建筑学院</option>
                     <option value="土木与交通学院">土木与交通学院</option>
                     <option value="电子与信息学院">电子与信息学院</option>
@@ -55,7 +57,7 @@
                     <option value="体育学院">体育学院</option>
                     <option value="设计学院">设计学院</option>
                     <option value="医学院">医学院</option>
-                    <option value="国际教育学院">国际教育学院</option>
+                    <option value="国际教育学院">国际教育学院</option>-->
                 </select>
             </div>
         </div>
@@ -76,12 +78,12 @@
             <label class="control-label" for="competitionRank">竞赛等级</label>
             <div class="controls">
                 <select id="competitionRank">
-                    <option value="国际级">国际级</option>
+                    <!--<option value="国际级">国际级</option>
                     <option value="国际级">国家级</option>
                     <option value="省级">省级</option>
                     <option value="市级">市级</option>
                     <option value="校级">校级</option>
-                    <option value="院级">院级</option>
+                    <option value="院级">院级</option>-->
                 </select>
             </div>
         </div>
@@ -137,21 +139,30 @@
             <label class="control-label" for="competitionPrize">所获奖项</label>
             <div class="controls">
                 <select id="competitionPrize">
-                    <option value="一等奖">一等奖</option>
+                    <!--<option value="一等奖">一等奖</option>
                     <option value="二等奖">二等奖</option>
                     <option value="三等奖">三等奖</option>
                     <option value="优胜奖">优胜奖</option>
                     <option value="特等奖">特等奖</option>
-                    <option value="其他">其他</option>
+                    <option value="其他">其他</option>-->
                 </select>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="competitionPhoto">奖状证明</label>
             <div class="controls">
-                <input type="file" id="competitionPhoto"/>
+                <!--<input type="file" id="competitionPhoto"/>-->
+                <input id="competitionPhoto" size="34" type="file" name="file" data-url="/upload" multiple="multiple"/>
+                <input type="text" id="browseText" th:value="点击上传文件"/>
+                <!--<input id="browse" type="button" th:value="浏览" />-->
+                <input id="responseTxt" type="text" readonly="readonly" />
+                <div id="progress" class="progress">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+                <img src="" id="upload-img" />
             </div>
         </div>
+        <input type="text" style="display: none;" id="collegesText" value="这是隐藏的"/>
         <div class="control-group">
             <label class="control-label" for="note">备注</label>
             <div class="controls">
@@ -179,10 +190,15 @@
 
 
 
-
 <script src="scripts/lib/jquery-1.9.1.min.js"></script>
+<script src="scripts/lib/jquery.ui.widget.js"></script>
+<script src="scripts/lib/jquery.iframe-transport.js"></script>
+<script src="scripts/lib/jquery.fileupload.js"></script>
+<script src="scripts/lib/bootstrap.min.js"></script>
 <script src="scripts/lib/BeatPicker.min.js"></script>
 <script src="scripts/lib/layer/layer.js"></script>
 <script src="scripts/projectAdd.js"></script>
+<script src="scripts/upload.js"></script>
+<script src="scripts/dict.js"></script>
 </body>
 </html>

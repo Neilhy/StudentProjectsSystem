@@ -191,16 +191,29 @@ function getKeywords() {
  * 获取输入数据类型对应的数据项并添加到select中去
  * @param keyword
  */
-function getSelectItems(selName,keyword) {
+function setSelectItems(selName,keyword) {
     var url = "/getDictItems/"+keyword;
     $.get(url , function (data) {
         var items = data.split(',');
         var html = "";
         for(var i=0;i<items.length;i++) {
-            html += '<option>' + items[i] + '</option>';
+            html += '<option value="' + items[i] + '">' + items[i] + '</option>';
         }
         // alert(html);
         $('#'+selName).append(html);
+    });
+}
+
+function setTextItems(textName,keyword) {
+    var url = "/getDictItems/"+keyword;
+    $.get(url , function (data) {
+        var items = data.split(',');
+        var html = "";
+        for(var i=0;i<items.length;i++) {
+            html += '<option value="' + items[i] + '">' + items[i] + '</option>';
+        }
+        // alert(html);
+        $('#'+textName).val(html);
     });
 }
 

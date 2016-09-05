@@ -49,14 +49,14 @@ public class DictController {
     public String addDictItems(@RequestBody AddDicts addDicts) {
         System.out.println("开始AddDicts...");
         dictService.addDicts(addDicts);
-        return "dictIndex";
+        return "dictManagement";
     }
 
     @RequestMapping(value = RequestUrls.DeleteKeyword,method = RequestMethod.GET)
     public String deleteKeyword(@PathVariable String keyword) {
         System.out.println("开始删除"+keyword+"...");
         dictService.deleteKeyword(keyword);
-        return "dictIndex";
+        return "dictManagement";
     }
 
 
