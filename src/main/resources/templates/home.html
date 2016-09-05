@@ -8,173 +8,134 @@
     <link href="css/lib/bootstrap.min.css" rel="stylesheet" />
     <link href="css/Common.css" rel="stylesheet" />
     <link href="css/Index.css" rel="stylesheet" />
-    <script src="scripts/lib/jquery-1.9.1.min.js"></script>
-    <script src="scripts/lib/bootstrap.min.js"></script>
-    <script src="scripts/Index.js"></script>
 
 
     <title sec:authentication="name"></title>
 
 </head>
 <body>
-    <div class="header">
+<div class="header">
 
-        <!--<img class="logo" src="../images/logo.jpg" />-->
-        <label class="logo-title">华南理工大学学生课外学术科技创新竞赛成果录入系统</label>
-        <ul class="inline">
-            <li>
-                <img src="images/32/client.png"/>  &nbsp;&nbsp;欢迎您,<span sec:authentication="name"></span>
-            </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle mymsg" data-toggle="dropdown" href="#">
-                	<img src="images/32/166.png" />&nbsp;&nbsp;修改个人信息<b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">修改密码</a></li>
-                </ul>
+    <!--<img class="logo" src="../images/logo.jpg" />-->
+    <label class="logo-title">华南理工大学学生课外学术科技创新竞赛成果录入系统</label>
+    <ul class="inline">
+        <li>
+            <img src="images/32/client.png"/>  &nbsp;&nbsp;欢迎您,<span sec:authentication="name"></span>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle mymsg" data-toggle="dropdown" href="#">
+                <img src="images/32/166.png" />&nbsp;&nbsp;修改个人信息<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="#">修改密码</a></li>
+            </ul>
 
-            </li>
-            <li>
-                <form th:action="@{/logout}" method="post">
-                    <img src="images/32/200.png" />&nbsp;&nbsp;<input id="logout" type="submit" value="退 出"/>
-                </form>
-            </li>
+        </li>
+        <li>
+            <form th:action="@{/logout}" method="post">
+                <img src="images/32/200.png" />&nbsp;&nbsp;<input id="logout" type="submit" value="退 出"/>
+            </form>
+        </li>
 
-        </ul>
-
-
-    </div>
+    </ul>
 
 
-    <div class="nav">
-
-        <ul class="breadcrumb">
-            <li>
-                <img src="images/32/5025_networking.png" />
-            </li>
-            <li><a href="#">首页</a> <span class="divider">>></span></li>
-            <li class="active"></li>
-        </ul>
-    </div>
+</div>
 
 
+<div class="nav">
 
-    <div class="container-fluid content">
-        <div class="row-fluid">
-            <div class="span2 content-left">
-            	<!--描述：选择学院               -->
-                <div class="accordion" id="accordion">
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                               href="#searchCollege">
-                                <img class="left-icon" src="/images/32/15.png"/> <span class="left-title">学院</span>
-                            </a>
+    <ul class="breadcrumb">
+        <li>
+            <img src="images/32/5025_networking.png" />
+        </li>
+        <li><a href="#">首页</a> <span class="divider">>></span></li>
+        <li class="active"></li>
+    </ul>
+</div>
+
+
+
+<div class="container-fluid content">
+    <div class="row-fluid">
+        <div class="span2 content-left">
+
+            <div class="accordion" >
+
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseOne"
+                           href="#collapseOne">
+                            <img class="left-icon" src="/images/32/5026_settings.png"/>
+                            <span class="left-title">系统设置</span>
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="accordion-body collapse in">
+                        <div class="accordion-inner" id="project_management">
+                            <img class="left-icon-child" src="../images/32/15.png" />
+                            <a class="left-body" href="/projectManagement" target="frame">项目管理</a>
                         </div>
-                        <div id="searchCollege" class="accordion-body collapse in">
-                            <div class="accordion-inner">
-
-                                <select id="college">
-                                    <option>机械与汽车工程学院</option>
-                                    <option>建筑学院</option>
-                                    <option>土木与交通学院</option>
-                                    <option>电子与信息学院</option>
-                                    <option>材料科学与工程学院</option>
-                                    <option>化学与化工学院</option>
-                                    <option>轻工科学与工程学院</option>
-                                    <option>食品科学与工程学院</option>
-                                    <option>数学学院</option>
-                                    <option>物理与光电学院</option>
-                                    　
-                                    <option>经济与贸易学院</option>
-                                    <option>自动化科学与工程学院</option>
-                                    <option>计算机科学与工程学院</option>
-                                    　　
-                                    <option>电力学院</option>
-                                    <option>生物科学与工程学院</option>
-                                    <option>环境与能源学院</option>
-                                    <option>软件学院</option>
-                                    <option>工商管理学院（创业教育学院）</option>
-                                    <option>公共管理学院</option>
-                                    <option>马克思主义学院</option>
-                                    <option>外国语学院</option>
-                                    <option>法学院（知识产权学院）</option>
-                                    <option>新闻与传播学院</option>
-                                    <option>艺术学院</option>
-                                    <option>体育学院</option>
-                                    <option>设计学院</option>
-                                    <option>医学院</option>
-                                    <option>国际教育学院</option>
-                                </select>
-
-
-                            </div>
+                        <!-- <div class="accordion-inner">
+                             <img class="left-icon-child" src="images/32/128.png"/>
+                             <span class="left-body">学号查询</span>
+                         </div>-->
+                        <div class="accordion-inner" id="user_management">
+                            <img class="left-icon-child" src="images/32/8.png"/>
+                            <a class="left-body" href="/userManagement" target="frame">用户管理</a>
                         </div>
-
                     </div>
 
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                               href="#searchId">
-                                <img class="left-icon" src="images/32/128.png"/><span class="left-title">学号查询</span>
-                            </a>
-                        </div>
-                        <div id="searchId" class="accordion-body collapse in">
-                            <div class="accordion-inner">
-                                <form>
-                                    <input type="search" id="Id"/>
-                                    <input type="submit" value="查询"/>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <div>
-                    <button id="testAddProject">点我上传Project给服务器</button>
-                </div>
-                <div>
-                    <button id="testGetProject">点我获取Projects从服务器</button>
-                </div>
-                <div>
-                    <button id="testAddStudents">点我添加学生到服务器</button>
-                </div>
-                <div>
-                    <p>id:
-                        <input id="projectId1" type="text" name="projectId" value="" />
-                        <input id="projectId2" type="text" name="projectId" value="" />
-                    </p>
-                    <button id="testDeleteProjects">点我从服务器删除指定Projects</button>
-                </div>
-                <br/>
-                <div>
-                    <textarea id="addProject"></textarea>
-                    <textarea id="getProjects"></textarea>
-                    <textarea id="deleteProjects"></textarea>
-                </div>
-                <!--<div>-->
-                    <!--<form action="/test1" method="post">-->
-                        <!--<label>-->
-                            <!--<input  type="text" name="string" value=""/>-->
-                        <!--</label>-->
-                        <!--<input type="submit" value="post now"/>-->
-                        <!--&lt;!&ndash;<input type="hidden" name="${_csrf.parameterName}" value=$("meta[name='_csrf']").attr("content")/>&ndash;&gt;-->
-                    <!--</form>-->
-                <!--</div>-->
+
+
 
             </div>
-
-            <div class="span10 content-right">
-                <iframe src="Index2.html" class="iframe"></iframe>
-                <!--<a href="/Index2">Index2</a>-->
+            <!--<div>
+                <button id="testAddProject">点我上传Project给服务器</button>
             </div>
+            <div>
+                <button id="testGetProject">点我获取Projects从服务器</button>
+            </div>
+            <div>
+                <button id="testAddStudents">点我添加学生到服务器</button>
+            </div>
+            <div>
+                <p>id:
+                    <input id="projectId1" type="text" name="projectId" value="" />
+                    <input id="projectId2" type="text" name="projectId" value="" />
+                </p>
+                <button id="testDeleteProjects">点我从服务器删除指定Projects</button>
+            </div>
+            <br/>-->
+            <!--<div>
+                <textarea id="addProject"></textarea>
+                <textarea id="getProjects"></textarea>
+                <textarea id="deleteProjects"></textarea>
+            </div>-->
+            <!--<div>-->
+            <!--<form action="/test1" method="post">-->
+            <!--<label>-->
+            <!--<input  type="text" name="string" value=""/>-->
+            <!--</label>-->
+            <!--<input type="submit" value="post now"/>-->
+            <!--&lt;!&ndash;<input type="hidden" name="${_csrf.parameterName}" value=$("meta[name='_csrf']").attr("content")/>&ndash;&gt;-->
+            <!--</form>-->
+            <!--</div>-->
+
+        </div>
+
+        <div class="span10 content-right">
+            <iframe name="frame" src="/projectManagement" class="iframe" ></iframe>
         </div>
     </div>
-    <div class="clearfix"></div>
-    <div class="foot"></div>
+</div>
+<div class="clearfix"></div>
+<div class="foot"></div>
 
+<script src="scripts/lib/jquery-1.9.1.min.js"></script>
+<script src="scripts/lib/bootstrap.min.js"></script>
+<script src="scripts/Index.js"></script>
 
-	<!--<div style="text-align:center;">-->
 
 </body>
 </html>
