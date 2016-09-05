@@ -37,7 +37,7 @@ $(function () {
         "<option value='医学院'>医学院</option>"+
         "<option value='国际教育学院'>国际教育学院</option>"+
         "</select>"+
-        "<input type='text' class='form-control'  placeholder='班级'/>"+
+        "<input type='text' class='form-control'  placeholder='班级'/>  "+
         "<input type='checkbox'/> 是否队长"+
         "<input type='button' value='添加' class='btn btn-success' onclick='addPartnerToTable($(this))'/> "+
         "<input type='button' value='取消' class='btn btn-default' onclick='removeNode($(this))'/>"+
@@ -125,6 +125,8 @@ $(function () {
 });
 var partnerAddNode=$("#partnerAdd");
 var teamerInfo=$("#teamer-info");
+
+//把队友信息添加至表里面
 function addPartnerToTable(ele){
      var $children=ele.parent().children();
     var id=$children[0].value,
@@ -132,6 +134,9 @@ function addPartnerToTable(ele){
         colleage=$children[2].value,
         className=$children[3].value,
         isCaptin=$children[4].checked;
+    if(id=="") {layer.tips('不能为空',$children[0]);return;}
+    if(name=="") {layer.tips('不能为空',$children[1]);return;}
+    if(className=="") {layer.tips('不能为空',$children[3]);return;}
     var trNode="<tr>"+
         "<td>"+id+"</td>"+
             "<td>"+name+"</td>"+
@@ -143,12 +148,13 @@ function addPartnerToTable(ele){
     $(trNode).appendTo(teamerInfo);
     $("#table").show();
 }
+//去除 添加队友 的节点
 function removeNode(ele) {
     var $x=ele.parent();
     $x.remove();
 
 }
-
+//删除表里面的ele的所在行
 function removetrNode(ele) {
     var $x=ele.parent().parent();
     $x.remove();
