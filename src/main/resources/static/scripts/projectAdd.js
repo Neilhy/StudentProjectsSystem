@@ -21,7 +21,7 @@ $(function () {
            return;
        }
 
-       if ($("#competitionMethod").val() == "") {
+       if ($('input[name="competitionMethod"]:checked').val() == "") {
            layer.tips('不能为空', '#competitionMethod');
            return;
        }
@@ -46,8 +46,9 @@ $(function () {
        };
 
        $.ajax({
-          /* url: "/addProject",*/
-           timeout: 300000,
+           url: "/addProject",
+           // timeout: 300000,
+           contentType: "application/json; charset=utf-8",
            dataType: "json",
            type: "post",
            data: formdata,
@@ -61,6 +62,10 @@ $(function () {
 
 
    })
+
+    $('input:radio[name="competitionMethod"]').change( function(){
+            $("#partner").toggle();
+        });
 
 });
 
