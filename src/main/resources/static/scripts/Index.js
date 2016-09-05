@@ -3,7 +3,7 @@
 
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-    $.ajaxSend(function(e, xhr, options) {
+    $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
     $("#testAddProject").click(function(){
@@ -127,6 +127,10 @@
             }
         });
     });
+    $(".accordion-inner").click(function () {
+        $(".active").html($(this).find(".left-body").text());
+    });
+
 
     $('#testDict').click(function () {
         $('.iframe').attr('src','/dict');

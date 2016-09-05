@@ -104,10 +104,20 @@
         text-decoration: none;
         color: white !important;
 }
-
+.accordion-inner:hover {
+    background-image: url('../images/left-title-bg-h.png');
+    text-decoration: none;
+    color: white !important;
+    cursor: pointer;
+}
 .accordion-inner select{
+    width:100%;
+}
+
+.accordion-inner form>input[type="search"]:first-child{
     width:90%;
 }
-.accordion-inner form>input:first-child{
-    width:80%;
+.accordion-inner form>input[type="checkbox"]{
+    width: 20px;
+    height:20px;
 }
