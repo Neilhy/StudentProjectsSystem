@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cac0a6e3-223e-405a-9cdd-fe9a4f5fb500" name="Default" comment="将瑞玉的整合到master。">
+    <list default="true" id="cac0a6e3-223e-405a-9cdd-fe9a4f5fb500" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
@@ -65,8 +65,8 @@
       <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="120">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -179,6 +179,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/scut/cs/config/WebMvcConfig.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/projectAdd.html" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
       </list>
     </option>
   </component>
@@ -872,7 +873,7 @@
       <workItem from="1473050348940" duration="1809000" />
       <workItem from="1473068822058" duration="1476000" />
       <workItem from="1473148223513" duration="270000" />
-      <workItem from="1473158276335" duration="1657000" />
+      <workItem from="1473158276335" duration="1778000" />
     </task>
     <task id="LOCAL-00001" summary="优化文件结构，并整合数据字典&#10;">
       <created>1472970408647</created>
@@ -888,11 +889,18 @@
       <option name="project" value="LOCAL" />
       <updated>1473070145866</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="将workspace更新">
+      <created>1473159960354</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1473159960354</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13590000" />
+    <option name="totallyTimeSpent" value="13711000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -941,7 +949,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="优化文件结构，并整合数据字典&#10;" />
     <MESSAGE value="将瑞玉的整合到master。" />
-    <option name="LAST_COMMIT_MESSAGE" value="将瑞玉的整合到master。" />
+    <MESSAGE value="将workspace更新" />
+    <option name="LAST_COMMIT_MESSAGE" value="将workspace更新" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1263,8 +1272,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="120">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
