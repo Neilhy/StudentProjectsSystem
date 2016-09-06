@@ -15,3 +15,6 @@ thead th {
 .add {
     margin: 10px 0;
 }
+.add select{
+    margin-top: 10px;
+}

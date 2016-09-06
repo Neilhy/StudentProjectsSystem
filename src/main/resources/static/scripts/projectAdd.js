@@ -149,15 +149,15 @@ function addPartnerToTable(ele){
     else trNode+="<td>  </td>";
     trNode+="<td><input type='button' class='btn btn-warning' value='删除' onclick='removetrNode($(this))'></td></tr>";
     $(trNode).appendTo(teamerInfo);
-    $("#table").show();
+
 }
-//去除 添加队友 的节点
+//删除  添加队友 的节点
 function removeNode(ele) {
     var $x=ele.parent();
     $x.remove();
 
 }
-//删除表里面的ele的所在行
+//删除表里面的队友的所在行
 function removetrNode(ele) {
     var $x=ele.parent().parent();
     $x.remove();

@@ -14,7 +14,8 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="add">
-			   <select id="college-show" style="margin-top: 10px;">
+				<a class="btn btn-success" href="/projectAdd" target="_self">添加成果</a>
+			   <select id="college-show" >
 
 <!--				<option>机械与汽车工程学院</option>
 				<option>建筑学院</option>
@@ -48,7 +49,6 @@
 				<option>国际教育学院</option>-->
 			</select>
 				<a class="btn btn-primary" onclick="">查询</a>
-				<a class="btn btn-success" href="/projectAdd" target="_self">添加成果</a>
 		    </div>
 			<div class="w">
 				<div class="span12">
@@ -56,6 +56,7 @@
 					<table class="table table-condensed table-bordered table-hover tab">
 						<thead>
 							<tr>
+								<th>项目ID</th>
 								<th>学号</th>
 								<th>姓名</th>
 								<th>竞赛名称</th>
@@ -66,7 +67,22 @@
 								<th>操作</th>
 							</tr>
 						</thead>
-						<tbody id="tbody"></tbody>
+						<tbody >
+                             <tr>
+								 <td>11</td>
+								 <td>201330551129</td>
+								 <td>hahhaha</td>
+								 <td>第十三届广东大学生ACM程序设计大赛</td>
+								 <td>国家级</td>
+								 <td>一等奖</td>
+								 <td>2016-11-10</td>
+								 <td>未通过</td>
+								 <td>
+									 <button class="btn btn-warning">修改</button>
+									 <button class="btn btn-danger">删除</button>
+								 </td>
+							 </tr>
+						</tbody>
 					</table>
 					<div id="page" class="tr"></div>
 				</div>

@@ -3,11 +3,83 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="css/lib/bootstrap.min.css" rel="stylesheet" />
-    <title>用户展示</title>
+    <title>展示学院竞赛项目</title>
     <link href="css/Common.css" rel="stylesheet" />
-    <link href="css/projectManagement.css" rel="stylesheet" />
+    <link href="css/userManagement.css" rel="stylesheet" />
+
 </head>
+
 <body>
-     <p>llalla</p>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="add">
+            <button class="btn btn-success">添加用户</button>
+        </div>
+
+        <div class="w">
+            <div class="span12">
+
+                <table class="table table-condensed table-bordered table-hover tab">
+                    <thead>
+                    <tr>
+                        <th>用户Id</th>
+                        <th>用户名</th>
+                        <th>学院</th>
+                        <th>权限</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                       <tr>
+                           <td>1</td>
+                           <td>admin</td>
+                           <td>计算机</td>
+                           <td>可操作</td>
+                           <td>
+                               <button class="btn btn-warning" data-toggle="modal" data-target="#editModal">修改</button>
+                               <button class="btn btn-danger" onclick="del()">删除</button>
+                           </td>
+                       </tr>
+                    </tbody>
+                </table>
+                <div id="page" class="tr"></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<!--editModal-->
+<div class="modal fade bs-example-modal-sm" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    修改状态：
+                    <select>
+                        <option>可操作</option>
+                        <option>不可操作</option>
+                    </select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" >保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="scripts/lib/jquery-1.9.1.min.js"></script>
+<script src="scripts/lib/bootstrap.min.js"></script>
+<script src="scripts/lib/layer/layer.js"></script>
+<script src="scripts/lib/laypage.js"></script>
+
+<script src="scripts/userManagement.js"></script>
+
 </body>
+
 </html>
