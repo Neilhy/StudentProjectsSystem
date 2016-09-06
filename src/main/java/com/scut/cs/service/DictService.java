@@ -8,8 +8,8 @@ import java.util.List;
  * Created by Jack on 2016/8/30.
  */
 public interface DictService {
-    List findKeywords();
+    List<String> findKeywords();
     void addDicts(AddDicts addDicts);
-    List getItems(String keyword);
+    List<String> getItems(String keyword);
     void deleteKeyword(String keyword);
 }

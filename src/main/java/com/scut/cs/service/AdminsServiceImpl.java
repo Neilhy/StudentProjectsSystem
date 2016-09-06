@@ -20,8 +20,13 @@ public class AdminsServiceImpl implements AdminsService {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
-    public List<Admin> getAllAdmins() {
-        List<Admin> adminList=adminRepository.findAll();//TODO 分页和排序
+    public List<Admin> getAdmins(String role) {
+        List<Admin> adminList = null;
+        if(role.equals("all")) {
+            adminList = adminRepository.findAll();//TODO 分页和排序
+        } else {
+            adminList = adminRepository.findByRoleType(role);
+        }
         List<Admin> adminsNew=new ArrayList<>();
         for (Admin admin : adminList) {
             admin.setPassword(null);

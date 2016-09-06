@@ -50,8 +50,8 @@ $(function () {
 
 
    $("#add").click(function () {
-       if ($("#schoolId").val() == "") {
-           layer.tips('不能为空', '#schoolId');
+       if ($("#registerId").val() == "") {
+           layer.tips('不能为空', '#registerId');
            return;
        }
        if ($("#Name").val() == "") {
@@ -76,8 +76,8 @@ $(function () {
 
        var formdata = {
            flag: "add",
-           id: $("#schoolId").val(),
-           garde:$("#schoolId").val().substr(0,4),
+           id: $("#registerId").val(),
+           garde:$("#registerId").val().substr(0,4),
            name: $("#Name").val(),
            college: $("#college").val(),
            className:$("#className").val(),

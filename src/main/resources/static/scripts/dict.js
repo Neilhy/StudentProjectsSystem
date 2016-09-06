@@ -154,7 +154,7 @@ function changeType() {
 function getDictItemsAndShow(keyword) {
     var url = "/getDictItems/"+keyword;
     $.get(url , function (data) {
-        var items = data.split(',');
+        var items = data;
         if(items.length > 0) {
             for(var i=0;i<items.length;i++) {
                 if(i>0) {
@@ -176,7 +176,7 @@ function getKeywords() {
                 '<p>数据类型：',
                 '<select id="dataType" onchange="changeType()">',
                 '<option>新建</option>'].join('');
-        var keywords = data.split(',');
+        var keywords = data;
         for(var i=0;i<keywords.length;i++) {
             html += '<option>' + keywords[i] + '</option>';
         }
@@ -194,7 +194,7 @@ function getKeywords() {
 function setSelectItems(selName,keyword) {
     var url = "/getDictItems/"+keyword;
     $.get(url , function (data) {
-        var items = data.split(',');
+        var items = data;
         var html = "";
         for(var i=0;i<items.length;i++) {
             html += '<option value="' + items[i] + '">' + items[i] + '</option>';
@@ -207,7 +207,7 @@ function setSelectItems(selName,keyword) {
 function setTextItems(textName,keyword) {
     var url = "/getDictItems/"+keyword;
     $.get(url , function (data) {
-        var items = data.split(',');
+        var items = data;
         var html = "";
         for(var i=0;i<items.length;i++) {
             html += '<option value="' + items[i] + '">' + items[i] + '</option>';

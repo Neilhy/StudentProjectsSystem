@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -15,9 +16,9 @@
 <div class="content">
     <form class="form-horizontal" role="form">
         <div class="control-group">
-            <label class="control-label" for="schoolId">学号</label>
+            <label class="control-label" for="registerId">学号</label>
             <div class="controls">
-                <input type="text" id="schoolId"/>
+                <input type="text" id="registerId"/>
             </div>
         </div>
         <div class="control-group">

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface AdminsService {
 
-    List<Admin> getAllAdmins();
+    List<Admin> getAdmins(String role);
 
     Admin addAdmin(Admin admin);
 
