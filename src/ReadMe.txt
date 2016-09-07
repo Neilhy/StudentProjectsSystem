@@ -6,7 +6,7 @@
         * 导入dict.js文件
         * 在$(document).ready(function(
                 ...
-           ))中调用getSelectItems(selName,keyword)
+           ))中调用setSelectItems(selName,keyword)
         其中selName是select的名称，keyword是数据类型，可在dictIndex中找到对应的信息
         当前版本仅适用于select
 
@@ -19,3 +19,7 @@
 
 2016-9-6    实现用户列表显示（筛选），用户添加和删除功能
             修正数据字典bug（不录入数据时会数组越界）
+
+2016-9-8    实现用户信息修改（通过点击用户名可以修改当前的用户，可选择是否修改密码)
+            添加全选按钮
+            添加权限开启和关闭功能

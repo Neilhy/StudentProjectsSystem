@@ -15,11 +15,14 @@
     <div class="row-fluid">
         <div class="add">
             <select id="role">
-                <option value="all"></option>
+                <option value="all">全体人员</option>
                 <option value="ROLE_INNER">内部人员</option>
                 <option value="ROLE_OUTER">外部人员</option>
             </select>
             <a class="btn btn-success" onclick="openadd()">创建用户</a>
+            <div class="selectAll">
+                <input type="checkbox" id="selCkb"/> 全选/全不选
+            </div>
         </div>
         <div class="w">
             <div class="span12">
@@ -34,10 +37,13 @@
                             <th>选择</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody"></tbody>
+                    <tbody id="tbody">
+
+                    </tbody>
                 </table>
                 <a class="btn btn-primary" id="delete">删除</a>
-                <a class="btn btn-primary" id="changeStatus">修改状态</a>
+                <a class="btn btn-primary" id="openStatus">开启权限</a>
+                <a class="btn btn-primary" id="closeStatus">关闭权限</a>
                 <div id="page" class="tr"></div>
             </div>
         </div>
@@ -50,13 +56,22 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h3 id="myModalLabel">创建用户</h3>
                 </div>
+
                 <div class="modal-body">
                     <form class="form-horizontal">
+                        <div id="pwdCkbGroup">
+                            <label class="control-label">修改密码</label>
+                            <div class="control-group">
+                                <div class="controls">
+                                  <input type="checkbox" id="pwdCkb"/>
+                                </div>
+                            </div>
+                        </div>
                         <div class="control-group">
                             <label class="control-label">用户类型</label>
-                            <div class="controls" id="userType">
-                                <input type="radio" name="userType" value="ROLE_INNER" checked="checked"/>内部用户
-                                <input type="radio" name="userType" value="ROLE_OUTER"/>外部用户
+                            <div class="controls" id="roleType">
+                                <input type="radio" name="roleType" value="ROLE_INNER" checked="checked"/>内部人员
+                                <input type="radio" name="roleType" value="ROLE_OUTER"/>外部人员
                             </div>
                         </div>
 
@@ -104,10 +119,25 @@
                                 <input type="text" id="Name"/>
                             </div>
                         </div>
+                        <div id="passwordGroup">
+                            <div class="control-group">
+                                <label class="control-label" for="Password">密码</label>
+                                <div class="controls">
+                                    <input type="password" id="Password" placeholder="如不输入则默认密码000000"/>
+                                </div>
+                            </div>
+                            <div class="control-group" id="NewPasswordGroup">
+                                <label class="control-label" for="NewPassword">新密码</label>
+                                <div class="controls">
+                                    <input type="password" id="NewPassword" placeholder="请输入新密码"/>
+                                </div>
+                            </div>
+                        </div>
                         <div class="control-group">
-                            <label class="control-label" for="Name">密码</label>
-                            <div class="controls">
-                                <input type="password" id="Password" placeholder="如不输入则默认密码000000"/>
+                            <label class="control-label">权限</label>
+                            <div class="controls" id="status">
+                                <input type="radio" name="status" value="开启" checked="checked"/>开启
+                                <input type="radio" name="status" value="关闭"/>关闭
                             </div>
                         </div>
                     </form>
@@ -115,11 +145,13 @@
                 <div class="modal-footer">
                     <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
                     <button class="btn btn-primary" id="add" onclick="add();">保存</button>
-                    <button class="btn btn-primary" id="edt" onclick="edt();">保存</button>
+                    <button class="btn btn-primary" id="edt" onclick="edt();">修改</button>
                 </div>
+                <div id="footer"></div>
             </div>
         </div>
     </div>
+
 </div>
 
     <script src="scripts/lib/jquery-1.9.1.min.js"></script>

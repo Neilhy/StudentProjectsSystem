@@ -45,7 +45,6 @@ public class FileController  {
             try {
                 fileMeta.setBytes(mpf.getBytes());
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

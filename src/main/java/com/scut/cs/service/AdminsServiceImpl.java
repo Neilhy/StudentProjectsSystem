@@ -90,4 +90,17 @@ public class AdminsServiceImpl implements AdminsService {
         }
         return usernames;
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional(rollbackFor = {IllegalArgumentException.class})
+    @Override
+    public void changeStatus(List<String> name, String status) {
+        int priStatus = 0;
+        if(status.equals("open")) {
+            priStatus = 1;
+        }
+        for(String username:name) {
+            adminRepository.changeStatus(username,priStatus);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.scut.cs.web;
 
 import com.scut.cs.domain.Admin;
 import com.scut.cs.service.AdminsService;
+import com.scut.cs.web.request.ChangeStatus;
 import com.scut.cs.web.request.RequestUrls;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,4 +53,17 @@ public class AdminController {
             return null;
         }
     }
+
+    @RequestMapping(value = RequestUrls.ChangeStatus, method = RequestMethod.POST,consumes = "application/json",produces = "application/json")
+    @ResponseBody
+    public  void  changeStatus(@RequestBody ChangeStatus changeStatus) {
+        List<String> name = changeStatus.getName();
+        String status = changeStatus.getStatus();
+        try {
+            adminsService.changeStatus(name,status);
+        } catch (IllegalArgumentException e) {
+            System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
+        }
+    }
 }
+

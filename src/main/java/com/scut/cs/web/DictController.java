@@ -23,7 +23,6 @@ public class DictController {
     public List<String> getKeywords(){
         System.out.println("开始取数据类型...");
         List keywords = dictService.findKeywords();
-//        String ret = buildString(keywords);
         return keywords;
     }
     @RequestMapping(value = RequestUrls.GetDictItems, method = RequestMethod.GET)

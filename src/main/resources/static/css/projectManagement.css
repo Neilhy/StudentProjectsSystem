@@ -15,3 +15,8 @@ thead th {
 .add {
     margin: 10px 0;
 }
+
+.selectAll {
+    text-align: right;
+    float: right;
+}

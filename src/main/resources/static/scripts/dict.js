@@ -232,5 +232,4 @@ function deleteCurType() {
     }
 }
 
-
-
+var KeyCode = new Object();
