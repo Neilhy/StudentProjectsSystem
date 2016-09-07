@@ -20,22 +20,21 @@ public class DictController {
 
     @RequestMapping(value = RequestUrls.GetKeywordsUrl,method = RequestMethod.GET)
     @ResponseBody
-    public String getKeywords(){
+    public List<String> getKeywords(){
         System.out.println("开始取数据类型...");
         List keywords = dictService.findKeywords();
-        String ret = buildString(keywords);
-        return ret;
+//        String ret = buildString(keywords);
+        return keywords;
     }
     @RequestMapping(value = RequestUrls.GetDictItems, method = RequestMethod.GET)
     @ResponseBody
-    public String getDictItems(@PathVariable String keyword) {
+    public List<String> getDictItems(@PathVariable String keyword) {
         System.out.println("开始取" + keyword + "的数据项...");
         List<String> items = dictService.getItems(keyword);
-        String ret = buildString(items);
-        return ret;
+        return items;
     }
 
-    private String buildString(List<String> list) {
+/*    private String buildString(List<String> list) {
         StringBuilder sb = new StringBuilder("");
         for(String item:list) {
             sb.append(item+',');
@@ -43,7 +42,7 @@ public class DictController {
         sb.deleteCharAt(sb.length()-1);
 //        System.out.println(sb.toString());
         return sb.toString();
-    }
+    }*/
 
     @RequestMapping(value = RequestUrls.AddDicts,method = RequestMethod.POST,consumes = "application/json")
     public String addDictItems(@RequestBody AddDicts addDicts) {

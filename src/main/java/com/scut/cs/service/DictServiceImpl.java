@@ -19,8 +19,8 @@ public class DictServiceImpl implements DictService {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
-    public List findKeywords() {
-        List list = dictRepository.findKeywords();
+    public List<String> findKeywords() {
+        List<String> list = dictRepository.findKeywords();
         return list;
     }
 
@@ -51,8 +51,8 @@ public class DictServiceImpl implements DictService {
      * @return List
      */
     @Override
-    public List getItems(String keyword) {
-        List items = dictRepository.findItemsByKeyword(keyword);
+    public List<String> getItems(String keyword) {
+        List<String> items = dictRepository.findItemsByKeyword(keyword);
         return items;
     }
 

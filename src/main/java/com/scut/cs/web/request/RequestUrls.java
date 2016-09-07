@@ -11,7 +11,7 @@ public class RequestUrls {
     public static final String AddStudentsUrl = "/addStudents";
     public static final String DeleteProjectListUrl = "/deleteProjects";
 
-    public static final String GetAdminsUrl = "/getAdmins";
+    public static final String GetAdminsUrl = "/getAdmins/{role}";
     public static final String AddAdminUrl = "/addAdmin";
     public static final String ModifyAdminUrl = "/modifyAdmin";
     public static final String ChangeRoleTypeUrl = "/changeRoleType/{name}/{type}";
