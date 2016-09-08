@@ -1,0 +1,14 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd">
+
+    <cache name="dictList"
+           maxEntriesLocalHeap="200"
+           timeToLiveSeconds="600"
+            maxElementsInMemory="200">
+    </cache>
+    <cache name="keywordList"
+           maxEntriesLocalHeap="200"
+           timeToLiveSeconds="600">
+    </cache>
+
+</ehcache>

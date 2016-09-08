@@ -4,9 +4,16 @@ import com.scut.cs.domain.Dict;
 import com.scut.cs.domain.dao.DictRepository;
 import com.scut.cs.web.request.AddDicts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,54 +24,51 @@ public class DictServiceImpl implements DictService {
     @Autowired
     private DictRepository dictRepository;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Cacheable(value = "keywordList")
     @Override
     public List<String> findKeywords() {
-        List<String> list = dictRepository.findKeywords();
-        return list;
+        return dictRepository.findKeywords();
     }
 
+    @CachePut(value = "keywordList")
     @Override
-    public void addDicts(AddDicts addDicts) {
-        if(addDicts != null) {
-            List<Dict> dictList = addDicts.getDictList();
-            String flag = addDicts.getFlag();
-            if(dictList.size() > 0) {
-                String keyword = dictList.get(0).getKeyword();
-                //如果是更新操作，则先删除原先的记录
-                if(flag.equals("update")) {
-                    List<Dict> list = dictRepository.findByKeyword(keyword);
-                    for(Dict d:list) {
-                        dictRepository.delete(d);
-                    }
-                }
-                //添加记录
-                for(Dict dict:dictList) {
-                    dictRepository.save(dict);
-                }
-            }
+    public List<String> upDateKeywords() {
+        return dictRepository.findKeywords();
+    }
+
+    @Transactional
+    @CachePut(value = "dictList",key = "#keyword")
+    @Override
+    public List<Dict> addDicts(List<Dict>dictList,String flag,String keyword) {
+        //如果是更新操作，则先删除原先的记录
+        if(flag.equals("update")) {
+            dictRepository.removeByKeyword(keyword);
+            //添加记录
+            return dictRepository.save(dictList);
         }
+        List<Dict>dicts=dictRepository.save(dictList);
+
+        return dicts;
     }
 
     /**
      * 获取数据类型对应的数据项
      * @return List
      */
+    @Cacheable(value = "dictList",key = "#keyword")
     @Override
-    public List<String> getItems(String keyword) {
-        List<String> items = dictRepository.findItemsByKeyword(keyword);
-        return items;
+    public List<Dict> getItems(String keyword) {
+        return dictRepository.findByKeyword(keyword,new Sort(Sort.Direction.ASC,"code"));
     }
-
     /**
      * 删除当前数据类型及其对应的数据项
      * @param keyword
      */
+    @Transactional
+    @CacheEvict(value = "dictList")
     @Override
     public void deleteKeyword(String keyword) {
-        List<Dict> items = dictRepository.findByKeyword(keyword);
-        for(Dict d:items) {
-            dictRepository.delete(d);
-        }
+        dictRepository.removeByKeyword(keyword);
+
     }
 }

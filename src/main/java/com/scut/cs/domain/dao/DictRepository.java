@@ -1,6 +1,7 @@
 package com.scut.cs.domain.dao;
 
 import com.scut.cs.domain.Dict;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,16 +18,19 @@ public interface DictRepository extends JpaRepository<Dict,Long> {
 
     @Transactional
     @Query("select distinct keyword from Dict")
-    List findKeywords();
+    List<String> findKeywords();
 
     @Transactional
     @Query("select itemName from Dict where keyword = ?1 order by code asc")
-    List findItemsByKeyword(String keyword);
+    List<String> findItemsByKeyword(String keyword);
 
-    List<Dict> findByKeyword(String keyword);
+    List<Dict> findByKeyword(String keyword,Sort sort);
 
     @Modifying
     @Transactional
     @Query("update Dict set itemName = ?1 where keyword =?2")
     void update(String itemName, String keyword, String code);
+
+    @Transactional
+    List<Dict> removeByKeyword(String keyword);
 }

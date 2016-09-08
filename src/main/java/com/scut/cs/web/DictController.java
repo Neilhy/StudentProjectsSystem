@@ -1,14 +1,16 @@
 package com.scut.cs.web;
 
+import com.scut.cs.domain.Dict;
 import com.scut.cs.service.DictService;
 import com.scut.cs.web.request.AddDicts;
 import com.scut.cs.web.request.RequestUrls;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Jack on 2016/8/30.
@@ -18,20 +20,21 @@ public class DictController {
     @Autowired
     private DictService dictService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")//TODO 这个哪些人可以操作待讨论，以下方法类似
     @RequestMapping(value = RequestUrls.GetKeywordsUrl,method = RequestMethod.GET)
     @ResponseBody
     public List<String> getKeywords(){
         System.out.println("开始取数据类型...");
-        List keywords = dictService.findKeywords();
+        return dictService.findKeywords();
 //        String ret = buildString(keywords);
-        return keywords;
+//        return keywords;
     }
     @RequestMapping(value = RequestUrls.GetDictItems, method = RequestMethod.GET)
     @ResponseBody
     public List<String> getDictItems(@PathVariable String keyword) {
         System.out.println("开始取" + keyword + "的数据项...");
-        List<String> items = dictService.getItems(keyword);
-        return items;
+        List<Dict> dicts= dictService.getItems(keyword);
+        return dicts.stream().map(Dict::getItemName).collect(Collectors.toList());
     }
 
 /*    private String buildString(List<String> list) {
@@ -47,7 +50,13 @@ public class DictController {
     @RequestMapping(value = RequestUrls.AddDicts,method = RequestMethod.POST,consumes = "application/json")
     public String addDictItems(@RequestBody AddDicts addDicts) {
         System.out.println("开始AddDicts...");
-        dictService.addDicts(addDicts);
+        if (addDicts != null) {
+            List<Dict> dicts = addDicts.getDictList();
+            if (dicts != null && dicts.size()>0) {
+                dictService.addDicts(dicts,addDicts.getFlag(),dicts.get(0).getKeyword());
+                dictService.upDateKeywords();
+            }
+        }
         return "dictManagement";
     }
 
@@ -55,6 +64,7 @@ public class DictController {
     public String deleteKeyword(@PathVariable String keyword) {
         System.out.println("开始删除"+keyword+"...");
         dictService.deleteKeyword(keyword);
+        dictService.upDateKeywords();
         return "dictManagement";
     }
 

@@ -21,7 +21,7 @@ public class Admin implements UserDetails{
     @Column(nullable = false,length = 20,unique = true)
     private String username;
 
-    @Column(nullable = false,length = 20)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
@@ -34,7 +34,7 @@ public class Admin implements UserDetails{
     private String roleType;
 
     @Column(nullable = false,columnDefinition = "TINYINT UNSIGNED default 1")
-    private Integer status;
+    private Integer status=1;
 
     public Admin() {
     }
