@@ -4,6 +4,7 @@ import com.scut.cs.domain.Admin;
 import com.scut.cs.domain.dao.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,9 @@ import java.util.List;
 public class AdminsServiceImpl implements AdminsService {
     @Autowired
     private AdminRepository adminRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
@@ -41,6 +45,7 @@ public class AdminsServiceImpl implements AdminsService {
         Admin adminOld = adminRepository.findByUsername(admin.getUsername());
 
         if ( null == adminOld) {
+            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
             return adminRepository.save(admin);
         }
         return null;
@@ -49,9 +54,14 @@ public class AdminsServiceImpl implements AdminsService {
     @PreAuthorize("#admin.id == authentication.principal.id or hasRole('ROLE_ADMIN')")
     @Override
     public Admin modifyAdmin(Admin admin) {
-
-        if ( adminRepository.exists(admin.getId()) ) {
-           return adminRepository.save(admin);
+        Admin adminOld = adminRepository.getOne(admin.getId());
+        if(null != adminOld){
+            if ( adminOld.getPassword().equals(admin.getPassword())) {
+                return adminRepository.save(admin);
+            }else{
+                admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+                return adminRepository.save(admin);
+            }
         }
         return null;
     }
@@ -92,7 +102,7 @@ public class AdminsServiceImpl implements AdminsService {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Transactional(rollbackFor = {IllegalArgumentException.class})
+    @Transactional
     @Override
     public void changeStatus(List<String> name, String status) {
         int priStatus = 0;

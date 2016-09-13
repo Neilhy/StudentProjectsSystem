@@ -16,6 +16,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 /**
  * Created by Jack on 2016/8/30.
  */
@@ -36,7 +38,6 @@ public class DictServiceImpl implements DictService {
         return dictRepository.findKeywords();
     }
 
-    @Transactional
     @CachePut(value = "dictList",key = "#keyword")
     @Override
     public List<Dict> addDicts(List<Dict>dictList,String flag,String keyword) {
@@ -46,9 +47,7 @@ public class DictServiceImpl implements DictService {
             //添加记录
             return dictRepository.save(dictList);
         }
-        List<Dict>dicts=dictRepository.save(dictList);
-
-        return dicts;
+        return dictRepository.save(dictList);
     }
 
     /**

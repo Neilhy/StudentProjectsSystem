@@ -32,5 +32,8 @@ public interface DictRepository extends JpaRepository<Dict,Long> {
     void update(String itemName, String keyword, String code);
 
     @Transactional
+    int deleteByKeyword(String keyword);
+
+    @Transactional
     List<Dict> removeByKeyword(String keyword);
 }
