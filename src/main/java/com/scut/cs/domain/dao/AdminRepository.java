@@ -24,4 +24,9 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
     @Transactional
     @Query("update Admin a set a.roleType= ?2 where a.username= ?1")
     int changeRoleType(String username, String roleType);
+
+    @Modifying
+    @Transactional
+    @Query("update Admin a set a.status = ?2 where a.username = ?1")
+    int changeStatus(String username,int status);
 }
