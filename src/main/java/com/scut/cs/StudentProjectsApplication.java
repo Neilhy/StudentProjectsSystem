@@ -23,10 +23,13 @@ public class StudentProjectsApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... strings) throws Exception {
+		if(adminRepository.findByUsername("admin") != null) {
+			return;
+		}
 		adminRepository.deleteAll();
-		Admin admin = new Admin(1L, "admin", passwordEncoder.encode("123"), "计算机科学与工程学院", "ROLE_ADMIN");
-		Admin outer = new Admin(2L, "outer", passwordEncoder.encode("123"), "建筑学院", "ROLE_OUTER");
-		Admin inner = new Admin(3L, "inner", passwordEncoder.encode("123"), "建筑学院", "ROLE_INNER");
+		Admin admin = new Admin(1L, "admin", passwordEncoder.encode("123"), "", "ROLE_ADMIN");
+		Admin outer = new Admin(2L, "outer", passwordEncoder.encode("123"), "计算机科学与工程学院", "ROLE_OUTER");
+		Admin inner = new Admin(3L, "inner", passwordEncoder.encode("123"), "", "ROLE_INNER");
 		adminRepository.save(admin);
 		adminRepository.save(outer);
 		adminRepository.save(inner);

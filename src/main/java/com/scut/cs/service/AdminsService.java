@@ -20,4 +20,8 @@ public interface AdminsService {
     Admin deleteAdmin(String username);
 
     List<String> delelteAdminList(List<String> usernameList);
+
+    void changeStatus(List<String> name,String status);
+
+    boolean checkPwd(Long id,String pwd);
 }

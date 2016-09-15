@@ -3,7 +3,9 @@ package com.scut.cs.service;
 import com.scut.cs.domain.Admin;
 import com.scut.cs.domain.dao.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +20,16 @@ public class AdminsServiceImpl implements AdminsService {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public List<Admin> getAdmins(String role) {
         List<Admin> adminList = null;
         if(role.equals("all")) {
-            adminList = adminRepository.findAll();//TODO 分页和排序
+            Sort sort = new Sort(Sort.Direction.ASC,"id");
+            adminList = adminRepository.findAll(sort);//TODO 分页和排序
         } else {
             adminList = adminRepository.findByRoleType(role);
         }
@@ -39,7 +45,7 @@ public class AdminsServiceImpl implements AdminsService {
     @Override
     public Admin addAdmin(Admin admin) {
         Admin adminOld = adminRepository.findByUsername(admin.getUsername());
-
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         if ( null == adminOld) {
             return adminRepository.save(admin);
         }
@@ -49,9 +55,14 @@ public class AdminsServiceImpl implements AdminsService {
     @PreAuthorize("#admin.id == authentication.principal.id or hasRole('ROLE_ADMIN')")
     @Override
     public Admin modifyAdmin(Admin admin) {
-
-        if ( adminRepository.exists(admin.getId()) ) {
-           return adminRepository.save(admin);
+        Admin a = adminRepository.findById(admin.getId());
+        if(a!=null) {
+            if (admin.getPassword().equals("")) {
+                admin.setPassword(a.getPassword());
+            } else {
+                admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+            }
+            return adminRepository.save(admin);
         }
         return null;
     }
@@ -89,5 +100,30 @@ public class AdminsServiceImpl implements AdminsService {
             usernames.add(username);
         }
         return usernames;
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional(rollbackFor = {IllegalArgumentException.class})
+    @Override
+    public void changeStatus(List<String> name, String status) {
+        int priStatus = 0;
+        if(status.equals("open")) {
+            priStatus = 1;
+        }
+        for(String username:name) {
+            adminRepository.changeStatus(username,priStatus);
+        }
+    }
+
+    @Override
+    public boolean checkPwd(Long id, String pwd) {
+        Admin admin = adminRepository.findById(id);
+        if(admin != null) {
+            String encodePwd = admin.getPassword();
+            if (passwordEncoder.matches(pwd, encodePwd)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

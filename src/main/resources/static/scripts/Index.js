@@ -139,6 +139,7 @@
 });
 
 $(window).resize(function () {
-    $(".content-left,.content-right").height($(window).height() - 130);
+    $(".content-left,.content-right").height($(window).height());
+    $(".iframe").height($(window).height());
 });
 
