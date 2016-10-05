@@ -18,7 +18,9 @@ public class RequestUrls {
     public static final String ChangeRoleTypeUrl = "/changeRoleType/{name}/{type}";
     public static final String DeleteAdminUrl = "/deleteAdmin";
     public static final String ChangeStatus = "/changeStatus";
-    public static final String CheckPwd = "/checkPwd/{id}/{pwd}";
+    public static final String CheckPwd = "/checkPwd/{pwd}";
+    public static final String ResetPassword = "/resetPassword";
+    public static final String ModifyPassword = "/modifyPassword";
 
     //数据字典
     public static final String GetKeywordsUrl = "/getKeywords";

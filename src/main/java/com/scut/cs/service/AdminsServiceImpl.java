@@ -5,6 +5,8 @@ import com.scut.cs.domain.dao.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,15 +54,16 @@ public class AdminsServiceImpl implements AdminsService {
         return null;
     }
 
-    @PreAuthorize("#admin.id == authentication.principal.id or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("#admin.id == authentication.principal.id")
     @Override
     public Admin modifyAdmin(Admin admin) {
         Admin a = adminRepository.findById(admin.getId());
+        String password = admin.getPassword();
         if(a!=null) {
-            if (admin.getPassword().equals("")) {
+            if(password.equals("")){
                 admin.setPassword(a.getPassword());
             } else {
-                admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+                admin.setPassword(passwordEncoder.encode(password));
             }
             return adminRepository.save(admin);
         }
@@ -79,8 +82,8 @@ public class AdminsServiceImpl implements AdminsService {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
-    public Admin deleteAdmin(String username) {
-        Admin adminOld = adminRepository.findByUsername(username);
+    public Admin deleteAdmin(Long id) {
+        Admin adminOld = adminRepository.findById(id);
         if (null != adminOld) {
             adminRepository.delete(adminOld);
             return adminOld;
@@ -91,39 +94,54 @@ public class AdminsServiceImpl implements AdminsService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional(rollbackFor = {IllegalArgumentException.class})
     @Override
-    public List<String> delelteAdminList(List<String> usernameList) {
-        List<String> usernames = new ArrayList<>();
-        for (String username : usernameList) {
-            if (null == deleteAdmin(username)) {
-                throw new IllegalArgumentException("用户名为："+username+" 的用户不存在！！");     //TODO 可以在Controller层捕抓异常
+    public List<Long> delelteAdminList(List<Long> idList) {
+        List<Long> ids = new ArrayList<>();
+        for (Long id : idList) {
+            if (null == deleteAdmin(id)) {
+                throw new IllegalArgumentException("id为："+id+" 的用户不存在！！");     //TODO 可以在Controller层捕抓异常
             }
-            usernames.add(username);
+            ids.add(id);
         }
-        return usernames;
+        return ids;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional(rollbackFor = {IllegalArgumentException.class})
     @Override
-    public void changeStatus(List<String> name, String status) {
+    public void changeStatus(List<Long> id, String status) {
         int priStatus = 0;
         if(status.equals("open")) {
             priStatus = 1;
         }
-        for(String username:name) {
-            adminRepository.changeStatus(username,priStatus);
+        for(long userid:id) {
+            adminRepository.changeStatus(userid,priStatus);
         }
     }
 
     @Override
-    public boolean checkPwd(Long id, String pwd) {
-        Admin admin = adminRepository.findById(id);
-        if(admin != null) {
-            String encodePwd = admin.getPassword();
-            if (passwordEncoder.matches(pwd, encodePwd)) {
-                return true;
-            }
+    public boolean checkPwd(String pwd) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Admin a = (Admin)userDetails;
+        String password = a.getPassword();
+        if(passwordEncoder.matches(pwd, password)) {
+            return true;
         }
         return false;
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Override
+    public void resetPassword(List<Long> idList) {
+        for(long id:idList) {
+            Admin old = adminRepository.findById(id);
+            if(null == old) {
+                throw new IllegalArgumentException("id为："+id+" 的用户不存在！！");
+            } else {
+                old.setPassword(passwordEncoder.encode("000000"));
+                adminRepository.save(old);
+            }
+        }
+    }
+
+
 }

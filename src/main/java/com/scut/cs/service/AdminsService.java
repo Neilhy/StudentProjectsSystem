@@ -17,11 +17,14 @@ public interface AdminsService {
 
     int changeRoleType(String username, String roleType);
 
-    Admin deleteAdmin(String username);
+    Admin deleteAdmin(Long id);
 
-    List<String> delelteAdminList(List<String> usernameList);
+    List<Long> delelteAdminList(List<Long> idList);
 
-    void changeStatus(List<String> name,String status);
+    void changeStatus(List<Long> id,String status);
 
-    boolean checkPwd(Long id,String pwd);
+    boolean checkPwd(String pwd);
+
+    void resetPassword(List<Long> idList);
+
 }

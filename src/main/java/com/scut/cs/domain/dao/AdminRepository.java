@@ -15,7 +15,7 @@ import java.util.List;
 public interface AdminRepository extends JpaRepository<Admin,Long> {
     Admin findByUsername(String username);
 
-    Admin findById(Long id);
+    Admin findById(long id);
 
     List<Admin> findByCollege(String college);
 
@@ -32,6 +32,6 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
 
     @Modifying
     @Transactional
-    @Query("update Admin a set a.status = ?2 where a.username = ?1")
-    int changeStatus(String username,int status);
+    @Query("update Admin a set a.status = ?2 where a.id = ?1")
+    int changeStatus(long id,int status);
 }

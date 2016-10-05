@@ -6,6 +6,9 @@ import com.scut.cs.web.request.ChangeStatus;
 import com.scut.cs.web.request.RequestUrls;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,9 +49,9 @@ public class AdminController {
 
     @RequestMapping(value = RequestUrls.DeleteAdminUrl, method = RequestMethod.POST,consumes = "application/json",produces = "application/json")
     @ResponseBody
-    public List<String> deleteAdmin(@RequestBody List<String> name) {
+    public List<Long> deleteAdmin(@RequestBody List<Long> id) {
         try {
-            return adminsService.delelteAdminList(name);
+            return adminsService.delelteAdminList(id);
         } catch (IllegalArgumentException e) {
             System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
             return null;
@@ -57,11 +60,11 @@ public class AdminController {
 
     @RequestMapping(value = RequestUrls.ChangeStatus, method = RequestMethod.POST,consumes = "application/json",produces = "application/json")
     @ResponseBody
-    public  void  changeStatus(@RequestBody ChangeStatus changeStatus) {
-        List<String> name = changeStatus.getName();
+    public void changeStatus(@RequestBody ChangeStatus changeStatus) {
+        List<Long> id = changeStatus.getId();
         String status = changeStatus.getStatus();
         try {
-            adminsService.changeStatus(name,status);
+            adminsService.changeStatus(id,status);
         } catch (IllegalArgumentException e) {
             System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
         }
@@ -69,12 +72,36 @@ public class AdminController {
 
     @RequestMapping(value = RequestUrls.CheckPwd,method = RequestMethod.GET)
     @ResponseBody
-    public String checkPwd (@PathVariable Long id,@PathVariable String pwd) {
-        boolean res = adminsService.checkPwd(id,pwd);
+    public String checkPwd (@PathVariable String pwd) {
+
+        boolean res = adminsService.checkPwd(pwd);
         if(res == true) {
             return "success";
         } else {
             return "fail";
+        }
+    }
+
+    @RequestMapping(value = RequestUrls.ResetPassword,method = RequestMethod.POST,consumes = "application/json",produces = "application/json")
+    @ResponseBody
+    public void resetPassword(@RequestBody List<Long> id) {
+        try {
+            adminsService.resetPassword(id);
+        } catch (IllegalArgumentException e) {
+            System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = RequestUrls.ModifyPassword,method = RequestMethod.POST,consumes = "application/json",produces = "application/json")
+    @ResponseBody
+    public void modifyPassword(@RequestBody Admin admin) {
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Admin a = (Admin)userDetails;
+            a.setPassword(admin.getPassword());
+            adminsService.modifyAdmin(a);
+        } catch (IllegalArgumentException e) {
+            System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
         }
     }
 

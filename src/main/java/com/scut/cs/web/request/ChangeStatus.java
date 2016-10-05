@@ -6,14 +6,14 @@ import java.util.List;
  * Created by Jack on 2016/9/6.
  */
 public class ChangeStatus {
-    List<String> name;
+    List<Long> id;
     String status;
 
     public ChangeStatus() {
     }
 
-    public ChangeStatus(List<String> name, String status) {
-        this.name = name;
+    public ChangeStatus(List<Long> id, String status) {
+        this.id = id;
         this.status = status;
     }
 
@@ -25,11 +25,11 @@ public class ChangeStatus {
         this.status = status;
     }
 
-    public List<String> getName() {
-        return name;
+    public List<Long> getId() {
+        return id;
     }
 
-    public void setName(List<String> name) {
-        this.name = name;
+    public void setId(List<Long> id) {
+        this.id = id;
     }
 }

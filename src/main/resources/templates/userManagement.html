@@ -20,7 +20,6 @@
                 <option value="ROLE_OUTER">外部人员</option>
             </select>
             <a class="btn btn-success" onclick="openadd()">创建用户</a>
-            <a class="btn btn-primary" id="adminPwd">修改管理员密码</a>
             <div>
                 <input type="checkbox" id="selCkb"/> 全选/全不选
             </div>
@@ -42,9 +41,10 @@
 
                     </tbody>
                 </table>
-                <a class="btn btn-primary" id="delete">删除</a>
+                <a class="btn btn-primary" id="delete">删除用户</a>
                 <a class="btn btn-primary" id="openStatus">开启权限</a>
                 <a class="btn btn-primary" id="closeStatus">关闭权限</a>
+                <a class="btn btn-primary" id="resetPwd">重置密码</a>
                 <div id="page" class="tr"></div>
             </div>
         </div>
@@ -113,27 +113,21 @@
                                 <input type="text" id="Name"/>
                             </div>
                         </div>
-                        <div id="passwordGroup">
+                        <div id="PasswordGroup">
                             <div class="control-group">
                                 <label class="control-label" for="Password">密码</label>
                                 <div class="controls">
                                     <input type="password" id="Password" placeholder="如不输入则默认密码000000"/>
                                 </div>
                             </div>
-                            <div class="control-group" id="NewPasswordGroup">
-                                <label class="control-label" for="NewPassword">新密码</label>
-                                <div class="controls">
-                                    <input type="password" id="NewPassword" placeholder="请输入新密码"/>
-                                </div>
-                            </div>
                         </div>
+
                         <div class="control-group">
                             <label class="control-label">权限</label>
                             <div class="controls" id="status">
                                 <input type="radio" name="status" value="开启" checked="checked"/>开启
                                 <input type="radio" name="status" value="关闭"/>关闭
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="checkbox" id="pwdCkb"/>&nbsp;修改密码
+
                             </div>
                         </div>
                     </form>
@@ -148,30 +142,6 @@
         </div>
     </div>
 
-    <div id="ModifyadminPwdModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="ModifyadminPwdModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 id="ModifyadminPwdModalLabel">创建用户</h3>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label" for="NewAdminPwd">新密码</label>
-                            <div class="controls">
-                                <input type="password" id="NewAdminPwd" placeholder="请输入新密码"/>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-                            <button class="btn btn-primary" id="edtPwd">修改</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>
 

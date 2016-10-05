@@ -64,7 +64,6 @@
         data.password = password;
         data.roleType = roleType;
         data.status = status;
-
         $.ajax({
             type: "POST",
             url: "/addAdmin",
@@ -88,11 +87,8 @@
         var id = $('input[name="id"]').val();
         var college = $('#college').val();
         var username = $('#Name').val();
-        var password = $('#Password').val();
-        var newPassword = $('#NewPassword').val();
         var roleType = $('input[name="roleType"]:checked').val();
         var statusVal = $('input[name="status"]:checked').val();
-        var modifyAdmin = $('#pwdCkb').is(':checked');
         var status = statusVal == '开启'?1:0;
         if(roleType == 'ROLE_INNER') {
             college = '';
@@ -101,19 +97,12 @@
             layer.tips('不能为空', '#Name');
             return;
         }
-        if(modifyAdmin == true && pwdFlag == true) {
-            layer.tips('密码不正确', '#Password');
-            return;
-        }
-        if(newPassword == '') {
-            layer.tips('不能为空', '#NewPassword');
-            return;
-        }
+
         var data = new Object();
         data.id = id;
+        data.password = "";
         data.college = college;
         data.username = username;
-        data.password = newPassword;
         data.roleType = roleType;
         data.status = status;
         $.ajax({
@@ -134,30 +123,7 @@
         })
     });
 
-    $('#edtPwd').click(function () {
-        admin.password = $('#NewAdminPwd').val();
-        alert(admin.password);
-        if(admin.password == "") {
-            layer.tips('不能为空','#NewAdminPwd');
-            return;
-        }
-        $.ajax({
-            type: "POST",
-            url: "/modifyAdmin",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(admin),
-            success: function () {
-                $("#modifyadminpwdmodal").modal("hide");
-                refresh('all');
-                layer.tips('修改成功','#add');
-                // $(document).find('html').html(data);
-                // initToken();
-            },
-            error: function (XMLHttpRequest, status, errorThrown) {
-                alert(status + " " + errorThrown);
-            }
-        })
-    });
+
 
     $('#Name').blur(function () {
         if($('#myModalLabel').text() == '修改信息')
@@ -169,7 +135,7 @@
     });
 
     $('#delete').click(function () {
-        var data = getNamesChecked();
+        var data = getCheckedIds();
         $.ajax({
             type: 'POST',
             url: '/deleteAdmin',
@@ -179,6 +145,7 @@
                 refresh($('#role').val());
                 // alert('删除成功');
                 layer.tips('删除成功','#add');
+                $('#selCkb').prop('checked',false);
             },
             error: function (XMLHttpRequest, status, errorThrown) {
                 alert(status + " " + errorThrown);
@@ -192,41 +159,41 @@
     $('#closeStatus').click(function () {
         changeStatus('close');
     });
-    $('#selCkb').click(function () {
-        $('input:checkbox[name="ckb"]').prop('checked',this.checked);
-    })
-    $('#pwdCkb').click(function () {
-        if(this.checked) {
-            $('#passwordGroup').show();
-        } else {
-            $('#passwordGroup').hide();
+    $('#resetPwd').click(function () {
+        if(confirm("是否确认重置密码")) {
+            var data = getCheckedIds();
+            $.ajax({
+                type: 'POST',
+                url: '/resetPassword',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    refresh($('#role').val());
+                    // alert('更新成功');
+                    layer.tips('密码已重置为000000', '#add');
+                    $('#selCkb').prop('checked',false);
+                },
+                error: function (XMLHttpRequest, status, errorThrown) {
+                    alert(status + " " + errorThrown);
+                }
+            });
         }
     });
-    $('#Password').blur(function () {
-        pwdFlag = false;
-        var id = $('input[name="id"]').val();
-        var pwd = $(this).val();
-        var url = '/checkPwd/' + id + '/' + pwd;
-        $.get(url,function (data) {
-            if(data == 'fail') {
-                layer.tips('密码不正确', '#Password');
-                pwdFlag = true;
-            }
-        })
+    $('#selCkb').click(function () {
+        $('input:checkbox[name="ckb"]').prop('checked',this.checked);
     });
-    $('#adminPwd').click(function () {
-        openModifyAdminPwd();
-    })
+
+
 });
 
 
 
 function changeStatus(status) {
     var data = new Object();
-    var names = getNamesChecked();
-    data.name = names;
+    var ids = getCheckedIds();
+    data.id = ids;
     data.status = status;
-    if(names.length == 0) {
+    if(ids.length == 0) {
         return;
     }
     $.ajax({
@@ -238,6 +205,7 @@ function changeStatus(status) {
             refresh($('#role').val());
             // alert('更新成功');
             layer.tips('更新成功','#add');
+            $('#selCkb').prop('checked',false);
         },
         error: function (XMLHttpRequest, status, errorThrown) {
             alert(status + " " + errorThrown);
@@ -245,16 +213,17 @@ function changeStatus(status) {
     });
 }
 
-function getNamesChecked() {
+function getCheckedIds() {
     var data = new Array();
     $('input:checkbox[name="ckb"]:checked').each(function () {
         $tr = $(this).parent().parent();
-        var username = $tr.find('td').eq(0).text();
-        // alert(username);
-        data.push(username);
+        var id = $tr.find('input').eq(1).val();
+        data.push(id);
     });
     return data;
 }
+
+
 
 function refresh(role) {
     allAdmin = innerAdmin = outerAdmin = '';
@@ -282,9 +251,6 @@ function openadd() {
     radioItem('status','关闭');
     $('#college option:first').prop('selected',true);
     $('#inner').hide();
-    $('#pwdCkbGroup').hide();
-    $('#passwordGroup').show();
-    $('#NewPasswordGroup').hide();
     $("#add").show();
     $("#edt").hide();
 }
@@ -297,20 +263,11 @@ function openedt() {
     $('input[name="roleType"]').eq(1).val("ROLE_OUTER");
     $('input[name="status"]').eq(0).val('开启');
     $('input[name="status"]').eq(1).val('关闭');
-    $('#Password').prop('placeholder','请输入原密码');
-    $('#pwdCkbGroup').show();
-    $('#pwdCkb').prop('checked',false);
-    $('#NewPasswordGroup').show();
-    $('#passwordGroup').hide();
+    $('#PasswordGroup').hide();
     $("#edt").show();
     $("#add").hide();
 }
 
-function openModifyAdminPwd() {
-    $("#ModifyadminPwdModalLabel").text("修改管理员密码");
-    $('#ModifyadminPwdModal').modal('show');
-    $('input').val('');
-}
 
 function show(value) {
     $.get('/getAdmins/'+value,function (data) {
@@ -416,5 +373,4 @@ var allAdmin = "";
 var innerAdmin = "";
 var outerAdmin = "";
 var userNames = {};
-var pwdFlag = false;
 var admin = new Object();
