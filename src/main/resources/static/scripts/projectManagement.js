@@ -1,4 +1,8 @@
 ﻿
+$(function () {
+    setSelectItems('college-show','学院');
+});
+/*
 var curr = 1;
 $(function () {
     load(curr);
@@ -40,8 +44,8 @@ function load(curr) {
 
         }
     })
-}
-
+}*/
+/*
 function openadd() {
     $("#myModalLabel").text("添加项目");
     $("#userName").attr("readonly", false);
@@ -198,7 +202,4 @@ $(function(){
         $("#partner").toggle();
     });
 })
-
-$(function () {
-    setSelectItems('college-show','学院');
-});
+ */

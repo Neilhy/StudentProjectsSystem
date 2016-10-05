@@ -8,8 +8,6 @@
     <link href="css/lib/bootstrap.min.css" rel="stylesheet" />
     <link href="css/Common.css" rel="stylesheet" />
     <link href="css/Index.css" rel="stylesheet" />
-
-
     <title sec:authentication="name"></title>
 
 </head>
@@ -27,13 +25,13 @@
                 <img src="images/32/166.png" />&nbsp;&nbsp;修改个人信息<b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="#">修改密码</a></li>
+                <li><a href="#" id="modifyPwd">修改密码</a></li>
             </ul>
 
         </li>
         <li>
             <form th:action="@{/logout}" method="post">
-                <img src="images/32/200.png" />&nbsp;&nbsp;<input id="logout" type="submit" value="退 出"/>
+                <img src="images/32/200.png" />&nbsp;&nbsp;<input id="logout" type="submit" value="退 出" />
             </form>
         </li>
 
@@ -79,16 +77,15 @@
                              <img class="left-icon-child" src="images/32/128.png"/>
                              <span class="left-body">学号查询</span>
                          </div>-->
-                        <div class="accordion-inner" id="user_management">
+                        <div class="accordion-inner" id="user_management" sec:authorize="hasRole('ROLE_ADMIN')">
                             <img class="left-icon-child" src="images/32/8.png"/>
                             <a class="left-body" href="/userManagement" target="frame">用户管理</a>
                         </div>
-                        <div class="accordion-inner" id="dict_management">
+                        <div class="accordion-inner" id="dict_management" sec:authorize="hasRole('ROLE_ADMIN')">
                             <img class="left-icon-child" src="images/32/7.png"/>
                             <a class="left-body" href="/dictManagement" target="frame">数据字典</a>
                         </div>
                     </div>
-
                 </div>
 
 
@@ -132,12 +129,47 @@
             <iframe name="frame" src="/projectManagement" class="iframe" ></iframe>
         </div>
     </div>
+
+    <div id="ModifyPwdModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="ModifyPwdModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="ModifyPwdModalLabel">修改密码</h3>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="control-group" id="OldPwdGroup">
+                            <label class="control-label" for="OldPassword" >原密码</label>
+                            <div class="controls">
+                                <input type="password" id="OldPassword" placeholder="请输入原密码"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="NewPassword">新密码</label>
+                            <div class="controls">
+                                <input type="password" id="NewPassword" placeholder="请输入新密码"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                            <button class="btn btn-primary" id="edtPwd">修改</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 <div class="clearfix"></div>
 <div class="foot"></div>
 
 <script src="scripts/lib/jquery-1.9.1.min.js"></script>
 <script src="scripts/lib/bootstrap.min.js"></script>
+<script src="scripts/lib/layer/layer.js"></script>
+<script src="scripts/lib/laypage.js"></script>
 <script src="scripts/Index.js"></script>
 
 
