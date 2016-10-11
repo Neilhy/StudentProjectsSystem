@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cac0a6e3-223e-405a-9cdd-fe9a4f5fb500" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ReadMe.txt" afterPath="$PROJECT_DIR$/src/ReadMe.txt" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -35,6 +36,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-429">
               <caret line="202" column="49" selection-start-line="202" selection-start-column="44" selection-end-line="202" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReadMe.txt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ReadMe.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="99">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -82,11 +93,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DictServiceImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DictServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/scut/cs/service/DictServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+            <state relative-caret-position="484">
+              <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -97,16 +108,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="125">
               <caret line="26" column="28" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StudentProjectsApplication.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/scut/cs/StudentProjectsApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="36" column="1" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -150,7 +151,7 @@
       </GitPushTagMode>
     </option>
     <push-targets>
-      <push-target-info repo="$PROJECT_DIR$" source="master" target-remote="origin" target-branch="Jack" />
+      <push-target-info repo="$PROJECT_DIR$" source="master" target-remote="origin" target-branch="master" />
     </push-targets>
   </component>
   <component name="GradleLocalSettings">
@@ -192,7 +193,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/scut/cs/service/AdminsServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/home.html" />
         <option value="$PROJECT_DIR$/src/main/resources/static/scripts/Index.js" />
-        <option value="$PROJECT_DIR$/src/ReadMe.txt" />
         <option value="$PROJECT_DIR$/src/main/java/com/scut/cs/domain/Project.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/scut/cs/web/ProjectController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/scut/cs/service/ProjectsServiceImpl.java" />
@@ -203,6 +203,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/scut/cs/web/DictController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/scut/cs/service/DictServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/scripts/projectManagement.js" />
+        <option value="$PROJECT_DIR$/src/ReadMe.txt" />
       </list>
     </option>
   </component>
@@ -264,16 +265,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="StudentProjectsSystem" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="StudentProjectsSystem" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="StudentProjectsSystem" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -752,7 +743,7 @@
       <workItem from="1473824921241" duration="24224000" />
       <workItem from="1475549161580" duration="18934000" />
       <workItem from="1475673635410" duration="725000" />
-      <workItem from="1476113205304" duration="17477000" />
+      <workItem from="1476113205304" duration="17617000" />
     </task>
     <task id="LOCAL-00001" summary="优化文件结构，并整合数据字典&#10;">
       <created>1472970408647</created>
@@ -796,11 +787,18 @@
       <option name="project" value="LOCAL" />
       <updated>1476186244030</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="新增项目增加功能，修改增加页面">
+      <created>1476186320715</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1476186320715</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73023000" />
+    <option name="totallyTimeSpent" value="73163000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -852,7 +850,8 @@
     <MESSAGE value="完善用户管理模块" />
     <MESSAGE value="完善用户管理模块&#10;重做用户管理页面逻辑，管理员改密码集成到页面头部，新增管理员重置密码功能" />
     <MESSAGE value="完善用户管理模块&#10;重做用户管理页面逻辑，管理员改密码集成到页面头部，新增管理员重置密码功能&#10;新增项目增加功能，修改增加页面" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善用户管理模块&#10;重做用户管理页面逻辑，管理员改密码集成到页面头部，新增管理员重置密码功能&#10;新增项目增加功能，修改增加页面" />
+    <MESSAGE value="新增项目增加功能，修改增加页面" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增项目增加功能，修改增加页面" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -865,14 +864,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/scut/cs/domain/Project.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="30" column="31" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/scut/cs/web/request/RequestUrls.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -1304,8 +1295,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/scut/cs/service/DictServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+        <state relative-caret-position="484">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ReadMe.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
         </state>
       </provider>
