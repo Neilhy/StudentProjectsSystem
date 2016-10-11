@@ -30,17 +30,17 @@ public class Project implements Serializable {
     @Column(nullable = false)
     private String projectName;
     @Column(length = 20)
-    private String level;
+    private String level;               //竞赛级别
     @Column(length = 20)
-    private String rank;
+    private String rank;                //获奖等级
     @Column(nullable = false)
     private String captainCollege;
 
     private String teacher;
-    private String note;
-    private Date projectDate;
+    private String note;            //备注
+    private Date projectDate;       //时间
 
-    private String filePath;
+    private String filePath;        //上传图片路径
     private String msgForbid; //管理员对该项目不予以通过的理由
 
     @Column(nullable = false,length= 10)

@@ -1,7 +1,60 @@
 ﻿
 $(function () {
-    setSelectItems('college-show','学院');
+    showFilter();
+    show($('filter-list').val());
 });
+
+function showFilter() {
+    var filter = $('#filter').val();
+    setSelectItems('filter-list',filter);
+}
+
+$('#filter').change(function () {
+    $('#filter-list').html('');
+    setSelectItems('filter-list',$(this).val());
+});
+
+function show(college) {
+
+    var url = '/getProjects/' + page + '/' + size;
+    $.get(url,function (data) {
+        var content = data.content;
+        for(var i=0;i<content.length;i++) {
+            var project = content[i];
+            var line = '<tr>';
+            line += '<td>' + (i+1) + '</td>';
+            line += '<td>' + project.projectDate + '</td>';
+            line += '<td>' + project.projectName + '</td>';
+            line += '<td>' + project.level + '</td>';
+            line += '<td>' + project.rank + '</td>';
+            var studentList = project.studentList;
+            var type = '个人';
+            if(studentList.length>1) {
+                type = '团体';
+            }
+            var names = '';
+            for(var k=0;k<studentList.length;k++) {
+                names += studentList[k].studentName+' ';
+            }
+            line += '<td>' + type + '</td>';
+
+            line += '<td>' + names + '</td>';
+
+            line += '<td>' + project.teacher + '</td>';
+            line += '<td>' + '' + '</td>';
+            line += '<td>' + project.state + '</td>';
+            line += '<td>' + '<input type="checkbox" name="ckb"/>' +'</td>';
+            line += '</tr>';
+            $('#tbody').append(line);
+           // alert(student.id);
+        }
+        var totalPages = data.totalPages;
+
+    })
+}
+
+var page = 0;
+var size = 10;
 /*
 var curr = 1;
 $(function () {

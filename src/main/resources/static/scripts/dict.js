@@ -193,7 +193,24 @@ function getKeywords() {
  */
 function setSelectItems(selName,keyword) {
     var url = "/getDictItems/"+keyword;
-    $.get(url , function (data) {
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (data) {
+            var items = data;
+            var html = "";
+            for (var i = 0; i < items.length; i++) {
+                html += '<option value="' + items[i] + '">' + items[i] + '</option>';
+            }
+            //alert(html);
+            $('#' + selName).append(html);
+        },
+        error: function (XMLHttpRequest, status, errorThrown) {
+            alert('error');
+            alert(status + " " + errorThrown);
+        }
+    });
+   /* $.get(url , function (data) {
         var items = data;
         var html = "";
         for(var i=0;i<items.length;i++) {
@@ -201,7 +218,7 @@ function setSelectItems(selName,keyword) {
         }
         // alert(html);
         $('#'+selName).append(html);
-    });
+    });*/
 }
 
 function setTextItems(textName,keyword) {
