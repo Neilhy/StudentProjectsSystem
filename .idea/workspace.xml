@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cac0a6e3-223e-405a-9cdd-fe9a4f5fb500" name="Default" comment="完善用户管理模块&#10;重做用户管理页面逻辑，管理员改密码集成到页面头部，新增管理员重置密码功能&#10;新增项目增加功能">
+    <list default="true" id="cac0a6e3-223e-405a-9cdd-fe9a4f5fb500" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/scut/cs/domain/Project.java" afterPath="$PROJECT_DIR$/src/main/java/com/scut/cs/domain/Project.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/scripts/dict.js" afterPath="$PROJECT_DIR$/src/main/resources/static/scripts/dict.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/scripts/projectAdd.js" afterPath="$PROJECT_DIR$/src/main/resources/static/scripts/projectAdd.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/scripts/projectManagement.js" afterPath="$PROJECT_DIR$/src/main/resources/static/scripts/projectManagement.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/projectAdd.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/projectAdd.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/projectManagement.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/projectManagement.html" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -758,7 +752,7 @@
       <workItem from="1473824921241" duration="24224000" />
       <workItem from="1475549161580" duration="18934000" />
       <workItem from="1475673635410" duration="725000" />
-      <workItem from="1476113205304" duration="17380000" />
+      <workItem from="1476113205304" duration="17477000" />
     </task>
     <task id="LOCAL-00001" summary="优化文件结构，并整合数据字典&#10;">
       <created>1472970408647</created>
@@ -795,11 +789,18 @@
       <option name="project" value="LOCAL" />
       <updated>1475646943495</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="完善用户管理模块&#10;重做用户管理页面逻辑，管理员改密码集成到页面头部，新增管理员重置密码功能&#10;新增项目增加功能，修改增加页面">
+      <created>1476186244029</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1476186244030</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72926000" />
+    <option name="totallyTimeSpent" value="73023000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -850,7 +851,8 @@
     <MESSAGE value="将瑞玉的整合到master。" />
     <MESSAGE value="完善用户管理模块" />
     <MESSAGE value="完善用户管理模块&#10;重做用户管理页面逻辑，管理员改密码集成到页面头部，新增管理员重置密码功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善用户管理模块&#10;重做用户管理页面逻辑，管理员改密码集成到页面头部，新增管理员重置密码功能" />
+    <MESSAGE value="完善用户管理模块&#10;重做用户管理页面逻辑，管理员改密码集成到页面头部，新增管理员重置密码功能&#10;新增项目增加功能，修改增加页面" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善用户管理模块&#10;重做用户管理页面逻辑，管理员改密码集成到页面头部，新增管理员重置密码功能&#10;新增项目增加功能，修改增加页面" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
