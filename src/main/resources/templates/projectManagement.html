@@ -59,10 +59,16 @@
 				<option>医学院</option>
 				<option>国际教育学院</option>-->
 			</select>
-				<a class="btn btn-primary" onclick="">查询</a>
+				<!--<a class="btn btn-primary" onclick="">查询</a>-->
 				<span sec:authorize="hasRole('ROLE_OUTER')">
-					<a class="btn btn-success" href="/projectAdd" target="_self">添加成果</a>
+					<a class="btn btn-success" href="/projectAdd" target="_self" id="add">添加成果</a>
 		    	</span>
+				<span sec:authorize="hasRole('ROLE_ADMIN')">
+					<a class="btn btn-success" href="/projectAdd" target="_self" id="excel">导出excel</a>
+		    	</span>
+				<div>
+					<input type="checkbox" id="selCkb"/> 全选/全不选
+				</div>
 			</div>
 			<div class="w">
 				<div class="span12">
@@ -86,17 +92,33 @@
 						</thead>
 						<tbody id="tbody"></tbody>
 					</table>
-					<div id="page" class="tr"></div>
 				</div>
 			</div>
-
-
+			<div id="operation" sec:authorize="hasRole('ROLE_ADMIN')">
+				<a class="btn btn-primary" id="del">删除项目</a>
+				<a class="btn btn-primary" id="pass">通过</a>
+				<a class="btn btn-primary" id="noPass">不通过</a>
+			</div>
+		</div>
+		<div>
+			<div class="tr">
+				每页显示<select id="size" style="width: 4em;"></select>条
+			</div>
+			<div>
+				<a class="btn btn-success" id="first">首页</a>
+				<a class="btn btn-success" id="prev">上一页</a>
+				<a class="btn btn-success" id="next">下一页</a>
+				<a class="btn btn-success" id="last">尾页</a>
+				第<span id="cur" style="margin-left: 5px; margin-right: 5px">1</span>页 /
+				共<span id="tot" style="margin-left: 5px; margin-right: 5px">5</span>页
+			</div>
 		</div>
 	</div>
 
 	<script src="scripts/lib/jquery-1.9.1.min.js"></script>
 	<script src="scripts/lib/bootstrap.min.js"></script>
-
+	<script src="scripts/lib/BeatPicker.min.js"></script>
+	<script src="scripts/lib/layer/layer.js"></script>
 	<script src="scripts/lib/laypage.js"></script>
 	<script src="scripts/projectManagement.js"></script>
 	<script src="scripts/dict.js"></script>

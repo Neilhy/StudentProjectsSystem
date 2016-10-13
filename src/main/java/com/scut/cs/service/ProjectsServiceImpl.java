@@ -1,7 +1,9 @@
 package com.scut.cs.service;
 
+import com.scut.cs.domain.Admin;
 import com.scut.cs.domain.Project;
 import com.scut.cs.domain.Student;
+import com.scut.cs.domain.basicEnum.RoleTypes;
 import com.scut.cs.domain.dao.ProjectRepository;
 import com.scut.cs.domain.dao.StudentRepository;
 import com.scut.cs.web.request.AddStudents;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +37,10 @@ public class ProjectsServiceImpl implements ProjectsService {
     @Override
     public Page<Project> getProjects(String keyword,String item,int page,int size) {
         Page<Project> projects = null;
-        PageRequest pageRequest = new PageRequest(page,size);
+        PageRequest pageRequest = null;
+        if(size > 0) {
+            pageRequest = new PageRequest(page,size);
+        }
         if(keyword.equals("未选择") || item.equals("未选择")) {
             projects = projectRepository.findAll(pageRequest);
         } else if(keyword.equals("学院")) {
@@ -55,6 +61,11 @@ public class ProjectsServiceImpl implements ProjectsService {
         } else if(keyword.equals("审核状态")) {
             projects = projectRepository.findByState(item,pageRequest);
         }
+        List<Project> list = projects.getContent();
+        System.out.println("共有"+list.size()+"条记录");
+        for(Project p : list) {
+            System.out.println(p.toString());
+        }
         return projects;
     }
 
@@ -62,7 +73,10 @@ public class ProjectsServiceImpl implements ProjectsService {
     @Override
     public Page<Project> getCollegeProjects(String keyword,String item,String college,int page,int size) {
         Page<Project> projects = null;
-        PageRequest pageRequest = new PageRequest(page,size);
+        PageRequest pageRequest = null;
+        if(size > 0) {
+            pageRequest = new PageRequest(page,size);
+        }
         if(keyword.equals("未选择") || item.equals("未选择")) {
             projects = projectRepository.findByCaptainCollege(college,pageRequest);
         } else if(keyword.equals("年份")) {
@@ -157,5 +171,32 @@ public class ProjectsServiceImpl implements ProjectsService {
             return projectIds;
         }
         return null;
+    }
+
+    @Override
+    public int getTotRecords(String keyword,String item) {
+        Page<Project> page = null;
+        Admin a = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String roleType = a.getRoleType();
+        if (roleType.equals(RoleTypes.ADMIN) ||roleType.equals(RoleTypes.INNER)
+                || roleType.equals(RoleTypes.INNER_SPEC)) {
+            page = getProjects(keyword,item,0,0);
+        } else if (roleType.equals(RoleTypes.OUTER) || roleType.equals(RoleTypes.OUTER_SPEC)) {
+            page = getCollegeProjects(keyword,item,a.getCollege(),0,0);
+        }
+        if(page == null) {
+            return 0;
+        }
+        int size = page.getContent().size();
+
+        return size;
+    }
+
+    @Override
+    public List<Long> changeStatus(List<Long> id, String status) {
+        for(long pid:id) {
+            projectRepository.setProjectState(pid,status);
+        }
+        return id;
     }
 }

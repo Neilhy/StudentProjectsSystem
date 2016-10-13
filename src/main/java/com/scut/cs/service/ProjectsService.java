@@ -27,4 +27,8 @@ public interface ProjectsService {
     Long deleteProject(Long id);
 
     List<Long> deleteProjectList(List<Long> idList);
+
+    int getTotRecords(String keyword,String item);
+
+    List<Long> changeStatus(List<Long> id,String status);
 }

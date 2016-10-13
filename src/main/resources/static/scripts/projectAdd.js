@@ -51,8 +51,6 @@ $(function () {
         "</div>";
 
 
-
-
    $("#add").click(function () {
        if ($("#competitionName").val() == "") {
            layer.tips('不能为空', '#competitionName');
@@ -127,14 +125,24 @@ $(function () {
                studentList.push(student);
            });
        }
+       var filePath = '';
+       var photoStatus = '';
+       if($('#browseText').val()=='点击上传文件') {
+           filePath = '';
+           photoStatus = '未上传';
 
+       } else {
+           filePath = $('#browseText').val();
+           photoStatus = '已上传';
+       }
        var project = {
            projectName: $("#competitionName").val(),
            level:$("#competitionRank").val(),
            projectDate:$("#competitionTime").val(),
            teacher:$("#teacher").val(),
            rank:$("#competitionPrize").val(),
-           filePath:$("#browseText").val(),
+           filePath:filePath,
+           photoStatus:photoStatus,
            note:$("#note").val(),
            captainCollege:captainCollege,
            studentList:studentList

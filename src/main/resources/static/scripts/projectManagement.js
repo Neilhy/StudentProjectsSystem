@@ -1,18 +1,35 @@
 ﻿
 $(function () {
+    init();
+    showFilter();
+    show();
+});
+
+function init() {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
     $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
-    showFilter();
-    show($('filter-list').val());
-});
+    for(var i=1;i<=6;i++) {
+        var sz = i*5;
+        $('#size').append('<option value="' + sz + '">' + sz + '</option>');
+    }
+    setTotPages();
+    $('#first').hide();
+    $('#prev').hide();
+}
+
+
 
 function showFilter() {
     var filter = $('#filter').val();
     setSelectItems('filter-list',filter);
 }
+
+$('#excel').click(function () {
+    layer.tips('未实现','#selCkb');
+});
 
 $('#filter').change(function () {
     $('#filter-list').html('');
@@ -22,26 +39,145 @@ $('#filter').change(function () {
     showFilter();
     if($(this).val() == '未选择') {
         $('#tbody').html('');
-        show('');
+        show();
     }
 });
 
 
 $('#filter-list').change(function () {
-    var url = '/getProjects/'+$('#filter').val()+'/'
-        +$('#filter-list').val() +'/'+page+'/'+size;
-    $.get(url,function (data) {
-        //alert(JSON.stringify(data));
-        $('#tbody').html('');
-        list(data);
-    })
+    changePage();
 });
 
-function show(college) {
+$('#selCkb').click(function () {
+    $('input:checkbox[name="ckb"]').prop('checked',this.checked);
+});
+
+$('#size').change(function () {
+    $('#cur').text(1);
+    changePage();
+});
+
+$('#del').click(function () {
+    var ids = getCheckedIds();
+    if(ids.length==0) {
+        return;
+    }
+    opAjax("/deleteProjects",ids);
+});
+
+$('#pass').click(function () {
+    var ids = getCheckedIds();
+    if(ids.length==0) {
+        return;
+    }
+    var data = new Object();
+    data.id = ids;
+    data.status = "通过";
+    opAjax('/changeProjectsStatus',data);
+});
+
+$('#noPass').click(function () {
+    var ids = getCheckedIds();
+    if(ids.length==0) {
+        return;
+    }
+    var data = new Object();
+    data.id = ids;
+    data.status = "不通过";
+    opAjax('/changeProjectsStatus',data);
+});
+
+function opAjax(url,data) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function () {
+            changePage();
+            layer.tips('更新成功','#selCkb');
+            $('#selCkb').prop('checked','');
+        },
+        error: function (XMLHttpRequest, status, errorThrown) {
+            alert(status + " " + errorThrown);
+        }
+    });
+}
+
+$('#first').click(function () {
+    $('#cur').text(1);
+    setList();
+});
+
+$('#prev').click(function () {
+    var cur = Number($('#cur').text());
+    $('#cur').text(cur-1);
+    setList();
+});
+
+$('#next').click(function () {
+    var cur = Number($('#cur').text());
+    $('#cur').text(cur+1);
+    setList();
+});
+
+$('#last').click(function () {
+    $('#cur').text(($('#tot').text()));
+    setList();
+});
+
+function getCheckedIds() {
+    var data = new Array();
+    $('input:checkbox[name="ckb"]:checked').each(function () {
+        $tr = $(this).parent().parent();
+        var id = $tr.find('input').eq(0).val();
+        data.push(id);
+    });
+    return data;
+}
+
+function show() {
     var url = '/getProjects/'+$('#filter').val()+'/'
-        +$('#filter-list').val() +'/'+page+'/'+size;
+        +$('#filter-list').val() +'/'+($('#cur').text()-1)+'/'+$('#size').val();
     $.get(url,function (data) {
         list(data);
+    })
+}
+
+function changePage() {
+    setList();
+    setTotPages();
+}
+
+function setList() {
+    var url = '/getProjects/'+$('#filter').val()+'/'
+        +$('#filter-list').val() + '/' + ($('#cur').text()-1)+'/'+$('#size').val();
+    $.get(url,function (data) {
+        // alert(JSON.stringify(data));
+        $('#tbody').html('');
+        list(data);
+        var cur = $('#cur').text();
+        $('#first').show();
+        $('#prev').show();
+        $('#next').show();
+        $('#last').show();
+        if(cur==1) {
+            $('#first').hide();
+            $('#prev').hide();
+        }
+        if(cur==$('#tot').text()) {
+            $('#next').hide();
+            $('#last').hide();
+        }
+    });
+}
+
+function setTotPages() {
+    $.get('getTotPages/'+$('#size').val()+'/'+$('#filter').val()+'/'
+        +$('#filter-list').val(),function (data) {
+        // alert(data);
+        $('#tot').text(data);
+        $('#cur').text(1);
     })
 }
 
@@ -50,7 +186,10 @@ function list(data) {
     for(var i=0;i<content.length;i++) {
         var project = content[i];
         var line = '<tr>';
-        line += '<td>' + (i+1) + '</td>';
+        var size = Number($('#size').val());
+        var num = (Number($('#cur').text())-1) * size + i + 1;
+        line += '<input type="hidden" id="id" value="'+project.id+'"/>';
+        line += '<td>' + (num) + '</td>';
         line += '<td>' + project.projectDate + '</td>';
         line += '<td>' + project.projectName + '</td>';
         line += '<td>' + project.level + '</td>';
@@ -64,29 +203,19 @@ function list(data) {
         for(var k=0;k<studentList.length;k++) {
             names += studentList[k].studentName+' ';
         }
-
         line += '<td>' + type + '</td>';
-
         line += '<td>' + names + '</td>';
         line += '<td>' + project.captainCollege + '</td>';
         line += '<td>' + project.teacher + '</td>';
-        var filePath = project.filePath;
-        if(filePath == ''){
-            line += '<td>' + '未上传' + '</td>';
-        } else {
-            line += '<td>' + '已上传' + '</td>';
-        }
+        line += '<td>' + project.photoStatus + '</td>';
         line += '<td>' + project.state + '</td>';
         line += '<td>' + '<input type="checkbox" name="ckb"/>' +'</td>';
         line += '</tr>';
         $('#tbody').append(line);
         // alert(student.id);
     }
-    var totalPages = data.totalPages;
 }
 
-var page = 0;
-var size = 10;
 /*
 var curr = 1;
 $(function () {

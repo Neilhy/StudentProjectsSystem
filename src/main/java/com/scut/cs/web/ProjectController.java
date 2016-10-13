@@ -6,6 +6,7 @@ import com.scut.cs.domain.Project;
 import com.scut.cs.service.AdminsService;
 import com.scut.cs.service.ProjectsService;
 import com.scut.cs.web.request.AddStudents;
+import com.scut.cs.web.request.ChangeStatus;
 import com.scut.cs.web.request.RequestUrls;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -74,5 +75,25 @@ public class ProjectController {
             System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
             return null;
         }
+    }
+
+    @RequestMapping(value = RequestUrls.GetTotPages, method = RequestMethod.GET)
+    public Integer getTotPages(@PathVariable String size,
+                               @PathVariable String keyword,
+                               @PathVariable String item) {
+        int sz = Integer.parseInt(size);
+        int tot = projectsService.getTotRecords(keyword,item);
+        int pages = tot/sz;
+        if(tot % sz != 0) {
+            pages++;
+        }
+        return pages;
+    }
+
+    @RequestMapping(value = RequestUrls.ChangeProjectsStatus, method = RequestMethod.POST,consumes = "application/json",produces = "application/json")
+    public List<Long> changeProjectStatus(@RequestBody ChangeStatus changeStatus) {
+        List<Long> id = changeStatus.getId();
+        String status = changeStatus.getStatus();
+        return projectsService.changeStatus(id,status);
     }
 }

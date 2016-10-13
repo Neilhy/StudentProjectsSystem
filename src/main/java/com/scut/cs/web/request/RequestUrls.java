@@ -10,6 +10,8 @@ public class RequestUrls {
     public static final String AddProjectUrl = "/addProject";
     public static final String AddStudentsUrl = "/addStudents";
     public static final String DeleteProjectListUrl = "/deleteProjects";
+    public static final String GetTotPages = "/getTotPages/{size}/{keyword}/{item}";
+    public static final String ChangeProjectsStatus = "/changeProjectsStatus";
 
     //Admin
     public static final String GetAdminsUrl = "/getAdmins/{role}";
