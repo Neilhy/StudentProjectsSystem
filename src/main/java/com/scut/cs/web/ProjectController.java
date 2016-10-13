@@ -29,8 +29,9 @@ public class ProjectController {
     ProjectsService projectsService;
 
     @RequestMapping(value = RequestUrls.GetProjectsUrl,method = RequestMethod.GET)
-    public Page<Project> getProjects(@PathVariable int page, @PathVariable int size) {
-        System.out.println("开始getProjects。。。");
+    public Page<Project> getProjects(@PathVariable String keyword,@PathVariable String item,
+                                     @PathVariable int page, @PathVariable int size) {
+        System.out.println("开始getProjects。。。关键字为"+keyword);
         SecurityContext context= SecurityContextHolder.getContext();
         Authentication authentication=context.getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails) {
@@ -39,15 +40,17 @@ public class ProjectController {
             Page<Project> projectPage = null;
             if (roleType.equals(RoleTypes.ADMIN) ||roleType.equals(RoleTypes.INNER)
                     || roleType.equals(RoleTypes.INNER_SPEC)) {
-                projectPage=projectsService.getAllProjects(page,size);
+                projectPage=projectsService.getProjects(keyword,item,page,size);
             } else if (roleType.equals(RoleTypes.OUTER) || roleType.equals(RoleTypes.OUTER_SPEC)) {
-                projectPage=projectsService.getCollegeProjects(admin.getCollege(),page,size);
+                projectPage=projectsService.getCollegeProjects(keyword,item,admin.getCollege(),page,size);
             }
             System.out.println("要返回数据了");
             return projectPage;
         }
         return null;
     }
+
+
 
     @RequestMapping(value = RequestUrls.AddProjectUrl, method = RequestMethod.POST,consumes = "application/json",produces = "application/json")
     public Project addProject(@RequestBody Project project) {

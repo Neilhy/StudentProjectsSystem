@@ -2,8 +2,12 @@
  * Created by Administrator on 2016/9/4.
  */
 $(function () {
-    setTextItems('collegesText','学院');
-    setSelectItems('college','学院');
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+    setCollege();
     setSelectItems('competitionRank','竞赛等级');
     setSelectItems('competitionPrize','所获奖项');
 
@@ -43,7 +47,7 @@ $(function () {
         "<input type='text' class='form-control' id='studentClass' placeholder='班级'/>  "+
         "<input type='checkbox' id='captainCkb'/> 是否队长"+
         "<input type='button' value='添加' class='btn btn-success' onclick='addPartnerToTable($(this))'/> "+
-        "<input type='button' value='取消' class='btn btn-default' onclick='removeNode($(this))'/>"+
+        "<input type='button' id='cancle' value='取消' class='btn btn-default' onclick='removeNode($(this))'/>"+
         "</div>";
 
 
@@ -130,7 +134,7 @@ $(function () {
            projectDate:$("#competitionTime").val(),
            teacher:$("#teacher").val(),
            rank:$("#competitionPrize").val(),
-           filePath:$("#competitionPhoto").val(),
+           filePath:$("#browseText").val(),
            note:$("#note").val(),
            captainCollege:captainCollege,
            studentList:studentList
@@ -143,18 +147,37 @@ $(function () {
            type: "post",
            data: JSON.stringify(project),
            success: function (data) {
-              // layer.alert(data.msg);
                $("input").val("");
+               $('#add').val('保存');
+               $('#addPartner').val('添加队友');
+               teamerInfo.html('');
+               removeNode($('#cancle'));
+               $(partnerAddNode).hide();
+               $("#table").hide();
+               $('input:radio[name="competitionMethod"]').eq(0).val('person');
+               $('input:radio[name="competitionMethod"]').eq(1).val('team');
+               $('input:radio[name="competitionMethod"]').eq(0).prop('checked','checked')
+               $('#upload-img').prop('src','');
+               $('#upload-img').css('display','none');
+               $('#browseText').val('点击上传文件');
+               $('#progress .bar').css(
+                   'width',
+                   0 + '%'
+               );
+               $('#note').text('');
                //load(curr);
+           },
+           error:function (XMLHttpRequest,status,errorThrown) {
+               alert('error');
+               alert(status + " " + errorThrown);
            }
-       })
-
-
-   })
+       });
+   });
 
     $('input:radio[name="competitionMethod"]').change( function(){
         $(partnerAddNode).toggle();
         $("#table").toggle();
+        alert($(this).val());
        // alert($(this).val());
         if($(this).val()=='team') {
             $('#individual').hide();
@@ -165,21 +188,23 @@ $(function () {
 
     $("#addPartner").click(function () {
         if(addFlag==false) {
-            var colleges = $('#collegesText').val();
-            // alert(colleges);
-            $(node1+colleges+node2).appendTo(partnerAddNode);
+            $(node1+'<option>'+college+'</option>'+node2).appendTo(partnerAddNode);
             addFlag = true;
         }
     });
-    
-
-
-
 
 });
 var partnerAddNode=$("#partnerAdd");
 var teamerInfo=$("#teamer-info");
 var addFlag = false;
+var college = "";
+
+function setCollege() {
+    $.get('/getCollege',function (data) {
+        college = data;
+        $('#college').append('<option>'+college+'</option>')
+    })
+}
 
 //把队友信息添加至表里面
 function addPartnerToTable(ele){

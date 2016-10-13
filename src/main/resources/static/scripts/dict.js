@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     initToken();
-})
+});
 
 function initToken() {
     var token = $("meta[name='_csrf']").attr("content");
@@ -147,25 +147,7 @@ function changeType() {
         getDictItemsAndShow(type);
     }
 }
-/**
- * 通过数据类型获取相应的数据项，并显示在表中
- * @param keyword
- */
-function getDictItemsAndShow(keyword) {
-    var url = "/getDictItems/"+keyword;
-    $.get(url , function (data) {
-        var items = data;
-        if(items.length > 0) {
-            for(var i=0;i<items.length;i++) {
-                if(i>0) {
-                    insertRow();
-                }
-                var $tr = $('#tbody').find('input[name=itemName]').eq(i);
-                $tr.val(items[i]);
-            }
-        }
-    });
-}
+
 /**
  * 获取所有数据类型，并添加到select中去
  */
@@ -188,49 +170,93 @@ function getKeywords() {
 }
 
 /**
+ * 通过数据类型获取相应的数据项，并显示在表中
+ * @param keyword
+ */
+function getDictItemsAndShow(keyword) {
+    var url = "/getDictItems";
+    var data = new Object();
+    data.keyword = keyword;
+    $.ajax({
+        type: "POST",
+        url: url,
+        cache: false,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function (data) {
+            var items = data;
+            if(items.length > 0) {
+                for(var i=0;i<items.length;i++) {
+                    if(i>0) {
+                        insertRow();
+                    }
+                    var $tr = $('#tbody').find('input[name=itemName]').eq(i);
+                    $tr.val(items[i]);
+                }
+            }
+        },
+        error: function (XMLHttpRequest, status, errorThrown) {
+            alert('error');
+            alert(status + " " + status);
+        }
+    });
+
+}
+
+/**
  * 获取输入数据类型对应的数据项并添加到select中去
  * @param keyword
  */
 function setSelectItems(selName,keyword) {
-    var url = "/getDictItems/"+keyword;
+    var url = "/getDictItems";
+    var data = new Object();
+    data.keyword = keyword;
     $.ajax({
-        type: "GET",
+         type: "POST",
+         url: url,
+         cache: false,
+         contentType: "application/json; charset=utf-8",
+         data: JSON.stringify(data),
+         success: function (data) {
+             // alert(data);
+             var items = data;
+             var html = "";
+             for (var i = 0; i < items.length; i++) {
+             html += '<option value="' + items[i] + '">' + items[i] + '</option>';
+             }
+             //alert(html);
+             $('#' + selName).append(html);
+         },
+         error: function (XMLHttpRequest, status, errorThrown) {
+         alert('error');
+         alert(status + " " + status);
+     }
+     });
+}
+
+function setTextItems(textName,keyword) {
+    var url = "/getDictItems";
+    var data = new Object();
+    data.keyword = keyword;
+    $.ajax({
+        type: "POST",
         url: url,
+        cache: false,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
         success: function (data) {
             var items = data;
             var html = "";
             for (var i = 0; i < items.length; i++) {
                 html += '<option value="' + items[i] + '">' + items[i] + '</option>';
             }
-            //alert(html);
-            $('#' + selName).append(html);
+            // alert(html);
+            $('#' + textName).val(html);
         },
         error: function (XMLHttpRequest, status, errorThrown) {
             alert('error');
-            alert(status + " " + errorThrown);
+            alert(status + " " + status);
         }
-    });
-   /* $.get(url , function (data) {
-        var items = data;
-        var html = "";
-        for(var i=0;i<items.length;i++) {
-            html += '<option value="' + items[i] + '">' + items[i] + '</option>';
-        }
-        // alert(html);
-        $('#'+selName).append(html);
-    });*/
-}
-
-function setTextItems(textName,keyword) {
-    var url = "/getDictItems/"+keyword;
-    $.get(url , function (data) {
-        var items = data;
-        var html = "";
-        for(var i=0;i<items.length;i++) {
-            html += '<option value="' + items[i] + '">' + items[i] + '</option>';
-        }
-        // alert(html);
-        $('#'+textName).val(html);
     });
 }
 

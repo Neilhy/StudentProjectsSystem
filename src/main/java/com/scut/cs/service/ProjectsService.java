@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface ProjectsService {
 
-    Page<Project> getAllProjects(int page,int size);
+    Page<Project> getProjects(String keyword,String item,int page,int size);
 
-    Page<Project> getCollegeProjects(String college,int page,int size);
+    Page<Project> getCollegeProjects(String keyword,String item,String college,int page,int size);
 
     Project addProject(Project project);
 

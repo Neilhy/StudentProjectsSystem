@@ -29,9 +29,10 @@ public class DictController {
 //        String ret = buildString(keywords);
 //        return keywords;
     }
-    @RequestMapping(value = RequestUrls.GetDictItems, method = RequestMethod.GET)
+    @RequestMapping(value = RequestUrls.GetDictItems,method = RequestMethod.POST,consumes = "application/json")
     @ResponseBody
-    public List<String> getDictItems(@PathVariable String keyword) {
+    public List<String> getDictItems(@RequestBody Dict dict) {
+        String keyword = dict.getKeyword();
         System.out.println("开始取" + keyword + "的数据项...");
         List<Dict> dicts= dictService.getItems(keyword);
         return dicts.stream().map(Dict::getItemName).collect(Collectors.toList());

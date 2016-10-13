@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.security.RolesAllowed;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,17 +32,56 @@ public class ProjectsServiceImpl implements ProjectsService {
 
     @PreAuthorize("hasRole('ROLE_INNER') or hasRole('ROLE_ADMIN')")
     @Override
-    public Page<Project> getAllProjects(int page,int size) {
-        return projectRepository.findAll(new PageRequest(page,size));//TODO 分页和排序
+    public Page<Project> getProjects(String keyword,String item,int page,int size) {
+        Page<Project> projects = null;
+        PageRequest pageRequest = new PageRequest(page,size);
+        if(keyword.equals("未选择") || item.equals("未选择")) {
+            projects = projectRepository.findAll(pageRequest);
+        } else if(keyword.equals("学院")) {
+            projects =  projectRepository.findByCaptainCollege(item,pageRequest);
+        } else if(keyword.equals("年份")) {
+            try {
+                Integer year = Integer.parseInt(item);
+                projects = projectRepository.findByProjectDate(year,pageRequest);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(keyword.equals("竞赛等级")) {
+            projects = projectRepository.findByLevel(item,pageRequest);
+        } else if(keyword.equals("所获奖项")) {
+            projects = projectRepository.findByRank(item,pageRequest);
+        } else if(keyword.equals("获奖证明")) {
+            projects = projectRepository.findByPhotoStatus(item,pageRequest);
+        } else if(keyword.equals("审核状态")) {
+            projects = projectRepository.findByState(item,pageRequest);
+        }
+        return projects;
     }
 
     @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_OUTER_SPEC')")
     @Override
-    public Page<Project> getCollegeProjects(String college,int page,int size) {
-        if (college != null && !college.equals("")) {
-            return projectRepository.findByCaptainCollege(college,new PageRequest(page,size));
+    public Page<Project> getCollegeProjects(String keyword,String item,String college,int page,int size) {
+        Page<Project> projects = null;
+        PageRequest pageRequest = new PageRequest(page,size);
+        if(keyword.equals("未选择") || item.equals("未选择")) {
+            projects = projectRepository.findByCaptainCollege(college,pageRequest);
+        } else if(keyword.equals("年份")) {
+            try {
+                Integer year = Integer.parseInt(item);
+                projects = projectRepository.findByProjectDateAndCaptainCollege(year,college,pageRequest);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(keyword.equals("竞赛等级")) {
+            projects = projectRepository.findByLevelAndCaptainCollege(item,college,pageRequest);
+        } else if(keyword.equals("所获奖项")) {
+            projects = projectRepository.findByRankAndCaptainCollege(item,college,pageRequest);
+        } else if(keyword.equals("获奖证明")) {
+            projects = projectRepository.findByPhotoStatusAndCaptainCollege(item,college,pageRequest);
+        } else if(keyword.equals("审核状态")) {
+            projects = projectRepository.findByStateAndCaptainCollege(item,college,pageRequest);
         }
-        return null;
+        return projects;
     }
 
     @PreAuthorize("hasRole('ROLE_OUTER')")

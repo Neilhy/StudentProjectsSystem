@@ -41,10 +41,14 @@ public class Project implements Serializable {
     private Date projectDate;       //时间
 
     private String filePath;        //上传图片路径
+
     private String msgForbid; //管理员对该项目不予以通过的理由
 
     @Column(nullable = false,length= 10)
     private String state="未审核";
+
+    @Column(length= 10)
+    private String photoStatus = "未上传";
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinTable(name="ProjectStudentList",
@@ -55,7 +59,7 @@ public class Project implements Serializable {
     public Project() {
     }
 
-    public Project(String projectName, String level, String rank,String captainCollege, String teacher, String note, String projectDate, String state, List<Student> studentList) {
+    public Project(String projectName, String level, String rank,String captainCollege, String teacher, String note, String projectDate, String state, List<Student> studentList,String photoStatus) {
         this.projectName = projectName;
         this.level = level;
         this.rank = rank;
@@ -65,6 +69,8 @@ public class Project implements Serializable {
         this.projectDate = Date.valueOf(projectDate);
         this.state = state;
         this.studentList = studentList;
+        this.photoStatus = photoStatus;
+
     }
 
     public Long getId() {
@@ -163,6 +169,14 @@ public class Project implements Serializable {
 
     public void setMsgForbid(String msgForbid) {
         this.msgForbid = msgForbid;
+    }
+
+    public String getPhotoStatus() {
+        return photoStatus;
+    }
+
+    public void setPhotoStatus(String photoStatus) {
+        this.photoStatus = photoStatus;
     }
 
     @Override
