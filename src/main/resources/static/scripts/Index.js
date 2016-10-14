@@ -1,16 +1,19 @@
 ﻿$(function () {
+    initToken();
     $(".content-left,.content-right").height($(window).height() - 130);
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) {
-        xhr.setRequestHeader(header, token);
-    });
-
     $(".accordion-inner").click(function () {
         $(".active").html($(this).find(".left-body").text());
     });
     username = $('title').text();
 });
+
+function initToken() {
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+}
 
 $(window).resize(function () {
     $(".content-left,.content-right").height($(window).height());
@@ -25,7 +28,8 @@ $('#modifyPwd').click(function () {
     } else {
         $('#OldPwdGroup').show();
     }
-    $('input').val('');
+    $('#OldPassword').val('');
+    $('#NewPassword').val('');
 });
 
 $('#OldPassword').blur(function () {
