@@ -53,9 +53,15 @@ public class DictController {
         System.out.println("开始AddDicts...");
         if (addDicts != null) {
             List<Dict> dicts = addDicts.getDictList();
+            String flag = addDicts.getFlag();
+            String keyword = dicts.get(0).getKeyword();
             if (dicts != null && dicts.size()>0) {
-                dictService.addDicts(dicts,addDicts.getFlag(),dicts.get(0).getKeyword());
-                dictService.upDateKeywords();
+                dictService.addDicts(dicts,flag,keyword);
+                if(flag.equals("update")) {
+                    dictService.updateByKeyword(keyword);
+                } else {
+                    dictService.upDateKeywords();
+                }
             }
         }
         return "dictManagement";

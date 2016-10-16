@@ -36,17 +36,24 @@ public class DictServiceImpl implements DictService {
         return dictRepository.findKeywords();
     }
 
-    @Transactional
     @CachePut(value = "dictList",key = "#keyword")
+    @Override
+    public List<Dict> updateByKeyword(String keyword) {
+        return dictRepository.findByKeyword(keyword,new Sort(Sort.Direction.ASC,"code"));
+    }
+
+  //  @Transactional
+   // @CachePut(value = "dictList",key = "#keyword")
+//    @Transactional
+    @CacheEvict(value="dictList",key="#keyword",beforeInvocation=true)
     @Override
     public List<Dict> addDicts(List<Dict>dictList,String flag,String keyword) {
         //如果是更新操作，则先删除原先的记录
+        System.out.println(flag + " " + keyword);
         if(flag.equals("update")) {
-            dictRepository.removeByKeyword(keyword);
-            //添加记录
-            return dictRepository.save(dictList);
+            deleteKeyword(keyword);
         }
-        List<Dict>dicts=dictRepository.save(dictList);
+        List<Dict> dicts=dictRepository.save(dictList);
 
         return dicts;
     }
@@ -69,6 +76,5 @@ public class DictServiceImpl implements DictService {
     @Override
     public void deleteKeyword(String keyword) {
         dictRepository.removeByKeyword(keyword);
-
     }
 }

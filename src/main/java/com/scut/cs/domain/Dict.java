@@ -24,7 +24,7 @@ public class Dict implements Serializable {
     public Dict() {
     }
 
-    public Dict(String keyword, String itemName, String code, Date date) {
+    public Dict(String keyword, String itemName, Long code, Date date) {
         this.keyword = keyword;
         this.itemName = itemName;
         this.code = code;
@@ -33,11 +33,11 @@ public class Dict implements Serializable {
 
     @Column(nullable = false, length = 20)
 
-    private String code;
+    private long code;
     private Date date;
 
 
-    public String getCode() {
+    public long getCode() {
         return code;
     }
 
@@ -57,7 +57,7 @@ public class Dict implements Serializable {
         return keyword;
     }
 
-    public void setCode(String code) {
+    public void setCode(long code) {
         this.code = code;
     }
 

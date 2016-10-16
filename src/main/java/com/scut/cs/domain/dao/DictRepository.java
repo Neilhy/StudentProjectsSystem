@@ -21,8 +21,8 @@ public interface DictRepository extends JpaRepository<Dict,Long> {
     List<String> findKeywords();
 
     @Transactional
-    @Query("select itemName from Dict where keyword = ?1 order by code asc")
-    List<String> findItemsByKeyword(String keyword);
+    @Query("select d from Dict d where d.keyword = ?1 order by d.code asc")
+    List<Dict> findItemsByKeyword(String keyword);
 
     List<Dict> findByKeyword(String keyword,Sort sort);
 

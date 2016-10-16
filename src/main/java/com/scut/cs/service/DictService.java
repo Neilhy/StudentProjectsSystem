@@ -12,6 +12,7 @@ import java.util.List;
 public interface DictService {
     List<String> findKeywords();
     List<String> upDateKeywords();
+    List<Dict> updateByKeyword(String keyword);
     List<Dict> addDicts(List<Dict> dictList,String flag,String keyword);
     List<Dict> getItems(String keyword);
     void deleteKeyword(String keyword);
