@@ -11,14 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
+
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
 /**
  * Created by NeilHY on 2016/8/26.
  */
 @RestController
 public class FileController  {
+
+    Random r = new Random();
+    String dir = File.separator+"pic"+File.separator;
     /***************************************************
      * URL: /upload
      * upload(): receives files
@@ -62,7 +70,7 @@ public class FileController  {
      * @param response : passed by the server
      * @return void
      ****************************************************/
-    @RequestMapping(value = "/getPic/{value}", method = RequestMethod.GET)
+    @RequestMapping(value = RequestUrls.GetPic, method = RequestMethod.GET)
     public void getPic(HttpServletRequest request, HttpServletResponse response, @PathVariable String value){
         System.out.println("开始获取图片...");
         FileMeta getFile = (FileMeta)request.getSession().getAttribute("fileMeta");
@@ -79,5 +87,62 @@ public class FileController  {
         }
     }
 
+    @RequestMapping(value = RequestUrls.GetLocalPic,method = RequestMethod.GET)
+    public void getLocalPic(HttpServletResponse response,@PathVariable String fileName){
+        System.out.println("开始获取本地图片..."+"名字为:"+fileName);
+        String path = dir + fileName + ".jpg";
+        if(!fileName.equals("")) {
+            try {
+                FileInputStream fis = new FileInputStream(path);
+                int sz = fis.available();
+                byte[] buf = new byte[sz];
+                fis.read(buf);
+                fis.close();
+                response.setContentType("image/*");
+                response.setHeader("Content-disposition", "attachment; filename=\"" + path + "\"");
+                FileCopyUtils.copy(buf, response.getOutputStream());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    @RequestMapping(value = RequestUrls.SavePic,method = RequestMethod.GET)
+    public String savePic(HttpServletRequest request) {
+        System.out.println("开始保存图片");
+        String fileName = "";
+        FileMeta getFile = (FileMeta)request.getSession().getAttribute("fileMeta");
+        if(getFile!=null) {
+            fileName = produceRandomName();
+            String filePath = dir+fileName+".jpg";
+            File f = new File(dir);
+            if(!f.exists()) {
+                f.mkdirs();
+            }
+            //System.out.println(fileName);
+            try {
+                FileOutputStream fos = new FileOutputStream(filePath);
+                byte[] data = getFile.getBytes();
+                fos.write(data,0,data.length);
+                fos.flush();
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return fileName;
+    }
+
+
+
+    String produceRandomName() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        String str = sdf.format(new Date());
+        int rn = (int)(r.nextDouble()*(99999-10000+1)) + 10000;
+        return str + rn;
+    }
 
 }

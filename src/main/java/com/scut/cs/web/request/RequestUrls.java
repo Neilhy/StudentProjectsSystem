@@ -32,5 +32,9 @@ public class RequestUrls {
     public static final String DeleteKeyword = "/deleteKeyword/{keyword}";
 
     public static final String UpLoadUrl = "/upload";
+    public static final String GetPic = "/getPic/{value}";
+    public static final String SavePic = "/savePic";
+    public static final String GetLocalPic = "/getLocalPic/{fileName}";
+    public static final String Excel = "/excel";
 
 }

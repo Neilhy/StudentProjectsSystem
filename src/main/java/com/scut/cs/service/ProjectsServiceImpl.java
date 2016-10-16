@@ -33,6 +33,11 @@ public class ProjectsServiceImpl implements ProjectsService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Override
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
+    }
+
     @PreAuthorize("hasRole('ROLE_INNER') or hasRole('ROLE_ADMIN')")
     @Override
     public Page<Project> getProjects(String keyword,String item,int page,int size) {

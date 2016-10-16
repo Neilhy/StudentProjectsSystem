@@ -80,6 +80,11 @@
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.0-FINAL</version>
+		</dependency>
 	</dependencies>
 
 	<build>

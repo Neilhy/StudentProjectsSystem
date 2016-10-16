@@ -141,51 +141,52 @@ $(function () {
            projectDate:$("#competitionTime").val(),
            teacher:$("#teacher").val(),
            rank:$("#competitionPrize").val(),
-           filePath:filePath,
            photoStatus:photoStatus,
            note:$("#note").val(),
            captainCollege:captainCollege,
            studentList:studentList
        };
-       $.ajax({
-           url: "/addProject",
-           // timeout: 300000,
-           contentType: "application/json; charset=utf-8",
-           dataType: "json",
-           type: "post",
-           data: JSON.stringify(project),
-           success: function (data) {
-               $("input").val("");
-               $('#add').val('保存');
-               $('#addPartner').val('添加队友');
-               teamerInfo.html('');
-               removeNode($('#cancle'));
-               $(partnerAddNode).hide();
-               $("#table").hide();
-               $('input:radio[name="competitionMethod"]').eq(0).val('person');
-               $('input:radio[name="competitionMethod"]').eq(1).val('team');
-               $('input:radio[name="competitionMethod"]').eq(0).prop('checked','checked')
-               $('#upload-img').prop('src','');
-               $('#upload-img').css('display','none');
-               $('#browseText').val('点击上传文件');
-               $('#progress .bar').css(
-                   'width',
-                   0 + '%'
-               );
-               $('#note').text('');
-               //load(curr);
-           },
-           error:function (XMLHttpRequest,status,errorThrown) {
-               alert('error');
-               alert(status + " " + errorThrown);
-           }
+       $.get('/savePic',function (data) {
+           project.filePath = data;
+           $.ajax({
+               url: "/addProject",
+               // timeout: 300000,
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+               type: "post",
+               data: JSON.stringify(project),
+               success: function (data) {
+                   $("input").val("");
+                   $('#add').val('保存');
+                   $('#addPartner').val('添加队友');
+                   teamerInfo.html('');
+                   removeNode($('#cancle'));
+                   $(partnerAddNode).hide();
+                   $("#table").hide();
+                   $('input:radio[name="competitionMethod"]').eq(0).val('person');
+                   $('input:radio[name="competitionMethod"]').eq(1).val('team');
+                   $('input:radio[name="competitionMethod"]').eq(0).prop('checked','checked')
+                   $('#upload-img').prop('src','');
+                   $('#upload-img').css('display','none');
+                   $('#browseText').val('点击上传文件');
+                   $('#progress .bar').css(
+                       'width',
+                       0 + '%'
+                   );
+                   $('#note').text('');
+                   //load(curr);
+               },
+               error:function (XMLHttpRequest,status,errorThrown) {
+                   alert('error');
+                   alert(status + " " + errorThrown);
+               }
+           });
        });
    });
 
     $('input:radio[name="competitionMethod"]').change( function(){
         $(partnerAddNode).toggle();
         $("#table").toggle();
-        alert($(this).val());
        // alert($(this).val());
         if($(this).val()=='team') {
             $('#individual').hide();

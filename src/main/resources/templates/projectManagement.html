@@ -64,11 +64,14 @@
 					<a class="btn btn-success" href="/projectAdd" target="_self" id="add">添加成果</a>
 		    	</span>
 				<span sec:authorize="hasRole('ROLE_ADMIN')">
-					<a class="btn btn-success" href="/projectAdd" target="_self" id="excel">导出excel</a>
+					<a class="btn btn-success" id="excel">导出excel</a>
 		    	</span>
 				<div>
 					<input type="checkbox" id="selCkb"/> 全选/全不选
 				</div>
+			</div>
+			<div id="showPic">
+				<img id="pic" style="position: absolute; top: 50px; left:300px; width: 400px;height:auto"/>
 			</div>
 			<div class="w">
 				<div class="span12">

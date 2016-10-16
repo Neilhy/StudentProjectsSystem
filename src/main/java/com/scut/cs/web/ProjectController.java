@@ -1,22 +1,32 @@
 package com.scut.cs.web;
 
 import com.scut.cs.domain.Admin;
+import com.scut.cs.domain.Student;
 import com.scut.cs.domain.basicEnum.RoleTypes;
 import com.scut.cs.domain.Project;
 import com.scut.cs.service.AdminsService;
 import com.scut.cs.service.ProjectsService;
+import com.scut.cs.util.ExcelFileGenerator;
 import com.scut.cs.web.request.AddStudents;
 import com.scut.cs.web.request.ChangeStatus;
 import com.scut.cs.web.request.RequestUrls;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Range;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static javafx.scene.input.KeyCode.R;
 
@@ -95,5 +105,71 @@ public class ProjectController {
         List<Long> id = changeStatus.getId();
         String status = changeStatus.getStatus();
         return projectsService.changeStatus(id,status);
+    }
+
+    @RequestMapping(value = RequestUrls.Excel,method = RequestMethod.GET)
+    public void excel(HttpServletResponse response) {
+        List<Project> projects = projectsService.getAllProjects();
+        ArrayList rows = new ArrayList<>();
+        int idx = 1;
+        for(Project project:projects) {
+            List<String> row = new ArrayList<>();
+            row.add(""+idx);
+            idx++;
+            row.add(project.getProjectDate().toString());
+            row.add(project.getProjectName());
+            row.add(project.getLevel());
+            row.add(project.getRank());
+            List<Student> students = project.getStudentList();
+            if(students.size()==1) {
+                row.add("个人");
+            } else {
+                row.add("团体");
+            }
+            StringBuilder sb = new StringBuilder("");
+            for(int i=0;i<students.size();i++) {
+                Student s = students.get(i);
+                sb.append(students.get(i).getStudentName());
+                if(s.getCaptainOrNot()==1) {
+                    sb.append("（队长）");
+                } else {
+                    sb.append(" ");
+                }
+            }
+            row.add(sb.toString());
+            row.add(project.getCaptainCollege());
+            row.add(project.getTeacher());
+            row.add(project.getPhotoStatus());
+            row.add(project.getState());
+            rows.add(row);
+        }
+        ArrayList<String> headers = new ArrayList<>();
+        String[] titles = {"序号","竞赛时间","竞赛名称","竞赛等级","所获奖项",
+                            "参赛方式","获奖者姓名","所属学院","指导老师",
+                            "获奖证明","状态"};
+        for(String header:titles) {
+            headers.add(header);
+        }
+        try {
+            OutputStream out = response.getOutputStream();
+            response.reset();
+            String fileName = produceRandomName();
+            response.setHeader("Content-Disposition","attachment;filename="+fileName+".xls");
+            response.setContentType("application/vnd.ms-excel");
+            ExcelFileGenerator generator = new ExcelFileGenerator(headers, rows);
+            generator.expordExcel(out);
+            System.setOut(new PrintStream(out));
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    String produceRandomName() {
+        Random r = new Random();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        String str = sdf.format(new Date());
+        int rn = (int)(r.nextDouble()*(99999-10000+1)) + 10000;
+        return str + rn;
     }
 }

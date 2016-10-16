@@ -16,6 +16,7 @@ function init() {
         $('#size').append('<option value="' + sz + '">' + sz + '</option>');
     }
     setTotPages();
+    $('#showPic').hide();
     $('#first').hide();
     $('#prev').hide();
 }
@@ -28,7 +29,7 @@ function showFilter() {
 }
 
 $('#excel').click(function () {
-    layer.tips('未实现','#selCkb');
+    window.open('/excel', 'newWindow', 'height=400,width=700');
 });
 
 $('#filter').change(function () {
@@ -173,11 +174,15 @@ function setList() {
 }
 
 function setTotPages() {
-    $.get('getTotPages/'+$('#size').val()+'/'+$('#filter').val()+'/'
-        +$('#filter-list').val(),function (data) {
-        // alert(data);
+    var url = 'getTotPages/'+$('#size').val()+'/'+$('#filter').val()+'/'
+                 +$('#filter-list').val();
+    $.get(url,function (data) {
         $('#tot').text(data);
         $('#cur').text(1);
+        if(data==1) {
+            $('#next').hide();
+            $('#last').hide();
+        }
     })
 }
 
@@ -189,6 +194,7 @@ function list(data) {
         var size = Number($('#size').val());
         var num = (Number($('#cur').text())-1) * size + i + 1;
         line += '<input type="hidden" id="id" value="'+project.id+'"/>';
+        line += '<input type="hidden" id="filePath" value="'+project.filePath+'"/>';
         line += '<td>' + (num) + '</td>';
         line += '<td>' + project.projectDate + '</td>';
         line += '<td>' + project.projectName + '</td>';
@@ -207,7 +213,11 @@ function list(data) {
         line += '<td>' + names + '</td>';
         line += '<td>' + project.captainCollege + '</td>';
         line += '<td>' + project.teacher + '</td>';
-        line += '<td>' + project.photoStatus + '</td>';
+        if(project.filePath=='') {
+            line += '<td>' + project.photoStatus + '</td>';
+        } else {
+            line += '<td><a href="javascript:void(0)" onclick="showImg(this)">已上传</a></td>';
+        }
         line += '<td>' + project.state + '</td>';
         line += '<td>' + '<input type="checkbox" name="ckb"/>' +'</td>';
         line += '</tr>';
@@ -215,6 +225,17 @@ function list(data) {
         // alert(student.id);
     }
 }
+
+function showImg(obj) {
+    var par = $(obj).parent().parent();
+    var filePath = par.find('input').eq(1).val();
+    $('#showPic').show();
+    $('#pic').attr('src','/getLocalPic/'+filePath);
+}
+
+$('#showPic').click(function () {
+   $(this).hide();
+});
 
 /*
 var curr = 1;
