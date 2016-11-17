@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,7 +20,26 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     Project withNameAndRankAndDateQuery(@Param("name") String name, @Param("rank") String rank, @Param("date") Date date);
 
     Page<Project> findByCaptainCollege(String captainCollege, Pageable pageable);
+    @Query("select p from Project p where year(p.projectDate) = ?1")
+    Page<Project> findByProjectDate(int year, Pageable pageable);
 
+    Page<Project> findByLevel(String level, Pageable pageable);
+
+    Page<Project> findByRank(String rank, Pageable pageable);
+
+    Page<Project> findByState(String state, Pageable pageable);
+
+    Page<Project> findByPhotoStatus(String photoStatus, Pageable pageable);
+    @Query("select p from Project p where year(p.projectDate) = ?1 and p.captainCollege = ?2")
+    Page<Project> findByProjectDateAndCaptainCollege(int year,String captainCollege,Pageable pageable);
+
+    Page<Project> findByLevelAndCaptainCollege(String level,String captainCollege, Pageable pageable);
+
+    Page<Project> findByRankAndCaptainCollege(String rank,String captainCollege, Pageable pageable);
+
+    Page<Project> findByStateAndCaptainCollege(String state,String captainCollege, Pageable pageable);
+
+    Page<Project> findByPhotoStatusAndCaptainCollege(String photoStatus,String captainCollege, Pageable pageable);
     @Modifying
     @Transactional
     @Query("update Project p set p.state= ?2 where p.id= ?1")

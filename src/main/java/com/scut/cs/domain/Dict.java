@@ -14,7 +14,7 @@ import java.sql.Date;
 public class Dict implements Serializable {
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @Column(nullable = false, length = 20)
     private String keyword;
@@ -24,7 +24,7 @@ public class Dict implements Serializable {
     public Dict() {
     }
 
-    public Dict(String keyword, String itemName, String code, Date date) {
+    public Dict(String keyword, String itemName, Long code, Date date) {
         this.keyword = keyword;
         this.itemName = itemName;
         this.code = code;
@@ -33,11 +33,11 @@ public class Dict implements Serializable {
 
     @Column(nullable = false, length = 20)
 
-    private String code;
+    private long code;
     private Date date;
 
 
-    public String getCode() {
+    public long getCode() {
         return code;
     }
 
@@ -45,7 +45,7 @@ public class Dict implements Serializable {
         return date;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -57,7 +57,7 @@ public class Dict implements Serializable {
         return keyword;
     }
 
-    public void setCode(String code) {
+    public void setCode(long code) {
         this.code = code;
     }
 
@@ -65,7 +65,7 @@ public class Dict implements Serializable {
         this.date = date;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -75,5 +75,16 @@ public class Dict implements Serializable {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    @Override
+    public String toString() {
+        return "Dict{" +
+                "id=" + id +
+                ", keyword='" + keyword + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", code='" + code + '\'' +
+                ", date=" + date +
+                '}';
     }
 }

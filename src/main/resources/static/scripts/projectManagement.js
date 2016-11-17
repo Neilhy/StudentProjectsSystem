@@ -1,4 +1,243 @@
 ﻿
+$(function () {
+    init();
+    showFilter();
+    show();
+});
+
+function init() {
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+    for(var i=1;i<=6;i++) {
+        var sz = i*5;
+        $('#size').append('<option value="' + sz + '">' + sz + '</option>');
+    }
+    setTotPages();
+    $('#showPic').hide();
+    $('#first').hide();
+    $('#prev').hide();
+}
+
+
+
+function showFilter() {
+    var filter = $('#filter').val();
+    setSelectItems('filter-list',filter);
+}
+
+$('#excel').click(function () {
+    window.open('/excel', 'newWindow', 'height=400,width=700');
+});
+
+$('#filter').change(function () {
+    $('#filter-list').html('');
+    if($('#filter').val() != "未选择") {
+        $('#filter-list').append('<option value="未选择">未选择</option>');
+    }
+    showFilter();
+    if($(this).val() == '未选择') {
+        $('#tbody').html('');
+        show();
+    }
+});
+
+
+$('#filter-list').change(function () {
+    changePage();
+});
+
+$('#selCkb').click(function () {
+    $('input:checkbox[name="ckb"]').prop('checked',this.checked);
+});
+
+$('#size').change(function () {
+    $('#cur').text(1);
+    changePage();
+});
+
+$('#del').click(function () {
+    var ids = getCheckedIds();
+    if(ids.length==0) {
+        return;
+    }
+    opAjax("/deleteProjects",ids);
+});
+
+$('#pass').click(function () {
+    var ids = getCheckedIds();
+    if(ids.length==0) {
+        return;
+    }
+    var data = new Object();
+    data.id = ids;
+    data.status = "通过";
+    opAjax('/changeProjectsStatus',data);
+});
+
+$('#noPass').click(function () {
+    var ids = getCheckedIds();
+    if(ids.length==0) {
+        return;
+    }
+    var data = new Object();
+    data.id = ids;
+    data.status = "不通过";
+    opAjax('/changeProjectsStatus',data);
+});
+
+function opAjax(url,data) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function () {
+            changePage();
+            layer.tips('更新成功','#selCkb');
+            $('#selCkb').prop('checked','');
+        },
+        error: function (XMLHttpRequest, status, errorThrown) {
+            alert(status + " " + errorThrown);
+        }
+    });
+}
+
+$('#first').click(function () {
+    $('#cur').text(1);
+    setList();
+});
+
+$('#prev').click(function () {
+    var cur = Number($('#cur').text());
+    $('#cur').text(cur-1);
+    setList();
+});
+
+$('#next').click(function () {
+    var cur = Number($('#cur').text());
+    $('#cur').text(cur+1);
+    setList();
+});
+
+$('#last').click(function () {
+    $('#cur').text(($('#tot').text()));
+    setList();
+});
+
+function getCheckedIds() {
+    var data = new Array();
+    $('input:checkbox[name="ckb"]:checked').each(function () {
+        $tr = $(this).parent().parent();
+        var id = $tr.find('input').eq(0).val();
+        data.push(id);
+    });
+    return data;
+}
+
+function show() {
+    var url = '/getProjects/'+$('#filter').val()+'/'
+        +$('#filter-list').val() +'/'+($('#cur').text()-1)+'/'+$('#size').val();
+    $.get(url,function (data) {
+        list(data);
+    })
+}
+
+function changePage() {
+    setList();
+    setTotPages();
+}
+
+function setList() {
+    var url = '/getProjects/'+$('#filter').val()+'/'
+        +$('#filter-list').val() + '/' + ($('#cur').text()-1)+'/'+$('#size').val();
+    $.get(url,function (data) {
+        // alert(JSON.stringify(data));
+        $('#tbody').html('');
+        list(data);
+        var cur = $('#cur').text();
+        $('#first').show();
+        $('#prev').show();
+        $('#next').show();
+        $('#last').show();
+        if(cur==1) {
+            $('#first').hide();
+            $('#prev').hide();
+        }
+        if(cur==$('#tot').text()) {
+            $('#next').hide();
+            $('#last').hide();
+        }
+    });
+}
+
+function setTotPages() {
+    var url = 'getTotPages/'+$('#size').val()+'/'+$('#filter').val()+'/'
+                 +$('#filter-list').val();
+    $.get(url,function (data) {
+        $('#tot').text(data);
+        $('#cur').text(1);
+        if(data==1) {
+            $('#next').hide();
+            $('#last').hide();
+        }
+    })
+}
+
+function list(data) {
+    var content = data.content;
+    for(var i=0;i<content.length;i++) {
+        var project = content[i];
+        var line = '<tr>';
+        var size = Number($('#size').val());
+        var num = (Number($('#cur').text())-1) * size + i + 1;
+        line += '<input type="hidden" id="id" value="'+project.id+'"/>';
+        line += '<input type="hidden" id="filePath" value="'+project.filePath+'"/>';
+        line += '<td>' + (num) + '</td>';
+        line += '<td>' + project.projectDate + '</td>';
+        line += '<td>' + project.projectName + '</td>';
+        line += '<td>' + project.level + '</td>';
+        line += '<td>' + project.rank + '</td>';
+        var studentList = project.studentList;
+        var type = '个人';
+        if(studentList.length>1) {
+            type = '团体';
+        }
+        var names = '';
+        for(var k=0;k<studentList.length;k++) {
+            names += studentList[k].studentName+' ';
+        }
+        line += '<td>' + type + '</td>';
+        line += '<td>' + names + '</td>';
+        line += '<td>' + project.captainCollege + '</td>';
+        line += '<td>' + project.teacher + '</td>';
+        if(project.filePath=='') {
+            line += '<td>' + project.photoStatus + '</td>';
+        } else {
+            line += '<td><a href="javascript:void(0)" onclick="showImg(this)">已上传</a></td>';
+        }
+        line += '<td>' + project.state + '</td>';
+        line += '<td>' + '<input type="checkbox" name="ckb"/>' +'</td>';
+        line += '</tr>';
+        $('#tbody').append(line);
+        // alert(student.id);
+    }
+}
+
+function showImg(obj) {
+    var par = $(obj).parent().parent();
+    var filePath = par.find('input').eq(1).val();
+    $('#showPic').show();
+    $('#pic').attr('src','/getLocalPic/'+filePath);
+}
+
+$('#showPic').click(function () {
+   $(this).hide();
+});
+
+/*
 var curr = 1;
 $(function () {
     load(curr);
@@ -40,8 +279,8 @@ function load(curr) {
 
         }
     })
-}
-
+}*/
+/*
 function openadd() {
     $("#myModalLabel").text("添加项目");
     $("#userName").attr("readonly", false);
@@ -198,7 +437,4 @@ $(function(){
         $("#partner").toggle();
     });
 })
-
-$(function () {
-    setSelectItems('college-show','学院');
-});
+ */

@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     initToken();
-})
+});
 
 function initToken() {
     var token = $("meta[name='_csrf']").attr("content");
@@ -147,25 +147,7 @@ function changeType() {
         getDictItemsAndShow(type);
     }
 }
-/**
- * 通过数据类型获取相应的数据项，并显示在表中
- * @param keyword
- */
-function getDictItemsAndShow(keyword) {
-    var url = "/getDictItems/"+keyword;
-    $.get(url , function (data) {
-        var items = data.split(',');
-        if(items.length > 0) {
-            for(var i=0;i<items.length;i++) {
-                if(i>0) {
-                    insertRow();
-                }
-                var $tr = $('#tbody').find('input[name=itemName]').eq(i);
-                $tr.val(items[i]);
-            }
-        }
-    });
-}
+
 /**
  * 获取所有数据类型，并添加到select中去
  */
@@ -176,7 +158,7 @@ function getKeywords() {
                 '<p>数据类型：',
                 '<select id="dataType" onchange="changeType()">',
                 '<option>新建</option>'].join('');
-        var keywords = data.split(',');
+        var keywords = data;
         for(var i=0;i<keywords.length;i++) {
             html += '<option>' + keywords[i] + '</option>';
         }
@@ -188,32 +170,93 @@ function getKeywords() {
 }
 
 /**
+ * 通过数据类型获取相应的数据项，并显示在表中
+ * @param keyword
+ */
+function getDictItemsAndShow(keyword) {
+    var url = "/getDictItems";
+    var data = new Object();
+    data.keyword = keyword;
+    $.ajax({
+        type: "POST",
+        url: url,
+        cache: false,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function (data) {
+            var items = data;
+            if(items.length > 0) {
+                for(var i=0;i<items.length;i++) {
+                    if(i>0) {
+                        insertRow();
+                    }
+                    var $tr = $('#tbody').find('input[name=itemName]').eq(i);
+                    $tr.val(items[i]);
+                }
+            }
+        },
+        error: function (XMLHttpRequest, status, errorThrown) {
+            alert('error');
+            alert(status + " " + status);
+        }
+    });
+
+}
+
+/**
  * 获取输入数据类型对应的数据项并添加到select中去
  * @param keyword
  */
 function setSelectItems(selName,keyword) {
-    var url = "/getDictItems/"+keyword;
-    $.get(url , function (data) {
-        var items = data.split(',');
-        var html = "";
-        for(var i=0;i<items.length;i++) {
-            html += '<option value="' + items[i] + '">' + items[i] + '</option>';
-        }
-        // alert(html);
-        $('#'+selName).append(html);
-    });
+    var url = "/getDictItems";
+    var data = new Object();
+    data.keyword = keyword;
+    $.ajax({
+         type: "POST",
+         url: url,
+         cache: false,
+         contentType: "application/json; charset=utf-8",
+         data: JSON.stringify(data),
+         success: function (data) {
+             // alert(data);
+             var items = data;
+             var html = "";
+             for (var i = 0; i < items.length; i++) {
+             html += '<option value="' + items[i] + '">' + items[i] + '</option>';
+             }
+             //alert(html);
+             $('#' + selName).append(html);
+         },
+         error: function (XMLHttpRequest, status, errorThrown) {
+         alert('error');
+         alert(status + " " + status);
+     }
+     });
 }
 
 function setTextItems(textName,keyword) {
-    var url = "/getDictItems/"+keyword;
-    $.get(url , function (data) {
-        var items = data.split(',');
-        var html = "";
-        for(var i=0;i<items.length;i++) {
-            html += '<option value="' + items[i] + '">' + items[i] + '</option>';
+    var url = "/getDictItems";
+    var data = new Object();
+    data.keyword = keyword;
+    $.ajax({
+        type: "POST",
+        url: url,
+        cache: false,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function (data) {
+            var items = data;
+            var html = "";
+            for (var i = 0; i < items.length; i++) {
+                html += '<option value="' + items[i] + '">' + items[i] + '</option>';
+            }
+            // alert(html);
+            $('#' + textName).val(html);
+        },
+        error: function (XMLHttpRequest, status, errorThrown) {
+            alert('error');
+            alert(status + " " + status);
         }
-        // alert(html);
-        $('#'+textName).val(html);
     });
 }
 

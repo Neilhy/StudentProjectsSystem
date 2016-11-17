@@ -1,7 +1,9 @@
 package com.scut.cs.service;
 
+import com.scut.cs.domain.Admin;
 import com.scut.cs.domain.Project;
 import com.scut.cs.domain.Student;
+import com.scut.cs.domain.basicEnum.RoleTypes;
 import com.scut.cs.domain.dao.ProjectRepository;
 import com.scut.cs.domain.dao.StudentRepository;
 import com.scut.cs.web.request.AddStudents;
@@ -9,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.security.RolesAllowed;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,19 +33,74 @@ public class ProjectsServiceImpl implements ProjectsService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Override
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
+    }
+
     @PreAuthorize("hasRole('ROLE_INNER') or hasRole('ROLE_ADMIN')")
     @Override
-    public Page<Project> getAllProjects(int page,int size) {
-        return projectRepository.findAll(new PageRequest(page,size));//TODO 分页和排序
+    public Page<Project> getProjects(String keyword,String item,int page,int size) {
+        Page<Project> projects = null;
+        PageRequest pageRequest = null;
+        if(size > 0) {
+            pageRequest = new PageRequest(page,size);
+        }
+        if(keyword.equals("未选择") || item.equals("未选择")) {
+            projects = projectRepository.findAll(pageRequest);
+        } else if(keyword.equals("学院")) {
+            projects =  projectRepository.findByCaptainCollege(item,pageRequest);
+        } else if(keyword.equals("年份")) {
+            try {
+                Integer year = Integer.parseInt(item);
+                projects = projectRepository.findByProjectDate(year,pageRequest);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(keyword.equals("竞赛等级")) {
+            projects = projectRepository.findByLevel(item,pageRequest);
+        } else if(keyword.equals("所获奖项")) {
+            projects = projectRepository.findByRank(item,pageRequest);
+        } else if(keyword.equals("获奖证明")) {
+            projects = projectRepository.findByPhotoStatus(item,pageRequest);
+        } else if(keyword.equals("审核状态")) {
+            projects = projectRepository.findByState(item,pageRequest);
+        }
+        List<Project> list = projects.getContent();
+        System.out.println("共有"+list.size()+"条记录");
+        for(Project p : list) {
+            System.out.println(p.toString());
+        }
+        return projects;
     }
 
     @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_OUTER_SPEC')")
     @Override
-    public Page<Project> getCollegeProjects(String college,int page,int size) {
-        if (college != null && !college.equals("")) {
-            return projectRepository.findByCaptainCollege(college,new PageRequest(page,size));
+    public Page<Project> getCollegeProjects(String keyword,String item,String college,int page,int size) {
+        Page<Project> projects = null;
+        PageRequest pageRequest = null;
+        if(size > 0) {
+            pageRequest = new PageRequest(page,size);
         }
-        return null;
+        if(keyword.equals("未选择") || item.equals("未选择")) {
+            projects = projectRepository.findByCaptainCollege(college,pageRequest);
+        } else if(keyword.equals("年份")) {
+            try {
+                Integer year = Integer.parseInt(item);
+                projects = projectRepository.findByProjectDateAndCaptainCollege(year,college,pageRequest);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(keyword.equals("竞赛等级")) {
+            projects = projectRepository.findByLevelAndCaptainCollege(item,college,pageRequest);
+        } else if(keyword.equals("所获奖项")) {
+            projects = projectRepository.findByRankAndCaptainCollege(item,college,pageRequest);
+        } else if(keyword.equals("获奖证明")) {
+            projects = projectRepository.findByPhotoStatusAndCaptainCollege(item,college,pageRequest);
+        } else if(keyword.equals("审核状态")) {
+            projects = projectRepository.findByStateAndCaptainCollege(item,college,pageRequest);
+        }
+        return projects;
     }
 
     @PreAuthorize("hasRole('ROLE_OUTER')")
@@ -116,5 +176,32 @@ public class ProjectsServiceImpl implements ProjectsService {
             return projectIds;
         }
         return null;
+    }
+
+    @Override
+    public int getTotRecords(String keyword,String item) {
+        Page<Project> page = null;
+        Admin a = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String roleType = a.getRoleType();
+        if (roleType.equals(RoleTypes.ADMIN) ||roleType.equals(RoleTypes.INNER)
+                || roleType.equals(RoleTypes.INNER_SPEC)) {
+            page = getProjects(keyword,item,0,0);
+        } else if (roleType.equals(RoleTypes.OUTER) || roleType.equals(RoleTypes.OUTER_SPEC)) {
+            page = getCollegeProjects(keyword,item,a.getCollege(),0,0);
+        }
+        if(page == null) {
+            return 0;
+        }
+        int size = page.getContent().size();
+
+        return size;
+    }
+
+    @Override
+    public List<Long> changeStatus(List<Long> id, String status) {
+        for(long pid:id) {
+            projectRepository.setProjectState(pid,status);
+        }
+        return id;
     }
 }

@@ -11,10 +11,11 @@ import java.util.List;
  * Created by NeilHY on 2016/8/21.
  */
 public interface ProjectsService {
+    List<Project> getAllProjects();
 
-    Page<Project> getAllProjects(int page,int size);
+    Page<Project> getProjects(String keyword,String item,int page,int size);
 
-    Page<Project> getCollegeProjects(String college,int page,int size);
+    Page<Project> getCollegeProjects(String keyword,String item,String college,int page,int size);
 
     Project addProject(Project project);
 
@@ -27,4 +28,8 @@ public interface ProjectsService {
     Long deleteProject(Long id);
 
     List<Long> deleteProjectList(List<Long> idList);
+
+    int getTotRecords(String keyword,String item);
+
+    List<Long> changeStatus(List<Long> id,String status);
 }
