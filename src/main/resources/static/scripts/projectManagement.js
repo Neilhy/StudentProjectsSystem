@@ -78,6 +78,15 @@ $('#pass').click(function () {
 });
 
 $('#noPass').click(function () {
+    var sz = $('input:checkbox[name="ckb"]:checked').size();
+    if (sz == 0) {
+        return;
+    }
+    $('#noPassModal').modal('show');
+    $('#noPassReason').val('');
+});
+
+$('#save').click(function () {
     var ids = getCheckedIds();
     if(ids.length==0) {
         return;
@@ -85,6 +94,7 @@ $('#noPass').click(function () {
     var data = new Object();
     data.id = ids;
     data.status = "不通过";
+    data.msgForbid = $('#noPassReason').val();
     opAjax('/changeProjectsStatus',data);
 });
 
@@ -98,6 +108,7 @@ function opAjax(url,data) {
             changePage();
             layer.tips('更新成功','#selCkb');
             $('#selCkb').prop('checked','');
+            $('#noPassModal').modal('hide');
         },
         error: function (XMLHttpRequest, status, errorThrown) {
             alert(status + " " + errorThrown);
@@ -193,11 +204,12 @@ function list(data) {
         var line = '<tr>';
         var size = Number($('#size').val());
         var num = (Number($('#cur').text())-1) * size + i + 1;
-        line += '<input type="hidden" id="id" value="'+project.id+'"/>';
-        line += '<input type="hidden" id="filePath" value="'+project.filePath+'"/>';
+        line += '<input type="hidden" id="id" name="id" value="'+project.id+'"/>';
+        line += '<input type="hidden" id="filePath" name="filePath" value="'+project.filePath+'"/>';
+        line += '<input type="hidden" id="msgForbid" name="msgForbid" value="'+project.msgForbid+'"/>';
         line += '<td>' + (num) + '</td>';
+        line += '<td><a href="javascript:void(0)" onclick="">' + project.projectName + '</a></td>';
         line += '<td>' + project.projectDate + '</td>';
-        line += '<td>' + project.projectName + '</td>';
         line += '<td>' + project.level + '</td>';
         line += '<td>' + project.rank + '</td>';
         var studentList = project.studentList;
@@ -218,7 +230,7 @@ function list(data) {
         } else {
             line += '<td><a href="javascript:void(0)" onclick="showImg(this)">已上传</a></td>';
         }
-        line += '<td>' + project.state + '</td>';
+        line += '<td><a href="javascript:void(0)" onclick="showState(this)">' + project.state + '</a></td>';
         line += '<td>' + '<input type="checkbox" name="ckb"/>' +'</td>';
         line += '</tr>';
         $('#tbody').append(line);
@@ -231,6 +243,20 @@ function showImg(obj) {
     var filePath = par.find('input').eq(1).val();
     $('#showPic').show();
     $('#pic').attr('src','/getLocalPic/'+filePath);
+}
+
+function showState(obj) {
+    var par = $(obj).parent().parent();
+    var msgForbid = par.find('input[name="msgForbid"]').val();
+    var state = $(obj).text();
+    $('#showPassModal').modal('show');
+    $('#result').val(state);
+    if(state == '不通过') {
+        $('#reason').val(msgForbid);
+        $('#reasonGroup').show();
+    } else{
+        $('#reasonGroup').hide();
+    }
 }
 
 $('#showPic').click(function () {

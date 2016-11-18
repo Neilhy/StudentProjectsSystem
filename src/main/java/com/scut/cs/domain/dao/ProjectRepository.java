@@ -42,6 +42,6 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     Page<Project> findByPhotoStatusAndCaptainCollege(String photoStatus,String captainCollege, Pageable pageable);
     @Modifying
     @Transactional
-    @Query("update Project p set p.state= ?2 where p.id= ?1")
-    int setProjectState(Long id,String state);
+    @Query("update Project p set p.state= ?2,p.msgForbid = ?3 where p.id= ?1")
+    int setProjectState(Long id,String state,String msgForbid);
 }
