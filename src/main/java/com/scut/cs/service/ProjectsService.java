@@ -23,7 +23,7 @@ public interface ProjectsService {
 
     Project modifyProject(Project project);
 
-    int changeProjectState(Long id,String state);
+    int changeProjectState(Long id,String state,String msgForbid);
 
     Long deleteProject(Long id);
 
@@ -31,5 +31,5 @@ public interface ProjectsService {
 
     int getTotRecords(String keyword,String item);
 
-    List<Long> changeStatus(List<Long> id,String status);
+    List<Long> changeStatus(List<Long> id,String status,String msgForbid);
 }

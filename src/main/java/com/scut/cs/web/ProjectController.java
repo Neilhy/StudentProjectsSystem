@@ -9,6 +9,7 @@ import com.scut.cs.service.ProjectsService;
 import com.scut.cs.util.ExcelFileGenerator;
 import com.scut.cs.web.request.AddStudents;
 import com.scut.cs.web.request.ChangeStatus;
+import com.scut.cs.web.request.ChangeStatus2;
 import com.scut.cs.web.request.RequestUrls;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -101,10 +102,14 @@ public class ProjectController {
     }
 
     @RequestMapping(value = RequestUrls.ChangeProjectsStatus, method = RequestMethod.POST,consumes = "application/json",produces = "application/json")
-    public List<Long> changeProjectStatus(@RequestBody ChangeStatus changeStatus) {
+    public List<Long> changeProjectStatus(@RequestBody ChangeStatus2 changeStatus) {
         List<Long> id = changeStatus.getId();
         String status = changeStatus.getStatus();
-        return projectsService.changeStatus(id,status);
+        String msgForbid = "";
+        if (status.equals("不通过")) {
+            msgForbid = changeStatus.getMsgForbid();
+        }
+        return projectsService.changeStatus(id,status,msgForbid);
     }
 
     @RequestMapping(value = RequestUrls.Excel,method = RequestMethod.GET)

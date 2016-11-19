@@ -75,13 +75,12 @@
 			</div>
 			<div class="w">
 				<div class="span12">
-
 					<table class="table table-condensed table-bordered table-hover tab">
 						<thead>
 							<tr>
 								<th>序号</th>
-								<th>竞赛时间</th>
 								<th>竞赛名称</th>
+								<th>竞赛时间</th>
 								<th>竞赛级别</th>
 								<th>所获奖项</th>
 								<th>参赛方式</th>
@@ -97,10 +96,14 @@
 					</table>
 				</div>
 			</div>
-			<div id="operation" sec:authorize="hasRole('ROLE_ADMIN')">
+
+			<div id="operation">
 				<a class="btn btn-primary" id="del">删除项目</a>
-				<a class="btn btn-primary" id="pass">通过</a>
-				<a class="btn btn-primary" id="noPass">不通过</a>
+				<span  sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_INNER')">
+					<a class="btn btn-primary" id="pass">通过</a>
+					<a class="btn btn-primary" id="noPass">不通过</a>
+				</span>
+
 			</div>
 		</div>
 		<div>
@@ -114,6 +117,61 @@
 				<a class="btn btn-success" id="last">尾页</a>
 				第<span id="cur" style="margin-left: 5px; margin-right: 5px">1</span>页 /
 				共<span id="tot" style="margin-left: 5px; margin-right: 5px">5</span>页
+			</div>
+		</div>
+	</div>
+
+	<div id="noPassModal" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="myModalLabel">审核</h3>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label">不通过理由</label>
+							<div class="controls">
+								<textarea id="noPassReason"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+					<button class="btn btn-primary" id="save">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="showPassModal" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myShowModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="myShowModalLabel">审核</h3>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label">审核状态</label>
+							<div class="controls">
+								<input id="result" readonly="readonly" type="text"/>
+							</div>
+						</div>
+						<div class="control-group" id="reasonGroup">
+							<label class="control-label">不通过理由</label>
+							<div class="controls">
+								<textarea id="reason" readonly="readonly"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
 			</div>
 		</div>
 	</div>

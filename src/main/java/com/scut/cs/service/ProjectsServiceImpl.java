@@ -142,10 +142,10 @@ public class ProjectsServiceImpl implements ProjectsService {
 
     @PreAuthorize("hasRole('ROLE_INNER') or hasRole('ROLE_ADMIN')")
     @Override
-    public int changeProjectState(Long id, String state) {
+    public int changeProjectState(Long id, String state,String msgForbid) {
         if (null!=id && id > 0 && state != null && !state.equals("")) {
             if (projectRepository.exists(id)) {
-                return projectRepository.setProjectState(id,state);
+                return projectRepository.setProjectState(id,state,msgForbid);
             }
         }
         return -1;
@@ -197,10 +197,11 @@ public class ProjectsServiceImpl implements ProjectsService {
         return size;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_INNER')")
     @Override
-    public List<Long> changeStatus(List<Long> id, String status) {
+    public List<Long> changeStatus(List<Long> id, String status,String msgForbid) {
         for(long pid:id) {
-            projectRepository.setProjectState(pid,status);
+            projectRepository.setProjectState(pid,status,msgForbid);
         }
         return id;
     }
