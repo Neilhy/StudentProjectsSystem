@@ -58,12 +58,12 @@ body{
 .con_title{
 	/*/background-color: lightgray;*/
 	width: auto;
-	height: 3.5em;
-	line-height: 3.5em;
+	height: 5em;
+	line-height: 6em;
 	text-align: center;
 }
 .con_title_sp{
-	font-family: "微软雅黑";
+	/*font-family: "微软雅黑";*/
 	font-size: 1.5em;
 	font-weight: 800;
 	color: rgba(51, 51, 51, 0.41);
