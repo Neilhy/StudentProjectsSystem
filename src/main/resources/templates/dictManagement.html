@@ -29,6 +29,9 @@
 				<!--</select>-->
 				<!--</p>-->
 			<!--<input type="text" name="newType" id="newType" placeholder="新的数据类型名称"/>-->
+
+				<a class="btn btn-success" id="saveType" onclick="saveEdit()">保存</a>
+			    <a class="btn btn-warning" id="deleteType" onclick="deleteCurType()">删除此数据类型</a>
 		</div>
 
 		<div class="w">
@@ -55,9 +58,7 @@
 				<div class="add">
 					<a class="btn btn-success" onclick="insertRow();">添加选项</a>
 				</div>
-				<div class="save">
-					<a class="btn btn-success" onclick="saveEdit()">保存</a>
-				</div>
+
 				<div id="page" class="tr"></div>
 			</div>
 		</div>

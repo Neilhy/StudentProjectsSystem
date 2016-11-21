@@ -17,7 +17,7 @@ function insertRow() {
         '<tr>',
             '<td>',  idx ,'</td>',
             '<td>', '<input type="text" name="itemName"/>', '</td>',
-            '<td>', '<input type="button" onclick="deleteRow(' + idx + ')" value="删除"/>', '</td>',
+            '<td>', '<input type="button" class="btn btn-warning" onclick="deleteRow(' + idx + ')" value="删除"/>', '</td>',
         '</tr>'
     ].join('');
     $('#tbody').append(trhtml);
@@ -135,15 +135,21 @@ function saveEdit() {
  */
 function changeType() {
     var type = $('#dataType').val();
-    var inType = '<input type="text" name="newType" id="newType" placeholder="新的数据类型名称"/>';
+   // var inType = '<input type="text" name="newType" id="newType" placeholder="新的数据类型名称"/>';
     clearRows();
-    var del = '<a class="btn btn-success" id="deleteType" onclick="deleteCurType()">删除此数据类型</a>';
-    $('#deleteType').remove();
+    //var del = '<a class="btn btn-success" id="deleteType" onclick="deleteCurType()">删除此数据类型</a>';
+   // $('#deleteType').remove();
     if(type=="新建") {
-        $('.select').append(inType);
+        //$('.select').prepend(inType);/////////////////////////
+       // $('#saveType').show();
+        $("#deleteType").hide();
+        $('#newType').show();
+
     } else {
-        $('#newType').remove();
-        $('.select').append(del);
+        $('#newType').hide();
+       // $('#saveType').hide();
+        $("#deleteType").show();
+        //$('.select').append(del);
         getDictItemsAndShow(type);
     }
 }
@@ -155,17 +161,18 @@ function getKeywords() {
     $.get('/getKeywords',function (data) {
         // alert(data);
         var html = [
-                '<p>数据类型：',
+                '<span>数据类型：</span>',
                 '<select id="dataType" onchange="changeType()">',
                 '<option>新建</option>'].join('');
         var keywords = data;
         for(var i=0;i<keywords.length;i++) {
             html += '<option>' + keywords[i] + '</option>';
         }
-        html += '</select> </p>';
+        html += '</select> ';
         html += '<input type="text" name="newType" id="newType" placeholder="新的数据类型名称"/>';
         // alert(html);
-        $('.select').append(html);
+        $("#deleteType").hide();
+        $('.select').prepend(html);////////////////////////////////////////////
     })
 }
 
