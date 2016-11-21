@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="MySQL - project@localhost" uuid="141430b2-b157-4961-9dd9-40608739c243">
+  <data-source name="MySQL - project@localhost" uuid="32d943e7-5a5d-4591-904a-d502a7ea681e">
     <database-info product="MySQL" version="5.6.28-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.37 ( Revision: 09940f05b4c98150f352e787a2549f11a2e9da93 )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
@@ -123,77 +123,80 @@
       <column id="34" parent="4" name="teacher">
         <data-type>varchar(255)</data-type>
       </column>
-      <key id="35" parent="4" name="PRIMARY">
+      <column id="35" parent="4" name="photo_status">
+        <data-type>varchar(10)</data-type>
+      </column>
+      <key id="36" parent="4" name="PRIMARY">
         <columns>project_id</columns>
         <primary>1</primary>
       </key>
-      <column id="36" parent="5" name="student_id">
+      <column id="37" parent="5" name="student_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="37" parent="5" name="project_id">
+      <column id="38" parent="5" name="project_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <index id="38" parent="5" name="FKg1o3y7pntqd1mr5oi5ve124wx">
+      <index id="39" parent="5" name="FKg1o3y7pntqd1mr5oi5ve124wx">
         <columns>student_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="39" parent="5" name="FKocolmjkvhetd0dbqk5mqpj8jw">
+      <index id="40" parent="5" name="FKocolmjkvhetd0dbqk5mqpj8jw">
         <columns>project_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <foreign-key id="40" parent="5" name="FKg1o3y7pntqd1mr5oi5ve124wx">
+      <foreign-key id="41" parent="5" name="FKg1o3y7pntqd1mr5oi5ve124wx">
         <columns>student_id</columns>
         <ref-key>~.student.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="41" parent="5" name="FKocolmjkvhetd0dbqk5mqpj8jw">
+      <foreign-key id="42" parent="5" name="FKocolmjkvhetd0dbqk5mqpj8jw">
         <columns>project_id</columns>
         <ref-key>~.project.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="42" parent="6" name="student_id">
+      <column id="43" parent="6" name="student_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="43" parent="6" name="captain_or_not">
+      <column id="44" parent="6" name="captain_or_not">
         <mandatory>1</mandatory>
         <data-type>tinyint(3) unsigned</data-type>
       </column>
-      <column id="44" parent="6" name="class_name">
+      <column id="45" parent="6" name="class_name">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
       </column>
-      <column id="45" parent="6" name="college">
+      <column id="46" parent="6" name="college">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="46" parent="6" name="grade">
+      <column id="47" parent="6" name="grade">
         <mandatory>1</mandatory>
         <data-type>smallint(6)</data-type>
       </column>
-      <column id="47" parent="6" name="register_id">
+      <column id="48" parent="6" name="register_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="48" parent="6" name="student_name">
+      <column id="49" parent="6" name="student_name">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
       </column>
-      <index id="49" parent="6" name="UK_5iaj8ln9ept68kgy0b1i8hcm8">
+      <index id="50" parent="6" name="UK_5iaj8ln9ept68kgy0b1i8hcm8">
         <columns>register_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="50" parent="6" name="PRIMARY">
+      <key id="51" parent="6" name="PRIMARY">
         <columns>student_id</columns>
         <primary>1</primary>
       </key>
-      <key id="51" parent="6" name="UK_5iaj8ln9ept68kgy0b1i8hcm8">
+      <key id="52" parent="6" name="UK_5iaj8ln9ept68kgy0b1i8hcm8">
         <columns>register_id</columns>
         <underlying-index>UK_5iaj8ln9ept68kgy0b1i8hcm8</underlying-index>
       </key>
