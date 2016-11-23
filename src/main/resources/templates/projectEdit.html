@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>修改项目</title>
+    <link href="css/Common.css" rel="stylesheet" />
+    <link href="css/lib/BeatPicker.min.css" rel="stylesheet" />
+    <link href="css/lib/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/projectAdd.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="content">
+    <form class="form-horizontal" role="form">
+        <div class="control-group">
+            <label class="control-label" for="competitionName">竞赛名称</label>
+            <div class="controls">
+                <input type="text" id="competitionName"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="competitionRank">竞赛等级</label>
+            <div class="controls">
+                <select id="competitionRank">
+
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="competitionTime">竞赛时间</label>
+            <div class="controls">
+                <input type="text" data-beatpicker="true" id="competitionTime"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="teacher">指导老师</label>
+            <div class="controls">
+                <input type="text" id="teacher"/>(没有可不填)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">参赛方式</label>
+            <div class="controls " id="competitionMethod" >
+                <input type="radio" name="competitionMethod" value="person" checked="checked"/>个人
+                <input type="radio" name="competitionMethod" value="team"/>团队
+            </div>
+        </div>
+        <!--个人赛的个人信息-->
+        <div id="individual">
+            <div class="control-group">
+                <label class="control-label" for="registerId">学号</label>
+                <div class="controls">
+                    <input type="text" id="registerId"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Name">姓名</label>
+                <div class="controls">
+                    <input type="text" id="Name"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="college">学院</label>
+                <div class="controls">
+                    <select id="college">
+
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="className">班级</label>
+                <div class="controls">
+                    <input type="text" id="className"/>
+                </div>
+            </div>
+        </div>
+
+        <!--这个首先是隐藏的，选择团队赛的形式时出现-->
+        <div class="control-group" >
+            <table class="table table-bordered info-table" style="display: none" id="table">
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>学院</th>
+                    <th>班级</th>
+                    <th>职责</th>
+                    <th>操作</th>
+                </tr>
+                <tbody id="teamer-info">
+
+                </tbody>
+            </table>
+        </div>
+
+        <!--这个首先是隐藏的，选择团队赛的形式时出现-->
+        <div class="control-group" style="display: none;" id="partnerAdd">
+            <div class="controls">
+                <input type="button" value="添加队友" id="addPartner" class="btn btn-info"/>
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <label class="control-label" for="competitionPrize">所获奖项</label>
+            <div class="controls">
+                <select id="competitionPrize">
+
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="competitionPhoto">获奖证明</label>
+            <div class="controls">
+                <!--<input type="file" id="competitionPhoto"/>-->
+                <input id="competitionPhoto" size="34" type="file" name="file" data-url="/upload" multiple="multiple"/>
+                <input type="text" id="browseText" th:value="点击上传文件"/>
+                <!--<input id="browse" type="button" th:value="浏览" />-->
+                <input id="responseTxt" type="text" readonly="readonly" />
+                <div id="progress" class="progress">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+                <img src="" id="upload-img" />
+            </div>
+        </div>
+        <input type="text" style="display: none;" id="collegesText" value="这是隐藏的"/>
+        <div class="control-group">
+            <label class="control-label" for="note">备注</label>
+            <div class="controls">
+                <textarea id="note"></textarea>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="button" id="add" class="btn btn-primary" value="保存"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="scripts/lib/jquery-1.9.1.min.js"></script>
+<script src="scripts/lib/jquery.ui.widget.js"></script>
+<script src="scripts/lib/jquery.iframe-transport.js"></script>
+<script src="scripts/lib/jquery.fileupload.js"></script>
+<script src="scripts/lib/bootstrap.min.js"></script>
+<script src="scripts/lib/BeatPicker.min.js"></script>
+<script src="scripts/lib/layer/layer.js"></script>
+<script src="scripts/projectEdit.js"></script>
+<script src="scripts/upload.js"></script>
+<script src="scripts/dict.js"></script>
+</body>
+</html>
