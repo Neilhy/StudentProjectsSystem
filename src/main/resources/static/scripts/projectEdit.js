@@ -3,10 +3,14 @@
  */
 
 $(function () {
-    var url = '/getProject/'+document.URL.split('?')[1].split('=')[1];;
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+    var url = '/getProject/'+document.URL.split('?')[1].split('=')[1];
     $.get(url,function (data) {
         var thisProject = data,
-            id=thisProject.id,
             filePath=thisProject.filePath,
             msgForbid=thisProject.msgForbid,
             projectName=thisProject.projectName,
@@ -17,6 +21,7 @@ $(function () {
             captainCollege=thisProject.captainCollege,
             teacher=thisProject.teacher,
             note=thisProject.note;
+        ID = thisProject.id;
         //photoStatus=thisProject.photoStatus
         //state=thisProject.state
         $("#competitionName").val(projectName);
@@ -32,6 +37,7 @@ $(function () {
             "<td>{{college}}</td>"+
             "<td>{{className}}</td>"+
             "<td>{{duty}}</td>"+
+            "<td><input type='button' class='btn btn-warning' value='删除' onclick='removetrNode($(this))'></td>"+
             "</tr>";
         var students=[];
         if(studentList.length>1){//团队赛
@@ -88,7 +94,7 @@ $(function () {
         "</div>";
 
 
-    $("#add").click(function () {
+    $("#saveEdit").click(function () {
         if ($("#competitionName").val() == "") {
             layer.tips('不能为空', '#competitionName');
             $(window).scrollTop($('#competitionName').offset());
@@ -164,15 +170,20 @@ $(function () {
         }
         var filePath = '';
         var photoStatus = '';
-        if($('#browseText').val()=='点击上传文件') {
-            filePath = '';
-            photoStatus = '未上传';
-
-        } else {
-            filePath = $('#browseText').val();
+        // if($('#browseText').val()=='点击上传文件') {
+        //     filePath = '';
+        //     photoStatus = '未上传';
+        // } else {
+        //     filePath = $('#browseText').val();
+        //     photoStatus = '已上传';
+        // }
+        var reUpload = $('input:radio[name="reUpload"]').val();
+        if(reUpload == 'yes' && $('#browseText').val()!='点击上传文件') {
+            // filePath = $('#browseText').val();
             photoStatus = '已上传';
         }
         var project = {
+            id:ID,
             projectName: $("#competitionName").val(),
             level:$("#competitionRank").val(),
             projectDate:$("#competitionTime").val(),
@@ -181,36 +192,21 @@ $(function () {
             photoStatus:photoStatus,
             note:$("#note").val(),
             captainCollege:captainCollege,
-            studentList:studentList
+            studentList:studentList,
+            status:'未审核',
         };
         $.get('/savePic',function (data) {
             project.filePath = data;
             $.ajax({
-                url: "/addProject",
+                url: "/modifyProject",
                 // timeout: 300000,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 type: "post",
                 data: JSON.stringify(project),
                 success: function (data) {
-                    $("input").val("");
-                    $('#add').val('保存');
-                    $('#addPartner').val('添加队友');
-                    teamerInfo.html('');
-                    removeNode($('#cancle'));
-                    $(partnerAddNode).hide();
-                    $("#table").hide();
-                    $('input:radio[name="competitionMethod"]').eq(0).val('person');
-                    $('input:radio[name="competitionMethod"]').eq(1).val('team');
-                    $('input:radio[name="competitionMethod"]').eq(0).prop('checked','checked')
-                    $('#upload-img').prop('src','');
-                    $('#upload-img').css('display','none');
-                    $('#browseText').val('点击上传文件');
-                    $('#progress .bar').css(
-                        'width',
-                        0 + '%'
-                    );
-                    $('#note').text('');
+                    // alert(data);
+                    window.location.reload();
                     //load(curr);
                 },
                 error:function (XMLHttpRequest,status,errorThrown) {
@@ -253,11 +249,11 @@ var partnerAddNode=$("#partnerAdd");
 var teamerInfo=$("#teamer-info");
 var addFlag = false;
 var college = "";
-
+var ID;
 function selectItem(selId,itemName) {
     $('#'+selId + ' option').each(function () {
         if($(this).text() == itemName) {
-            $(this).prop('selected',true);
+            $(this).attr('selected',true);
             return;
         }
     })

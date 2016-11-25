@@ -1,20 +1,15 @@
 package com.scut.cs.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
-
-import static javafx.scene.input.KeyCode.F;
-import static javafx.scene.input.KeyCode.J;
 
 /**
  * Created by NeilHY on 2016/8/7.
@@ -50,7 +45,8 @@ public class Project implements Serializable {
     @Column(length= 10)
     private String photoStatus = "未上传";
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade(value = {CascadeType.SAVE_UPDATE,CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name="ProjectStudentList",
             joinColumns ={@JoinColumn(name = "projectId")},
             inverseJoinColumns = {@JoinColumn(name="studentId")})

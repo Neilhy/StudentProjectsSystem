@@ -10,6 +10,7 @@ import com.scut.cs.web.request.AddStudents;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class ProjectsServiceImpl implements ProjectsService {
         Page<Project> projects = null;
         PageRequest pageRequest = null;
         if(size > 0) {
-            pageRequest = new PageRequest(page,size);
+            pageRequest = new PageRequest(page,size,new Sort(Sort.Direction.ASC,"projectName"));
         }
         if(keyword.equals("未选择") || item.equals("未选择")) {
             projects = projectRepository.findAll(pageRequest);
@@ -85,7 +86,7 @@ public class ProjectsServiceImpl implements ProjectsService {
         Page<Project> projects = null;
         PageRequest pageRequest = null;
         if(size > 0) {
-            pageRequest = new PageRequest(page,size);
+            pageRequest = new PageRequest(page,size,new Sort(Sort.Direction.ASC,"projectName"));
         }
         if(keyword.equals("未选择") || item.equals("未选择")) {
             projects = projectRepository.findByCaptainCollege(college,pageRequest);
@@ -138,9 +139,23 @@ public class ProjectsServiceImpl implements ProjectsService {
     @Override
     public Project modifyProject(Project project) {
         if (null != project && 0L != project.getId()) {
-            if (projectRepository.exists(project.getId())) {
-                return projectRepository.save(project);
+            Project old = projectRepository.findById(project.getId());
+            if(null != old) {
+                if(project.getPhotoStatus()=="") {
+                    project.setPhotoStatus(old.getPhotoStatus());
+                    project.setFilePath(old.getFilePath());
+                }
+                projectRepository.removeById(project.getId());
+                projectRepository.save(project);
+//                projectRepository.update(project.getProjectName(),project.getLevel(),project.getRank(),
+//                        project.getCaptainCollege(),project.getTeacher(),project.getNote(),project.getProjectDate(),
+//                        project.getPhotoStatus(),project.getFilePath(),project.getState(),project.getMsgForbid(),
+//                        project.getId());
+                return project;
             }
+//            if (projectRepository.exists(project.getId())) {
+//                return projectRepository.save(project);
+//            }
         }
         return null;
     }

@@ -75,6 +75,13 @@ public class ProjectController {
         return projectsService.addProject(project);
     }
 
+    @RequestMapping(value = RequestUrls.ModifyProjectUrl, method = RequestMethod.POST,consumes = "application/json",produces = "application/json" )
+    public Project modifyProject(@RequestBody Project project) {
+        System.out.println("开始modifyProject..." + project.toString());
+        return projectsService.modifyProject(project);
+    }
+
+
     @RequestMapping(value = RequestUrls.AddStudentsUrl, method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public Project addStudents(@RequestBody AddStudents addStudents) {
         System.out.println("开始addStudents。。。");
