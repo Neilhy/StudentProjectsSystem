@@ -18,7 +18,7 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Query("select p from Project p where p.projectName= :name and p.rank= :rank and p.projectDate= :date")
     Project withNameAndRankAndDateQuery(@Param("name") String name, @Param("rank") String rank, @Param("date") Date date);
-
+    Project findById(Long id);
     Page<Project> findByCaptainCollege(String captainCollege, Pageable pageable);
     @Query("select p from Project p where year(p.projectDate) = ?1")
     Page<Project> findByProjectDate(int year, Pageable pageable);

@@ -74,6 +74,11 @@ public class ProjectsServiceImpl implements ProjectsService {
         return projects;
     }
 
+    @Override
+    public Project getProjectById(long id) {
+        return projectRepository.findById(id);
+    }
+
     @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_OUTER_SPEC')")
     @Override
     public Page<Project> getCollegeProjects(String keyword,String item,String college,int page,int size) {

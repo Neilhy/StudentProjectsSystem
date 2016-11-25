@@ -62,6 +62,11 @@ public class ProjectController {
         return null;
     }
 
+    @RequestMapping(value = RequestUrls.GetProjectUrl,method = RequestMethod.GET)
+    public Project getProject(@PathVariable long id) {
+        return projectsService.getProjectById(id);
+    }
+
 
 
     @RequestMapping(value = RequestUrls.AddProjectUrl, method = RequestMethod.POST,consumes = "application/json",produces = "application/json")

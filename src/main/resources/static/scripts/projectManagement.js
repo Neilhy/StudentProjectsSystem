@@ -209,7 +209,7 @@ function list(data) {
         line += '<input type="hidden" id="filePath" name="filePath" value="'+project.filePath+'"/>';
         line += '<input type="hidden" id="msgForbid" name="msgForbid" value="'+project.msgForbid+'"/>';
         line += '<td>' + (num) + '</td>';
-        line += '<td><a href="/projectEdit?project="'+project+'>'+ project.projectName+'</a></td>';
+        line += '<td><a href="/projectEdit?project='+project.id+'">'+ project.projectName+'</a></td>';
         line += '<td>' + project.projectDate + '</td>';
         line += '<td>' + project.level + '</td>';
         line += '<td>' + project.rank + '</td>';

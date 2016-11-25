@@ -3,59 +3,66 @@
  */
 
 $(function () {
-    //填充值
-    var thisProject = document.URL.split('?')[1].split('=')[1],
-        id=thisProject.id,
-        filePath=thisProject.filePath,
-        msgForbid=thisProject.msgForbid,
-        projectName=thisProject.projectName,
-        projectDate=thisProject.projectDate,
-        level=thisProject.level,
-        rank=thisProject.rank,
-        studentList=thisProject.studentList,
-        captainCollege=thisProject.captainCollege,
-        teacher=thisProject.teacher,
-        note=thisProject.note;
-       //photoStatus=thisProject.photoStatus
-      //state=thisProject.state
-    $("#competitionName").text(projectName);
-    $("#competitionRank").val(rank);
-    $("#competitionTime").val(projectDate);
-    $("#teacher").val(teacher);
-    $("#competitionPrize").val(level);
-    $("#note").text(note);
-    //每一行都一样，用模板的方法
-    var tpl="<tr>"+
-               "<td>{{registerId}}</td>"+
-               "<td>{{Name}}</td>"+
-               "<td>{{college}}</td>"+
-               "<td>{{className}}</td>"+
-               "<td>{{duty}}</td>"+
+    var url = '/getProject/'+document.URL.split('?')[1].split('=')[1];;
+    $.get(url,function (data) {
+        var thisProject = data,
+            id=thisProject.id,
+            filePath=thisProject.filePath,
+            msgForbid=thisProject.msgForbid,
+            projectName=thisProject.projectName,
+            projectDate=thisProject.projectDate,
+            level=thisProject.level,
+            rank=thisProject.rank,
+            studentList=thisProject.studentList,
+            captainCollege=thisProject.captainCollege,
+            teacher=thisProject.teacher,
+            note=thisProject.note;
+        //photoStatus=thisProject.photoStatus
+        //state=thisProject.state
+        $("#competitionName").val(projectName);
+        $("#competitionRank").val(rank);
+        $("#competitionTime").val(projectDate);
+        $("#teacher").val(teacher);
+        $("#competitionPrize").val(level);
+        $("#note").val(note);
+        //每一行都一样，用模板的方法
+        var tpl="<tr>"+
+            "<td>{{registerId}}</td>"+
+            "<td>{{Name}}</td>"+
+            "<td>{{college}}</td>"+
+            "<td>{{className}}</td>"+
+            "<td>{{duty}}</td>"+
             "</tr>";
-    var students=[];
-    if(studentList.length>1){//团队赛
-        $(":radio[name=competitionMethod][value=team]").attr("checked","true");
-        for(var i=0,j=studentList.length;i<j;++i){
-            var tempTpl=tpl.replace("{{Name}}",studentList[i].studentName)
-                .replace("{{registerId}}",studentList[i].registerId)
-                .replace("{{className}}",studentList[i].className)
-                .replace("{{college}}",studentList[i].college);
-            if(studentList[i].captainOrNot==1){
-                tempTpl= tempTpl.replace("{{duty}}","队长");
-            }else{
-                tempTpl=tpl.replace("{{duty}}","");
+        var students=[];
+        if(studentList.length>1){//团队赛
+            $(":radio[name=competitionMethod][value=team]").attr("checked","true");
+            for(var i=0;i<studentList.length;i++){
+                var tempTpl=tpl.replace("{{Name}}",studentList[i].studentName)
+                    .replace("{{registerId}}",studentList[i].registerId)
+                    .replace("{{className}}",studentList[i].className)
+                    .replace("{{college}}",studentList[i].college);
+                if(studentList[i].captainOrNot==1){
+                    tempTpl= tempTpl.replace("{{duty}}","队长");
+                }else{
+                    tempTpl=tempTpl.replace("{{duty}}","");
+                }
+                students.push(tempTpl);
             }
-            students.push(tempTpl);
+            $('#individual').hide();
+            $('#table').show();
+            $("#teamer-info").html(''+students.join(''));
+        }else{
+            var student=studentList[0];
+            $(":radio[name=competitionMethod][value=person]").attr("checked","true");
+            $("#registerId").val(student.registerId);
+            $("#Name").val(student.studentName);
+            selectItem('college',student.college);
+            $("#className").val(student.className);
         }
-        $("#teamer-info").html(''+students.join(''));
-    }else{
-        var student=studentList[0];
-        $(":radio[name=competitionMethod][value=person]").attr("checked","true");
-        $("#registerId").text(student.registerId);
-        $("#Name").text(student.studentName);
-        $("#college").text(student.college);
-        $("#className").text(student.className);
-    }
+        $('#photoGroup').hide();
+    });
+    //填充值
+
 
 //下面和projectAdd一样
     var token = $("meta[name='_csrf']").attr("content");
@@ -225,6 +232,14 @@ $(function () {
         }
     });
 
+    $('input:radio[name="reUpload"]').change(function(){
+        if($(this).val()=='yes') {
+            $('#photoGroup').show();
+        } else {
+            $('#photoGroup').hide();
+        }
+    });
+
     $("#addPartner").click(function () {
         if(addFlag==false) {
             // $(node1+'<option>'+college+'</option>'+node2).appendTo(partnerAddNode);
@@ -238,6 +253,26 @@ var partnerAddNode=$("#partnerAdd");
 var teamerInfo=$("#teamer-info");
 var addFlag = false;
 var college = "";
+
+function selectItem(selId,itemName) {
+    $('#'+selId + ' option').each(function () {
+        if($(this).text() == itemName) {
+            $(this).prop('selected',true);
+            return;
+        }
+    })
+}
+
+function radioItem(radioName,value) {
+    console.log('value:'+value);
+    $('input:radio[name="'+ radioName + '"]').each(function () {
+        console.log($(this));
+        if($(this).val() == value) {
+            $(this).prop('checked',true);
+            return;
+        }
+    })
+}
 
 function setCollege() {
     $.get('/getCollege',function (data) {

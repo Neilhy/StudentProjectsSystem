@@ -7,6 +7,7 @@ public class RequestUrls {
     public static final String LoginUrl = "/login";
     public static final String HomeUrl = "/";
     public static final String GetProjectsUrl = "/getProjects/{keyword}/{item}/{page}/{size}";
+    public static final String GetProjectUrl = "/getProject/{id}";
     public static final String AddProjectUrl = "/addProject";
     public static final String AddStudentsUrl = "/addStudents";
     public static final String DeleteProjectListUrl = "/deleteProjects";

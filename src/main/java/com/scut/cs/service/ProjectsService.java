@@ -15,6 +15,8 @@ public interface ProjectsService {
 
     Page<Project> getProjects(String keyword,String item,int page,int size);
 
+    Project getProjectById(long id);
+
     Page<Project> getCollegeProjects(String keyword,String item,String college,int page,int size);
 
     Project addProject(Project project);
