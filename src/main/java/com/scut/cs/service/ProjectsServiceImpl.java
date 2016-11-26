@@ -145,17 +145,10 @@ public class ProjectsServiceImpl implements ProjectsService {
                     project.setPhotoStatus(old.getPhotoStatus());
                     project.setFilePath(old.getFilePath());
                 }
-                projectRepository.removeById(project.getId());
+                projectRepository.delete(project.getId());//自带的函数可以级联删除学生
                 projectRepository.save(project);
-//                projectRepository.update(project.getProjectName(),project.getLevel(),project.getRank(),
-//                        project.getCaptainCollege(),project.getTeacher(),project.getNote(),project.getProjectDate(),
-//                        project.getPhotoStatus(),project.getFilePath(),project.getState(),project.getMsgForbid(),
-//                        project.getId());
                 return project;
             }
-//            if (projectRepository.exists(project.getId())) {
-//                return projectRepository.save(project);
-//            }
         }
         return null;
     }

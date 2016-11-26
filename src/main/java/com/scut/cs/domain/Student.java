@@ -22,8 +22,8 @@ public class Student implements Serializable {
     @Column(name = "studentId")
     private Long id;
 
-    @Column(nullable = false,unique = true)
-    private Long registerId;//学号
+    @Column(nullable = false,unique = false)
+    private Long registerId;//学号,因为这个人可以在不同的项目中，担任队长或者队员
 
     @Column(nullable = false,length = 20)
     private String studentName;

@@ -53,3 +53,21 @@
                 3. 审核不通过可以填写理由
 
 2016-11-25  修正项目修改BUG
+
+
+2016-11-26  1.将学生的学号去掉了“唯一”键。
+                使得每次添加项目的时候，不会检查是否已经有了该学生。
+                也就是说学生表里可以有多个相同学号的学生，以至于不能用学号来标示一个学生，只能用id来标示。
+            2.在修改项目的时候，不要用自己定义的delete语句，如ProjectRepository中的void removeById(Long id);
+                用jpa自己的delete语句，如ProjectServiceImpl中的修改函数：public Project modifyProject(Project project)；
+                中的projectRepository.delete(project.getId());
+                以下是命令行输出，用自己写的 “void removeById(Long id);” 的测试结果：
+                Hibernate: select project0_.project_id as project_1_2_, project0_.captain_college as captain_2_2_, project0_.file_path as file_pat3_2_, project0_.level as level4_2_, project0_.msg_forbid as msg_forb5_2_, project0_.note as note6_2_, project0_.photo_status as photo_st7_2_, project0_.project_date as project_8_2_, project0_.project_name as project_9_2_, project0_.rank as rank10_2_, project0_.state as state11_2_, project0_.teacher as teacher12_2_ from project project0_ where project0_.project_id=?
+                Hibernate: select studentlis0_.project_id as project_2_3_0_, studentlis0_.student_id as student_1_3_0_, student1_.student_id as student_1_4_1_, student1_.captain_or_not as captain_2_4_1_, student1_.class_name as class_na3_4_1_, student1_.college as college4_4_1_, student1_.grade as grade5_4_1_, student1_.register_id as register6_4_1_, student1_.student_name as student_7_4_1_ from project_student_list studentlis0_ inner join student student1_ on studentlis0_.student_id=student1_.student_id where studentlis0_.project_id=?
+                Hibernate: insert into student (captain_or_not, class_name, college, grade, register_id, student_name) values (?, ?, ?, ?, ?, ?)
+                Hibernate: update project set captain_college=?, file_path=?, level=?, msg_forbid=?, note=?, photo_status=?, project_date=?, project_name=?, rank=?, state=?, teacher=? where project_id=?
+                Hibernate: delete from project_student_list where project_id=?
+                Hibernate: insert into project_student_list (project_id, student_id) values (?, ?)
+
+                可以看到只删除了project，没有级联删除student！！！
+            3.project中与student多对多的联系中加入了CascadeType.PERSIST,CascadeType.DELETE,CascadeType.REMOVE

@@ -9,7 +9,7 @@ import java.util.List;
  * Created by NeilHY on 2016/8/9.
  */
 public interface StudentRepository extends JpaRepository<Student,Long> {
-    Student findByRegisterId(Long registerId);
+    //Student findByRegisterId(Long registerId);//因为学号不唯一了
 
     List<Student> findByStudentName(String studentName);
 

@@ -46,7 +46,7 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Modifying
     @Transactional
     @Query("delete from Project p where p.id=?1")
-    void removeById(Long id);
+    void removeById(Long id);//如果用自己的delete语句，则不会级联删除学生；用jpa自带的delete函数，就可以有级联删除
 
     @Modifying
     @Transactional

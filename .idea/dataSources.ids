@@ -187,18 +187,9 @@
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
       </column>
-      <index id="50" parent="6" name="UK_5iaj8ln9ept68kgy0b1i8hcm8">
-        <columns>register_id</columns>
-        <desc-columns></desc-columns>
-        <unique>1</unique>
-      </index>
-      <key id="51" parent="6" name="PRIMARY">
+      <key id="50" parent="6" name="PRIMARY">
         <columns>student_id</columns>
         <primary>1</primary>
-      </key>
-      <key id="52" parent="6" name="UK_5iaj8ln9ept68kgy0b1i8hcm8">
-        <columns>register_id</columns>
-        <underlying-index>UK_5iaj8ln9ept68kgy0b1i8hcm8</underlying-index>
       </key>
     </database-model>
   </data-source>

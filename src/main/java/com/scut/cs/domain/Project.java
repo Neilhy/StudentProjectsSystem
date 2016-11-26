@@ -46,7 +46,7 @@ public class Project implements Serializable {
     private String photoStatus = "未上传";
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @Cascade(value = {CascadeType.SAVE_UPDATE,CascadeType.PERSIST,CascadeType.MERGE})
+    @Cascade(value = {CascadeType.SAVE_UPDATE,CascadeType.PERSIST,CascadeType.DELETE,CascadeType.REMOVE,CascadeType.MERGE})
     @JoinTable(name="ProjectStudentList",
             joinColumns ={@JoinColumn(name = "projectId")},
             inverseJoinColumns = {@JoinColumn(name="studentId")})
