@@ -71,3 +71,9 @@
 
                 可以看到只删除了project，没有级联删除student！！！
             3.project中与student多对多的联系中加入了CascadeType.PERSIST,CascadeType.DELETE,CascadeType.REMOVE
+
+2016-11-26  1.开放inner的修改项目和删除项目权限
+            2.审核状态为通过时不能保存修改，也不能删除项目
+            3.outer添加项目时只能添加自己学院的
+            4.修改项目后重定向回主页面
+            5.修改密码后重定向回登陆页面，这样就不会再出现token的bug了
