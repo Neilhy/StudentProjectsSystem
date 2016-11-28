@@ -135,7 +135,7 @@ public class ProjectsServiceImpl implements ProjectsService {
         return null;
     }
 
-    @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_ADMIN')")
     @Override
     public Project modifyProject(Project project) {
         if (null != project && 0L != project.getId()) {
@@ -164,7 +164,7 @@ public class ProjectsServiceImpl implements ProjectsService {
         return -1;
     }
 
-    @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_ADMIN')")
     @Override
     public Long deleteProject(Long id) {
         if (id != null && id>0 && projectRepository.exists(id)) {
@@ -174,7 +174,7 @@ public class ProjectsServiceImpl implements ProjectsService {
         return -1L;
     }
 
-    @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_OUTER') or hasRole('ROLE_ADMIN')")
     @Transactional(rollbackFor = {IllegalArgumentException.class})
     @Override
     public List<Long> deleteProjectList(List<Long> idList) {

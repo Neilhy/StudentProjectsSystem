@@ -22,6 +22,7 @@ $(function () {
             teacher=thisProject.teacher,
             note=thisProject.note;
         ID = thisProject.id;
+        state = thisProject.state;
         //photoStatus=thisProject.photoStatus
         //state=thisProject.state
         $("#competitionName").val(projectName);
@@ -41,6 +42,7 @@ $(function () {
             "</tr>";
         var students=[];
         if(studentList.length>1){//团队赛
+            $(partnerAddNode).toggle();
             $(":radio[name=competitionMethod][value=team]").attr("checked","true");
             for(var i=0;i<studentList.length;i++){
                 var tempTpl=tpl.replace("{{Name}}",studentList[i].studentName)
@@ -95,6 +97,11 @@ $(function () {
 
 
     $("#saveEdit").click(function () {
+        if(state == '通过') {
+            layer.tips('已经通过的项目不能修改', '#competitionName');
+            $(window).scrollTop($('#competitionName').offset());
+            return;
+        }
         if ($("#competitionName").val() == "") {
             layer.tips('不能为空', '#competitionName');
             $(window).scrollTop($('#competitionName').offset());
@@ -206,11 +213,12 @@ $(function () {
                 data: JSON.stringify(project),
                 success: function (data) {
                     // alert(data);
-                    window.location.reload();
+                    // window.location.reload();
+                    window.location = "/projectManagement";
                     //load(curr);
                 },
                 error:function (XMLHttpRequest,status,errorThrown) {
-                    alert('error');
+                    // alert('error');
                     alert(status + " " + errorThrown);
                 }
             });
@@ -250,6 +258,7 @@ var teamerInfo=$("#teamer-info");
 var addFlag = false;
 var college = "";
 var ID;
+var state;
 function selectItem(selId,itemName) {
     $('#'+selId + ' option').each(function () {
         if($(this).text() == itemName) {
@@ -259,16 +268,6 @@ function selectItem(selId,itemName) {
     })
 }
 
-function radioItem(radioName,value) {
-    console.log('value:'+value);
-    $('input:radio[name="'+ radioName + '"]').each(function () {
-        console.log($(this));
-        if($(this).val() == value) {
-            $(this).prop('checked',true);
-            return;
-        }
-    })
-}
 
 function setCollege() {
     $.get('/getCollege',function (data) {

@@ -59,7 +59,18 @@ $('#size').change(function () {
 });
 
 $('#del').click(function () {
-    var ids = getCheckedIds();
+    var ids = new Array();
+    $('input:checkbox[name="ckb"]:checked').each(function () {
+        $tr = $(this).parent().parent();
+        var state = $tr.find('td').eq(-2).text();
+        if(state=='通过') {
+            layer.tips('不能删除已通过的项目','#selCkb');
+            $(this).prop('checked','');
+        } else {
+            var id = $tr.find('input').eq(0).val();
+            ids.push(id);
+        }
+    });
     if(ids.length==0) {
         return;
     }

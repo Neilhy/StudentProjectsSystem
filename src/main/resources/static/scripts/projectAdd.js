@@ -7,9 +7,9 @@ $(function () {
     $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
-    // setCollege();
-    setTextItems('collegesText','学院');
-    setSelectItems('college','学院');
+    setCollege();
+    // setTextItems('collegesText','学院');
+    // setSelectItems('college','学院');
     setSelectItems('competitionRank','竞赛等级');
     setSelectItems('competitionPrize','所获奖项');
     var node1="<div class='teamerInfo'>"+
@@ -157,6 +157,8 @@ $(function () {
                type: "post",
                data: JSON.stringify(project),
                success: function (data) {
+                   layer.tips('添加成功', '#competitionName');
+                   $(window).scrollTop($('#registerId').offset());
                    $("input").val("");
                    $('#add').val('保存');
                    $('#addPartner').val('添加队友');
@@ -198,8 +200,8 @@ $(function () {
 
     $("#addPartner").click(function () {
         if(addFlag==false) {
-            // $(node1+'<option>'+college+'</option>'+node2).appendTo(partnerAddNode);
-            $(node1+$('#collegesText').val() +node2).appendTo(partnerAddNode);
+            $(node1+'<option>'+college+'</option>'+node2).appendTo(partnerAddNode);
+            // $(node1+$('#collegesText').val() +node2).appendTo(partnerAddNode);
             addFlag = true;
         }
     });
