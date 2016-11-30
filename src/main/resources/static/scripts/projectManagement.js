@@ -5,7 +5,7 @@ $(function () {
     show();
     over();
 });
-
+var myStatus = -1;
 function init() {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
@@ -20,6 +20,10 @@ function init() {
     $('#showPic').hide();
     $('#first').hide();
     $('#prev').hide();
+    $.get('/getMyAdmin',function (data) {
+        // alert(JSON.stringify(data));
+        myStatus = data.status;
+    });
 }
 
 function over() {
@@ -30,14 +34,22 @@ function over() {
     $('#noPass').removeAttr('disabled');
 }
 
-
-
 function showFilter() {
     var filter = $('#filter').val();
     setSelectItems('filter-list',filter);
 }
 
+$('#add').click(function () {
+    if(validate()==false) {
+        return;
+    }
+    window.location = '/projectAdd';
+});
+
 $('#excel').click(function () {
+    if(validate()==false) {
+        return;
+    }
     window.open('/excel', 'newWindow', 'height=400,width=700');
 });
 
@@ -68,6 +80,9 @@ $('#size').change(function () {
 });
 
 $('#del').click(function () {
+    if(validate()==false) {
+        return;
+    }
     var ids = new Array();
     $('input:checkbox[name="ckb"]:checked').each(function () {
         $tr = $(this).parent().parent();
@@ -87,6 +102,9 @@ $('#del').click(function () {
 });
 
 $('#pass').click(function () {
+    if(validate()==false) {
+        return;
+    }
     var ids = getCheckedIds();
     if(ids.length==0) {
         return;
@@ -98,6 +116,9 @@ $('#pass').click(function () {
 });
 
 $('#noPass').click(function () {
+    if(validate()==false) {
+        return;
+    }
     var sz = $('input:checkbox[name="ckb"]:checked').size();
     if (sz == 0) {
         return;
@@ -117,6 +138,14 @@ $('#save').click(function () {
     data.msgForbid = $('#noPassReason').val();
     opAjax('/changeProjectsStatus',data);
 });
+
+function validate() {
+    if(myStatus == 0) {
+        layer.tips('没有权限，请等管理员开启','#selCkb');
+        return false;
+    }
+    return true;
+}
 
 function opAjax(url,data) {
     $.ajax({

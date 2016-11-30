@@ -220,8 +220,8 @@ var addFlag = false;
 var college = "";
 
 function setCollege() {
-    $.get('/getCollege',function (data) {
-        college = data;
+    $.get('/getMyAdmin',function (data) {
+        college = data.college;
         $('#college').append('<option>'+college+'</option>')
     })
 }

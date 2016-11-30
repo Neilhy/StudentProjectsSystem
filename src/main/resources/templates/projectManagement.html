@@ -61,7 +61,7 @@
 			</select>
 				<!--<a class="btn btn-primary" onclick="">查询</a>-->
 				<span sec:authorize="hasRole('ROLE_OUTER')">
-					<a class="btn btn-success" href="/projectAdd" target="_self" id="add" disabled="true">添加成果</a>
+					<a class="btn btn-success" target="_self" id="add" disabled="true">添加成果</a>
 		    	</span>
 				<span sec:authorize="hasRole('ROLE_ADMIN')">
 					<a class="btn btn-success" id="excel" disabled="true">导出excel</a>

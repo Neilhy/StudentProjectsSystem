@@ -25,7 +25,7 @@ public class RequestUrls {
     public static final String CheckPwd = "/checkPwd/{pwd}";
     public static final String ResetPassword = "/resetPassword";
     public static final String ModifyPassword = "/modifyPassword";
-    public static final String GetCollege = "/getCollege";
+    public static final String GetMyAdmin = "/getMyAdmin";
 
     //数据字典
     public static final String GetKeywordsUrl = "/getKeywords";

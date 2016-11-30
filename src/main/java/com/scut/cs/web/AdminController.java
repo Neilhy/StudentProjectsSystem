@@ -105,10 +105,12 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value = RequestUrls.GetCollege,method = RequestMethod.GET)
+    @RequestMapping(value = RequestUrls.GetMyAdmin,method = RequestMethod.GET)
     @ResponseBody
-    public String getCollege() {
+    public Admin getCollege() {
         Admin admin = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return admin.getCollege();
+        return admin;
     }
+
+
 }

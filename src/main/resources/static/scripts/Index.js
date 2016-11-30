@@ -66,7 +66,9 @@ $('#edtPwd').click(function () {
         data: JSON.stringify(data),
         success: function () {
             $("#ModifyPwdModalLabel").modal("hide");
-            window.location = '/login';
+            // alert('haha');
+            top.window.location = '/login';
+            // return false;
             // location.reload(true);
             // $(document).find('html').html(data);
             // initToken();
