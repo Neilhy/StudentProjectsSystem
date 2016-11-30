@@ -7,9 +7,10 @@ $(function () {
     $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
-    // setCollege();
+    setCollege();
     setTextItems('collegesText','学院');
-    setSelectItems('college','学院');
+    // setSelectItems('college','学院');
+    $('input:radio[name="competitionMethod"]').attr('disabled','true');
     setSelectItems('competitionRank','竞赛等级');
     setSelectItems('competitionPrize','所获奖项');
     var node1="<div class='teamerInfo'>"+
@@ -126,6 +127,11 @@ $(function () {
                studentList.push(student);
            });
        }
+       if(captainCollege != college) {
+           layer.tips('队长必须是该院的', '#competitionMethod');
+           $(window).scrollTop($('#competitionMethod').offset());
+           return;
+       }
        var filePath = '';
        var photoStatus = '';
        if($('#browseText').val()=='点击上传文件') {
@@ -205,6 +211,7 @@ $(function () {
             addFlag = true;
         }
     });
+    $('input:radio[name="competitionMethod"]').removeAttr("disabled");
 
 });
 var partnerAddNode=$("#partnerAdd");

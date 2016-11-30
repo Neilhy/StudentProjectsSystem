@@ -264,7 +264,7 @@ function setTextItems(textName,keyword) {
             alert('error');
             alert(status + " " + status);
         }
-    });
+});
 }
 
 /**

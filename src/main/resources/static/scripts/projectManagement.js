@@ -3,6 +3,7 @@ $(function () {
     init();
     showFilter();
     show();
+    over();
 });
 
 function init() {
@@ -19,6 +20,14 @@ function init() {
     $('#showPic').hide();
     $('#first').hide();
     $('#prev').hide();
+}
+
+function over() {
+    $('#add').removeAttr('disabled');
+    $('#excel').removeAttr('disabled');
+    $('#del').removeAttr('disabled');
+    $('#pass').removeAttr('disabled');
+    $('#noPass').removeAttr('disabled');
 }
 
 

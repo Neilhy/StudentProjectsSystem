@@ -183,7 +183,12 @@
         $('input:checkbox[name="ckb"]').prop('checked',this.checked);
     });
 
-
+    $('#create').removeAttr('disabled');
+    $('#selCkb').removeAttr('disabled');
+    $('#delete').removeAttr('disabled');
+    $('#openStatus').removeAttr('disabled');
+    $('#closeStatus').removeAttr('disabled');
+    $('#resetPwd').removeAttr('disabled');
 });
 
 
