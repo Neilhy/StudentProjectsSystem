@@ -48,7 +48,7 @@ $('#OldPassword').blur(function () {
 
 $('#edtPwd').click(function () {
     var data = new Object();
-    if(pwdFlag == false ) {
+    if(pwdFlag == false && username!='admin') {
         layer.tips('密码错误','#OldPassword');
         return;
     }
