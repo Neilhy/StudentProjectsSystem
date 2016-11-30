@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-public class StudentProjectsApplication implements CommandLineRunner{
+public class StudentProjectsApplication extends SpringBootServletInitializer implements CommandLineRunner{
 
 	@Autowired
 	private AdminRepository adminRepository;
@@ -19,6 +21,11 @@ public class StudentProjectsApplication implements CommandLineRunner{
 
 	public static void main(String[] args) {
 		SpringApplication.run(StudentProjectsApplication.class, args);
+	}
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(StudentProjectsApplication.class);
 	}
 
 	@Override

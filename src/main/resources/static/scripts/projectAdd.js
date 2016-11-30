@@ -7,9 +7,9 @@ $(function () {
     $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
-    setCollege();
-    // setTextItems('collegesText','学院');
-    // setSelectItems('college','学院');
+    // setCollege();
+    setTextItems('collegesText','学院');
+    setSelectItems('college','学院');
     setSelectItems('competitionRank','竞赛等级');
     setSelectItems('competitionPrize','所获奖项');
     var node1="<div class='teamerInfo'>"+
@@ -200,8 +200,8 @@ $(function () {
 
     $("#addPartner").click(function () {
         if(addFlag==false) {
-            $(node1+'<option>'+college+'</option>'+node2).appendTo(partnerAddNode);
-            // $(node1+$('#collegesText').val() +node2).appendTo(partnerAddNode);
+            // $(node1+'<option>'+college+'</option>'+node2).appendTo(partnerAddNode);
+            $(node1+$('#collegesText').val() +node2).appendTo(partnerAddNode);
             addFlag = true;
         }
     });
