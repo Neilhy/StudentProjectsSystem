@@ -10,7 +10,7 @@ $(function () {
     setCollege();
     setTextItems('collegesText','学院');
     // setSelectItems('college','学院');
-    $('input:radio[name="competitionMethod"]').attr('disabled','true');
+    // $('input:radio[name="competitionMethod"]').attr('disabled','true');
     setSelectItems('competitionRank','竞赛等级');
     setSelectItems('competitionPrize','所获奖项');
     var node1="<div class='teamerInfo'>"+
@@ -98,6 +98,7 @@ $(function () {
    // alert($("#browseText").val());
        var studentList = new Array();
        var captainCollege = "";
+       var numFlag = false;
        if($('input:radio[name="competitionMethod"]:checked').val() == 'person') {
            var student = new Object();
            student.registerId = $("#registerId").val();
@@ -107,12 +108,18 @@ $(function () {
            student.grade = student.registerId.substr(0, 4);
            student.captainOrNot = 1;            //1人默认队长
            captainCollege = student.college;
+           if(/^[\d]+$/.test($('#registerId').val()) == false) {
+               numFlag = true;
+           }
            studentList.push(student);
        } else {
            teamerInfo.children().each(function () {
               //alert($(this).html());
                var student = new Object();
                student.registerId = $(this).find('td').eq(0).text();
+               if(/^[\d]+$/.test(registerId) == false) {
+                   numFlag = true;
+               }
                student.studentName = $(this).find('td').eq(1).text();
                student.college = $(this).find('td').eq(2).text();
                student.grade = student.registerId.substr(0, 4);
@@ -126,6 +133,11 @@ $(function () {
                }
                studentList.push(student);
            });
+       }
+       if(numFlag == true) {
+           layer.tips('不能包含数字以外的字符', '#registerId');
+           $(window).scrollTop($('#registerId').offset());
+           return;
        }
        if(captainCollege != college) {
            layer.tips('队长必须是该院的', '#competitionMethod');
