@@ -83,7 +83,6 @@
     });
 
     $('#edt').click(function () {
-        //TODO 保存修改内容
         var id = $('input[name="id"]').val();
         var college = $('#college').val();
         var username = $('#Name').val();
@@ -118,6 +117,7 @@
                 // initToken();
             },
             error: function (XMLHttpRequest, status, errorThrown) {
+                // alert("haha");
                 alert(status + " " + errorThrown);
             }
         })

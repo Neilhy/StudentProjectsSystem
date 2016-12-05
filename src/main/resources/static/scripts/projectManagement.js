@@ -32,6 +32,7 @@ function over() {
     $('#del').removeAttr('disabled');
     $('#pass').removeAttr('disabled');
     $('#noPass').removeAttr('disabled');
+    $('#selCkb').removeAttr('disabled');
 }
 
 function showFilter() {

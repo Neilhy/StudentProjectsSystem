@@ -54,7 +54,8 @@ public class AdminsServiceImpl implements AdminsService {
         return null;
     }
 
-    @PreAuthorize("#admin.id == authentication.principal.id")
+//    @PreAuthorize("#admin.id == authentication.principal.id")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public Admin modifyAdmin(Admin admin) {
         Admin a = adminRepository.findById(admin.getId());
