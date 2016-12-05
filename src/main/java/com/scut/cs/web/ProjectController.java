@@ -125,8 +125,8 @@ public class ProjectController {
     }
 
     @RequestMapping(value = RequestUrls.Excel,method = RequestMethod.GET)
-    public void excel(HttpServletResponse response) {
-        List<Project> projects = projectsService.getAllProjects();
+    public void excel(HttpServletResponse response,@PathVariable String college) {
+        List<Project> projects = projectsService.getAllProjects(college);
         ArrayList rows = new ArrayList<>();
         int idx = 1;
         for(Project project:projects) {

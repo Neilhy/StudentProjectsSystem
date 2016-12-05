@@ -35,8 +35,11 @@ public class ProjectsServiceImpl implements ProjectsService {
     private StudentRepository studentRepository;
 
     @Override
-    public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+    public List<Project> getAllProjects(String college) {
+        if(college.equals("无")) {
+            return projectRepository.findAll();
+        }
+        return projectRepository.findByCaptainCollege(college);
     }
 
     @PreAuthorize("hasRole('ROLE_INNER') or hasRole('ROLE_ADMIN')")

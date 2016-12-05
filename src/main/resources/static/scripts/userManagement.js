@@ -2,7 +2,6 @@
     initToken();
     show('all');
     setSelectItems('college','学院');
-
     $('#role').change(function () {
         var role = $(this).val();
         if(role == 'ROLE_INNER') {

@@ -37,6 +37,6 @@ public class RequestUrls {
     public static final String GetPic = "/getPic/{value}";
     public static final String SavePic = "/savePic";
     public static final String GetLocalPic = "/getLocalPic/{fileName}";
-    public static final String Excel = "/excel";
+    public static final String Excel = "/excel/{college}";
 
 }

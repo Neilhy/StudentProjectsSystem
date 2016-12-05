@@ -6,6 +6,7 @@ $(function () {
     over();
 });
 var myStatus = -1;
+var myCollege = "";
 function init() {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
@@ -23,6 +24,10 @@ function init() {
     $.get('/getMyAdmin',function (data) {
         // alert(JSON.stringify(data));
         myStatus = data.status;
+        myCollege = data.college;
+        if(myCollege=='') {
+            myCollege = "无";
+        }
     });
 }
 
@@ -51,7 +56,7 @@ $('#excel').click(function () {
     if(validate()==false) {
         return;
     }
-    window.open('/excel', 'newWindow', 'height=400,width=700');
+    window.open('/excel/'+myCollege, 'newWindow', 'height=400,width=700');
 });
 
 $('#filter').change(function () {

@@ -11,7 +11,7 @@ import java.util.List;
  * Created by NeilHY on 2016/8/21.
  */
 public interface ProjectsService {
-    List<Project> getAllProjects();
+    List<Project> getAllProjects(String college);
 
     Page<Project> getProjects(String keyword,String item,int page,int size);
 
