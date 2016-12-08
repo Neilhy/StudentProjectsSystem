@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
 /**
  * Created by NeilHY on 2016/8/11.
  */
@@ -25,12 +24,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
         registry.addViewController("/dictManagement").setViewName("dictManagement");
         registry.addViewController("/file").setViewName("testFileUpload");
         registry.addViewController("/projectEdit").setViewName("projectEdit");
+        registry.addViewController("/error").setViewName("error");
     }
 
-//    @Bean
-//    public MultipartResolver multipartResolver() {
-//        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-//        multipartResolver.setMaxUploadSize(1000000);
-//        return multipartResolver;
-//    }
+    @Bean
+    public MultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(4*1024*1024);
+        return multipartResolver;
+    }
+
 }

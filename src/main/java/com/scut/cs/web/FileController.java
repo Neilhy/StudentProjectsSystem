@@ -128,6 +128,7 @@ public class FileController  {
                 fos.write(data,0,data.length);
                 fos.flush();
                 fos.close();
+                request.getSession().removeAttribute("fileMeta");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {

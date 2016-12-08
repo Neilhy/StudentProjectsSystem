@@ -11,11 +11,15 @@ import org.springframework.web.multipart.MultipartException;
  */
 @ControllerAdvice
 public class ExceptionProcessor {
-    int size = 1;
+    int size = 2;
     @ExceptionHandler(MultipartException.class)
     @ResponseBody
     public String handleFile(Throwable t) {
         System.out.println("正在处理异常...");
         return  "文件超过大小限制:"+size+"M";
     }
+//    @ExceptionHandler(Exception.class)
+//    public String handle(Throwable t) {
+//        return "error";
+//    }
 }

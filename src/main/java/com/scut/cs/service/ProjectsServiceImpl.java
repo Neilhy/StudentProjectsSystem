@@ -31,8 +31,6 @@ public class ProjectsServiceImpl implements ProjectsService {
 
     @Autowired
     private ProjectRepository projectRepository;
-    @Autowired
-    private StudentRepository studentRepository;
 
     @Override
     public List<Project> getAllProjects(String college) {
