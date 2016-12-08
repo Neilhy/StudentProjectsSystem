@@ -1,10 +1,14 @@
 package com.scut.cs.web;
 
+import com.scut.cs.StudentProjectsApplication;
 import com.scut.cs.domain.Admin;
 import com.scut.cs.service.AdminsService;
 import com.scut.cs.web.request.ChangeStatus;
 import com.scut.cs.web.request.RequestUrls;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +23,7 @@ import java.util.List;
  */
 @Controller
 public class AdminController {
+    private static Logger logger = LoggerFactory.getLogger(AdminController.class);
     @Autowired
     AdminsService adminsService;
 
@@ -53,7 +58,7 @@ public class AdminController {
         try {
             return adminsService.delelteAdminList(id);
         } catch (IllegalArgumentException e) {
-            System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
+            logger.info("捕获到参数异常，并且返回空list  "+e.getMessage());
             return null;
         }
     }
@@ -66,7 +71,7 @@ public class AdminController {
         try {
             adminsService.changeStatus(id,status);
         } catch (IllegalArgumentException e) {
-            System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
+            logger.info("捕获到参数异常，并且返回空list  "+e.getMessage());
         }
     }
 
@@ -88,7 +93,7 @@ public class AdminController {
         try {
             adminsService.resetPassword(id);
         } catch (IllegalArgumentException e) {
-            System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
+            logger.info("捕获到参数异常，并且返回空list  "+e.getMessage());
         }
     }
 
@@ -101,7 +106,7 @@ public class AdminController {
             a.setPassword(admin.getPassword());
             adminsService.modifyAdmin(a);
         } catch (IllegalArgumentException e) {
-            System.out.println("捕获到参数异常，并且返回空list  "+e.getMessage());
+            logger.info("捕获到参数异常，并且返回空list  "+e.getMessage());
         }
     }
 

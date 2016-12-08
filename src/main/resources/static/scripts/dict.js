@@ -77,7 +77,7 @@ function getData(){
     });
     data.dictList = rows;
     data.flag = flag;
-    // alert(JSON.stringify(data));
+    // console.log(JSON.stringify(data));
     return data;
 }
 
@@ -93,18 +93,18 @@ function check() {
         }
     });
     if(!flag) {
-        alert('该数据类型已存在');
+        console.log('该数据类型已存在');
         return false;
     }
     //判断是否存在重复的数据项
     var items = $('#tbody').find('input[name=itemName]');
     var arr = new Array();
     items.each(function () {
-        // alert($(this).val());
+        // console.log($(this).val());
         arr.push($(this).val());
     });
     if(arr.length != $.unique(arr).length) {
-        alert('请不要重复输入相同的数据项');
+        console.log('请不要重复输入相同的数据项');
         return false;
     }
     return true;
@@ -124,8 +124,8 @@ function saveEdit() {
             getKeywords();
         },
         error:function (XMLHttpRequest,status,errorThrown) {
-            alert('error');
-            alert(status + " " + errorThrown);
+            console.log('error');
+            console.log(status + " " + errorThrown);
         }
     });
 
@@ -159,7 +159,7 @@ function changeType() {
  */
 function getKeywords() {
     $.get('/getKeywords',function (data) {
-        // alert(data);
+        // console.log(data);
         var html = [
                 '<span>数据类型：</span>',
                 '<select id="dataType" onchange="changeType()">',
@@ -170,7 +170,7 @@ function getKeywords() {
         }
         html += '</select> ';
         html += '<input type="text" name="newType" id="newType" placeholder="新的数据类型名称"/>';
-        // alert(html);
+        // console.log(html);
         $("#deleteType").hide();
         $('.select').prepend(html);////////////////////////////////////////////
     })
@@ -203,8 +203,8 @@ function getDictItemsAndShow(keyword) {
             }
         },
         error: function (XMLHttpRequest, status, errorThrown) {
-            alert('error');
-            alert(status + " " + status);
+            console.log('error');
+            console.log(status + " " + status);
         }
     });
 
@@ -225,18 +225,18 @@ function setSelectItems(selName,keyword) {
          contentType: "application/json; charset=utf-8",
          data: JSON.stringify(data),
          success: function (data) {
-             // alert(data);
+             // console.log(data);
              var items = data;
              var html = "";
              for (var i = 0; i < items.length; i++) {
              html += '<option value="' + items[i] + '">' + items[i] + '</option>';
              }
-             //alert(html);
+             //console.log(html);
              $('#' + selName).append(html);
          },
          error: function (XMLHttpRequest, status, errorThrown) {
-         alert('error');
-         alert(status + " " + status);
+             console.log('error');
+             console.log(status + " " + status);
      }
      });
 }
@@ -257,12 +257,12 @@ function setTextItems(textName,keyword) {
             for (var i = 0; i < items.length; i++) {
                 html += '<option value="' + items[i] + '">' + items[i] + '</option>';
             }
-            // alert(html);
+            // console.log(html);
             $('#' + textName).val(html);
         },
         error: function (XMLHttpRequest, status, errorThrown) {
-            alert('error');
-            alert(status + " " + status);
+            console.log('error');
+            console.log(status + " " + status);
         }
 });
 }

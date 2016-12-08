@@ -2,6 +2,8 @@ package com.scut.cs.web;
 
 import com.scut.cs.domain.FileMeta;
 import com.scut.cs.web.request.RequestUrls;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +26,7 @@ import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
  */
 @RestController
 public class FileController  {
-
+    private static Logger logger = LoggerFactory.getLogger(FileController.class);
     Random r = new Random();
     String dir = File.separator+"pic"+File.separator;
     /***************************************************
@@ -40,7 +42,7 @@ public class FileController  {
     FileMeta upload(MultipartHttpServletRequest request, HttpServletResponse response) {
         FileMeta fileMeta = null;
         HttpSession session = request.getSession();
-        System.out.println(session.getId());
+//        logger.info(session.getId());
         Iterator<String> itr =  request.getFileNames();
         MultipartFile mpf = null;
         if(itr.hasNext()){
@@ -49,7 +51,6 @@ public class FileController  {
             fileMeta.setFileName(mpf.getOriginalFilename());
             fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
             fileMeta.setFileType(mpf.getContentType());
-            System.out.println(fileMeta);
             try {
                 fileMeta.setBytes(mpf.getBytes());
             } catch (IOException e) {
@@ -72,7 +73,7 @@ public class FileController  {
      ****************************************************/
     @RequestMapping(value = RequestUrls.GetPic, method = RequestMethod.GET)
     public void getPic(HttpServletRequest request, HttpServletResponse response, @PathVariable String value){
-        System.out.println("开始获取图片...");
+        logger.info("开始获取图片...");
         FileMeta getFile = (FileMeta)request.getSession().getAttribute("fileMeta");
 
         if(getFile != null) {
@@ -89,7 +90,7 @@ public class FileController  {
 
     @RequestMapping(value = RequestUrls.GetLocalPic,method = RequestMethod.GET)
     public void getLocalPic(HttpServletResponse response,@PathVariable String fileName){
-        System.out.println("开始获取本地图片..."+"名字为:"+fileName);
+        logger.info("开始获取本地图片..."+"名字为:"+fileName);
         String path = dir + fileName + ".jpg";
         if(!fileName.equals("")) {
             try {
@@ -110,7 +111,7 @@ public class FileController  {
     }
     @RequestMapping(value = RequestUrls.SavePic,method = RequestMethod.GET)
     public String savePic(HttpServletRequest request) {
-        System.out.println("开始保存图片");
+        logger.info("开始保存图片");
         String fileName = "";
         FileMeta getFile = (FileMeta)request.getSession().getAttribute("fileMeta");
         if(getFile!=null) {
@@ -120,7 +121,7 @@ public class FileController  {
             if(!f.exists()) {
                 f.mkdirs();
             }
-            //System.out.println(fileName);
+            //logger.info(fileName);
             try {
                 FileOutputStream fos = new FileOutputStream(filePath);
                 byte[] data = getFile.getBytes();

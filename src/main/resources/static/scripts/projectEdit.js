@@ -2,99 +2,9 @@
  * Created by Administrator on 2016/11/23.
  */
 
+
 $(function () {
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) {
-        xhr.setRequestHeader(header, token);
-    });
-    var url = '/getProject/'+document.URL.split('?')[1].split('=')[1];
-    $.get(url,function (data) {
-        var thisProject = data,
-            filePath=thisProject.filePath,
-            msgForbid=thisProject.msgForbid,
-            projectName=thisProject.projectName,
-            projectDate=thisProject.projectDate,
-            level=thisProject.level,
-            rank=thisProject.rank,
-            studentList=thisProject.studentList,
-            captainCollege=thisProject.captainCollege,
-            teacher=thisProject.teacher,
-            note=thisProject.note;
-        ID = thisProject.id;
-        state = thisProject.state;
-        //photoStatus=thisProject.photoStatus
-        //state=thisProject.state
-        $("#competitionName").val(projectName);
-        $("#competitionRank").val(rank);
-        $("#competitionTime").val(projectDate);
-        $("#teacher").val(teacher);
-        $("#competitionPrize").val(level);
-        $("#note").val(note);
-        //每一行都一样，用模板的方法
-        var tpl="<tr>"+
-            "<td>{{registerId}}</td>"+
-            "<td>{{Name}}</td>"+
-            "<td>{{college}}</td>"+
-            "<td>{{className}}</td>"+
-            "<td>{{duty}}</td>"+
-            "<td><input type='button' class='btn btn-warning' value='删除' onclick='removetrNode($(this))'></td>"+
-            "</tr>";
-        var students=[];
-        if(studentList.length>1){//团队赛
-            $(partnerAddNode).toggle();
-            $(":radio[name=competitionMethod][value=team]").attr("checked","true");
-            for(var i=0;i<studentList.length;i++){
-                var tempTpl=tpl.replace("{{Name}}",studentList[i].studentName)
-                    .replace("{{registerId}}",studentList[i].registerId)
-                    .replace("{{className}}",studentList[i].className)
-                    .replace("{{college}}",studentList[i].college);
-                if(studentList[i].captainOrNot==1){
-                    tempTpl= tempTpl.replace("{{duty}}","队长");
-                }else{
-                    tempTpl=tempTpl.replace("{{duty}}","");
-                }
-                students.push(tempTpl);
-            }
-            $('#individual').hide();
-            $('#table').show();
-            $("#teamer-info").html(''+students.join(''));
-        }else{
-            var student=studentList[0];
-            $(":radio[name=competitionMethod][value=person]").attr("checked","true");
-            $("#registerId").val(student.registerId);
-            $("#Name").val(student.studentName);
-            selectItem('college',student.college);
-            $("#className").val(student.className);
-        }
-        $('#photoGroup').hide();
-    });
-    //填充值
-
-
-//下面和projectAdd一样
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) {
-        xhr.setRequestHeader(header, token);
-    });
-    // setCollege();
-    setTextItems('collegesText','学院');
-    setSelectItems('college','学院');
-    setSelectItems('competitionRank','竞赛等级');
-    setSelectItems('competitionPrize','所获奖项');
-    var node1="<div class='teamerInfo'>"+
-        "<input type='text' class='form-control' id='studentId' placeholder='学号'/>"+
-        "<input type='text' class='form-control' id='studentName'  placeholder='姓名'/>"+
-        "<select class='form-control' id='form-control'>";
-
-    var node2= "</select>"+
-        "<input type='text' class='form-control' id='studentClass' placeholder='班级'/>  "+
-        "<input type='checkbox' id='captainCkb'/> 是否队长"+
-        "<input type='button' value='添加' class='btn btn-success' onclick='addPartnerToTable($(this))'/> "+
-        "<input type='button' id='cancle' value='取消' class='btn btn-default' onclick='removeNode($(this))'/>"+
-        "</div>";
-
+    init();
 
     $("#saveEdit").click(function () {
         if(state == '通过') {
@@ -212,14 +122,14 @@ $(function () {
                 type: "post",
                 data: JSON.stringify(project),
                 success: function (data) {
-                    // alert(data);
+                    // console.log(data);
                     // window.location.reload();
                     window.location = "/projectManagement";
                     //load(curr);
                 },
                 error:function (XMLHttpRequest,status,errorThrown) {
-                    // alert('error');
-                    alert(status + " " + errorThrown);
+                    // console.log('error');
+                    console.log(status + " " + errorThrown);
                 }
             });
         });
@@ -228,7 +138,7 @@ $(function () {
     $('input:radio[name="competitionMethod"]').change( function(){
         $(partnerAddNode).toggle();
         $("#table").toggle();
-        // alert($(this).val());
+        // console.log($(this).val());
         if($(this).val()=='team') {
             $('#individual').hide();
         } else {
@@ -251,29 +161,107 @@ $(function () {
             addFlag = true;
         }
     });
-
 });
+
 var partnerAddNode=$("#partnerAdd");
 var teamerInfo=$("#teamer-info");
 var addFlag = false;
 var college = "";
 var ID;
 var state;
-function selectItem(selId,itemName) {
-    $('#'+selId + ' option').each(function () {
-        if($(this).text() == itemName) {
-            $(this).attr('selected',true);
-            return;
-        }
-    })
+var node1;
+var node2;
+
+function init() {
+    initToken();
+    // setCollege();
+    setTextItems('collegesText','学院');
+    setSelectItems('college','学院');
+    setSelectItems('competitionRank','竞赛等级');
+    setSelectItems('competitionPrize','所获奖项');
+    fillValues();
+    node1="<div class='teamerInfo'>"+
+        "<input type='text' class='form-control' id='studentId' placeholder='学号'/>"+
+        "<input type='text' class='form-control' id='studentName'  placeholder='姓名'/>"+
+        "<select class='form-control' id='form-control'>";
+
+    node2= "</select>"+
+        "<input type='text' class='form-control' id='studentClass' placeholder='班级'/>  "+
+        "<input type='checkbox' id='captainCkb'/> 是否队长"+
+        "<input type='button' value='添加' class='btn btn-success' onclick='addPartnerToTable($(this))'/> "+
+        "<input type='button' id='cancle' value='取消' class='btn btn-default' onclick='removeNode($(this))'/>"+
+        "</div>";
 }
 
+function initToken() {
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+}
 
-function setCollege() {
-    $.get('/getCollege',function (data) {
-        college = data;
-        $('#college').append('<option>'+college+'</option>')
-    })
+function fillValues() {
+    var url = '/getProject/'+document.URL.split('?')[1].split('=')[1];
+    $.get(url,function (data) {
+        var thisProject = data,
+            filePath=thisProject.filePath,
+            msgForbid=thisProject.msgForbid,
+            projectName=thisProject.projectName,
+            projectDate=thisProject.projectDate,
+            level=thisProject.level,
+            rank=thisProject.rank,
+            studentList=thisProject.studentList,
+            captainCollege=thisProject.captainCollege,
+            teacher=thisProject.teacher,
+            note=thisProject.note;
+        ID = thisProject.id;
+        state = thisProject.state;
+        $("#competitionName").val(projectName);
+        $("#competitionTime").val(projectDate);
+        $("#teacher").val(teacher);
+        $("#note").val(note);
+        //每一行都一样，用模板的方法
+        var tpl="<tr>"+
+            "<td>{{registerId}}</td>"+
+            "<td>{{Name}}</td>"+
+            "<td>{{college}}</td>"+
+            "<td>{{className}}</td>"+
+            "<td>{{duty}}</td>"+
+            "<td><input type='button' class='btn btn-warning' value='删除' onclick='removetrNode($(this))'></td>"+
+            "</tr>";
+        var students=[];
+        if(studentList.length>1){//团队赛
+            $(partnerAddNode).toggle();
+            $(":radio[name=competitionMethod][value=team]").attr("checked","true");
+            for(var i=0;i<studentList.length;i++){
+                var tempTpl=tpl.replace("{{Name}}",studentList[i].studentName)
+                    .replace("{{registerId}}",studentList[i].registerId)
+                    .replace("{{className}}",studentList[i].className)
+                    .replace("{{college}}",studentList[i].college);
+                if(studentList[i].captainOrNot==1){
+                    tempTpl= tempTpl.replace("{{duty}}","队长");
+                }else{
+                    tempTpl=tempTpl.replace("{{duty}}","");
+                }
+                students.push(tempTpl);
+            }
+            $('#individual').hide();
+            $('#table').show();
+            $("#teamer-info").html(''+students.join(''));
+        }else{
+            var student=studentList[0];
+            $(":radio[name=competitionMethod][value=person]").attr("checked","true");
+            $("#registerId").val(student.registerId);
+            $("#Name").val(student.studentName);
+            $('#college').val(student.college);
+            $("#className").val(student.className);
+        }
+        $("#competitionRank").val(level);
+        $("#competitionPrize").val(rank);
+        $('#photoGroup').hide();
+        $('input:radio[name="competitionMethod"]').removeAttr("disabled");
+    });
 }
 
 //把队友信息添加至表里面

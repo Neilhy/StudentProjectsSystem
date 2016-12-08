@@ -74,7 +74,7 @@ $('#edtPwd').click(function () {
             // initToken();
         },
         error: function (XMLHttpRequest, status, errorThrown) {
-            alert(status + " " + errorThrown);
+            console.log(status + " " + errorThrown);
         }
     })
 });
@@ -107,7 +107,7 @@ var pwdFlag = false;
  }),
  dataType:"json",
  success: function (data,status) {
- alert(JSON.parse(data)+"   "+status);
+ console.log(JSON.parse(data)+"   "+status);
  $("#addProject").val(JSON.parse(data));
  }
  });
@@ -135,7 +135,7 @@ var pwdFlag = false;
  }),
  dataType:"json",
  success: function (data,status) {
- alert(JSON.parse(data)+"   "+status);
+ console.log(JSON.parse(data)+"   "+status);
  $("#addProject").val(JSON.parse(data));
  }
  });
@@ -158,14 +158,14 @@ var pwdFlag = false;
  //                                {registerId:201430560014,studentName:"七号",college:"计算机科学与工程学院",className:"网络工程",grade:2014,captainOrNot:0,projectList:null}
  //                            ]
  //                        },function (data,status) {
- //                            alert(status);
+ //                            console.log(status);
  //                            $("#addProject").html(data);
  //                        },"json");
  });
  $("#testGetProject").click(function() {
  var url='/getProjects/'+$('#projectId1').val()+'/'+$('#projectId2').val();
  $.get(url, function (data, status) {
- alert(JSON.parse(data)+"   "+status);
+ console.log(JSON.parse(data)+"   "+status);
  $("#getProjects").val(JSON.parse(data));
  });
  });
@@ -182,7 +182,7 @@ var pwdFlag = false;
  }),
  dataType: "json",
  success: function (data, status) {
- alert(JSON.parse(data) + "   " + status);
+ console.log(JSON.parse(data) + "   " + status);
  $("#deleteProjects").val(JSON.parse(data));
  }
  });
@@ -198,7 +198,7 @@ var pwdFlag = false;
  ),
  dataType: "json",
  success: function (data, status) {
- alert(JSON.parse(data) + "   " + status);
+ console.log(JSON.parse(data) + "   " + status);
  $("#deleteProjects").val(JSON.parse(data));
  }
  });

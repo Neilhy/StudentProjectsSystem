@@ -23,7 +23,7 @@ $(function () {
 
         progressall: function (e, data) {
 	        var progress = parseInt(data.loaded / data.total * 100, 10);
-			// alert(progress);
+			// console.log(progress);
 	        $('#progress .bar').css(
 	            'width',
 	            progress + '%'
@@ -32,13 +32,13 @@ $(function () {
    		}
     }).on("fileuploadadd",function () {
     	var progress = 0;
-		// alert(progress);
+		// console.log(progress);
 		$('#progress .bar').css(
 			'width',
 			progress + '%'
 		);
 		$('.progress .bar').text(progress + '%');
 		$('#responseTxt').val("");
-		// alert('begin');
+		// console.log('begin');
 	});
 });

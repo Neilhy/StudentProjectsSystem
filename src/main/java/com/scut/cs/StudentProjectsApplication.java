@@ -1,7 +1,8 @@
 package com.scut.cs;
-
 import com.scut.cs.domain.Admin;
 import com.scut.cs.domain.dao.AdminRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,9 +11,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Date;
+
 @SpringBootApplication
 public class StudentProjectsApplication extends SpringBootServletInitializer implements CommandLineRunner{
-
+	private static Logger logger = LoggerFactory.getLogger(StudentProjectsApplication.class);
 	@Autowired
 	private AdminRepository adminRepository;
 
@@ -30,6 +33,7 @@ public class StudentProjectsApplication extends SpringBootServletInitializer imp
 
 	@Override
 	public void run(String... strings) throws Exception {
+		logger.info(new Date().toString()+"开始...");
 		if(adminRepository.findByUsername("admin") != null) {
 			return;
 		}

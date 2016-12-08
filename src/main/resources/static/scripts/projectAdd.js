@@ -1,59 +1,11 @@
 /**
  * Created by Administrator on 2016/9/4.
  */
+
 $(function () {
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) {
-        xhr.setRequestHeader(header, token);
-    });
-    setCollege();
-    setTextItems('collegesText','学院');
-    // setSelectItems('college','学院');
-    // $('input:radio[name="competitionMethod"]').attr('disabled','true');
-    setSelectItems('competitionRank','竞赛等级');
-    setSelectItems('competitionPrize','所获奖项');
-    var node1="<div class='teamerInfo'>"+
-        "<input type='text' class='form-control' id='studentId' placeholder='学号'/>"+
-        "<input type='text' class='form-control' id='studentName'  placeholder='姓名'/>"+
-        "<select class='form-control' id='form-control'>";
-       /* "<option value='机械与汽车工程学院'>机械与汽车工程学院</option>"+
-        "<option value='建筑学院'>建筑学院</option>"+
-        "<option value='土木与交通学院'>土木与交通学院</option>"+
-        "<option value='电子与信息学院'>电子与信息学院</option>"+
-        "<option value='材料科学与工程学院'>材料科学与工程学院</option>"+
-        "<option value='化学与化工学院'>化学与化工学院</option>"+
-        "<option value='轻工科学与工程学院'>轻工科学与工程学院 </option>"+
-        "<option value='食品科学与工程学院'>食品科学与工程学院</option>"+
-        "<option value='数学学院'>数学学院 </option>"+
-        "<option value='物理与光电学院'>物理与光电学院 </option>"+
-        "<option value='经济与贸易学院'>经济与贸易学院</option>"+
-        "<option value='自动化科学与工程学院'>自动化科学与工程学院</option>"+
-        "<option value='计算机科学与工程学院'>计算机科学与工程学院</option>"+
-        "<option value='电力学院'>电力学院</option>"+
-        "<option value='生物科学与工程学院'>生物科学与工程学院</option>"+
-        "<option value='环境与能源学院'>环境与能源学院</option>"+
-        "<option value='软件学院'>软件学院</option>"+
-        "<option value='工商管理学院（创业教育学院)'>工商管理学院（创业教育学院）</option>"+
-        "<option value='公共管理学院'>公共管理学院</option>"+
-        "<option value='马克思主义学院'>马克思主义学院</option>"+
-        "<option value='外国语学院'>外国语学院</option>"+
-        "<option value='法学院（知识产权学院)'>法学院（知识产权学院）</option>"+
-        "<option value='新闻与传播学院'>新闻与传播学院</option>"+
-        "<option value='艺术学院'>艺术学院</option>"+
-        "<option value='体育学院'>体育学院</option>"+
-        "<option value='设计学院'>设计学院</option>"+
-        "<option value='医学院'>医学院</option>"+
-        "<option value='国际教育学院'>国际教育学院</option>"+*/
-    var node2= "</select>"+
-        "<input type='text' class='form-control' id='studentClass' placeholder='班级'/>  "+
-        "<input type='checkbox' id='captainCkb'/> 是否队长"+
-        "<input type='button' value='添加' class='btn btn-success' onclick='addPartnerToTable($(this))'/> "+
-        "<input type='button' id='cancle' value='取消' class='btn btn-default' onclick='removeNode($(this))'/>"+
-        "</div>";
-
-
-   $("#add").click(function () {
+    init();
+    $('input:radio[name="competitionMethod"]').removeAttr("disabled");
+    $("#add").click(function () {
        if ($("#competitionName").val() == "") {
            layer.tips('不能为空', '#competitionName');
            $(window).scrollTop($('#competitionName').offset());
@@ -117,7 +69,7 @@ $(function () {
               //alert($(this).html());
                var student = new Object();
                student.registerId = $(this).find('td').eq(0).text();
-               if(/^[\d]+$/.test(registerId) == false) {
+               if(/^[\d]+$/.test(student.registerId) == false) {
                    numFlag = true;
                }
                student.studentName = $(this).find('td').eq(1).text();
@@ -198,8 +150,8 @@ $(function () {
                    //load(curr);
                },
                error:function (XMLHttpRequest,status,errorThrown) {
-                   alert('error');
-                   alert(status + " " + errorThrown);
+                   console.log('error');
+                   console.log(status + " " + errorThrown);
                }
            });
        });
@@ -208,7 +160,7 @@ $(function () {
     $('input:radio[name="competitionMethod"]').change( function(){
         $(partnerAddNode).toggle();
         $("#table").toggle();
-       // alert($(this).val());
+       // console.log($(this).val());
         if($(this).val()=='team') {
             $('#individual').hide();
         } else {
@@ -223,13 +175,41 @@ $(function () {
             addFlag = true;
         }
     });
-    $('input:radio[name="competitionMethod"]').removeAttr("disabled");
 
 });
+var node1;
+var node2;
 var partnerAddNode=$("#partnerAdd");
 var teamerInfo=$("#teamer-info");
 var addFlag = false;
 var college = "";
+function init() {
+    initToken();
+    setCollege();
+    setTextItems('collegesText','学院');
+    // setSelectItems('college','学院');
+    // $('input:radio[name="competitionMethod"]').attr('disabled','true');
+    setSelectItems('competitionRank','竞赛等级');
+    setSelectItems('competitionPrize','所获奖项');
+    node1="<div class='teamerInfo'>"+
+        "<input type='text' class='form-control' id='studentId' placeholder='学号'/>"+
+        "<input type='text' class='form-control' id='studentName'  placeholder='姓名'/>"+
+        "<select class='form-control' id='form-control'>";
+    node2= "</select>"+
+        "<input type='text' class='form-control' id='studentClass' placeholder='班级'/>  "+
+        "<input type='checkbox' id='captainCkb'/> 是否队长"+
+        "<input type='button' value='添加' class='btn btn-success' onclick='addPartnerToTable($(this))'/> "+
+        "<input type='button' id='cancle' value='取消' class='btn btn-default' onclick='removeNode($(this))'/>"+
+        "</div>";
+}
+
+function initToken() {
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+}
 
 function setCollege() {
     $.get('/getMyAdmin',function (data) {

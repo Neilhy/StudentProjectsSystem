@@ -1,9 +1,12 @@
 package com.scut.cs.web;
 
+import com.scut.cs.StudentProjectsApplication;
 import com.scut.cs.domain.Dict;
 import com.scut.cs.service.DictService;
 import com.scut.cs.web.request.AddDicts;
 import com.scut.cs.web.request.RequestUrls;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 public class DictController {
+    private static Logger logger = LoggerFactory.getLogger(DictController.class);
     @Autowired
     private DictService dictService;
 
@@ -24,7 +28,7 @@ public class DictController {
     @RequestMapping(value = RequestUrls.GetKeywordsUrl,method = RequestMethod.GET)
     @ResponseBody
     public List<String> getKeywords(){
-        System.out.println("开始取数据类型...");
+        logger.info("开始取数据类型...");
         return dictService.findKeywords();
 //        String ret = buildString(keywords);
 //        return keywords;
@@ -33,7 +37,7 @@ public class DictController {
     @ResponseBody
     public List<String> getDictItems(@RequestBody Dict dict) {
         String keyword = dict.getKeyword();
-        System.out.println("开始取" + keyword + "的数据项...");
+        logger.info("开始取" + keyword + "的数据项...");
         List<Dict> dicts= dictService.getItems(keyword);
         return dicts.stream().map(Dict::getItemName).collect(Collectors.toList());
     }
@@ -44,13 +48,13 @@ public class DictController {
             sb.append(item+',');
         }
         sb.deleteCharAt(sb.length()-1);
-//        System.out.println(sb.toString());
+//        logger.info(sb.toString());
         return sb.toString();
     }*/
 
     @RequestMapping(value = RequestUrls.AddDicts,method = RequestMethod.POST,consumes = "application/json")
     public String addDictItems(@RequestBody AddDicts addDicts) {
-        System.out.println("开始AddDicts...");
+        logger.info("开始AddDicts...");
         if (addDicts != null) {
             List<Dict> dicts = addDicts.getDictList();
             String flag = addDicts.getFlag();
@@ -69,7 +73,7 @@ public class DictController {
 
     @RequestMapping(value = RequestUrls.DeleteKeyword,method = RequestMethod.GET)
     public String deleteKeyword(@PathVariable String keyword) {
-        System.out.println("开始删除"+keyword+"...");
+        logger.info("开始删除"+keyword+"...");
         dictService.deleteKeyword(keyword);
         dictService.upDateKeywords();
         return "dictManagement";

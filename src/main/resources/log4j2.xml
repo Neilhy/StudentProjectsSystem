@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5p] %d %c - %m%n" />
+        </Console>
+        <File name="File" fileName="log/spring.log">
+            <PatternLayout pattern="[%-5p] %d %c - %m%n" />
+        </File>
+        <File name="SQLFile" fileName="log/sql.log">
+            <PatternLayout pattern="[%-5p] %d %c - %m%n" />
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="File" />
+        </Root>
+        <logger name="org.hibernate.tool.hbm2ddl" level="debug">
+            <AppenderRef ref="SQLFile" />
+        </logger>
+        <logger name="org.hibernate.SQL" level="debug">
+            <AppenderRef ref="SQLFile" />
+        </logger>
+    </Loggers>
+</Configuration>

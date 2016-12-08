@@ -70,11 +70,11 @@ public class ProjectsServiceImpl implements ProjectsService {
         } else if(keyword.equals("审核状态")) {
             projects = projectRepository.findByState(item,pageRequest);
         }
-        List<Project> list = projects.getContent();
-        System.out.println("共有"+list.size()+"条记录");
-        for(Project p : list) {
-            System.out.println(p.toString());
-        }
+//        List<Project> list = projects.getContent();
+//        System.out.println("共有"+list.size()+"条记录");
+//        for(Project p : list) {
+//            System.out.println(p.toString());
+//        }
         return projects;
     }
 

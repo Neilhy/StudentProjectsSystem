@@ -76,7 +76,7 @@
                 // initToken();
             },
             error: function (XMLHttpRequest, status, errorThrown) {
-                alert(status + " " + errorThrown);
+                console.log(status + " " + errorThrown);
             }
         })
     });
@@ -116,13 +116,11 @@
                 // initToken();
             },
             error: function (XMLHttpRequest, status, errorThrown) {
-                // alert("haha");
-                alert(status + " " + errorThrown);
+                // console.log("haha");
+                console.log(status + " " + errorThrown);
             }
         })
     });
-
-
 
     $('#Name').blur(function () {
         if($('#myModalLabel').text() == '修改信息')
@@ -142,12 +140,12 @@
             contentType: "application/json; charset=utf-8",
             success:function (data) {
                 refresh($('#role').val());
-                // alert('删除成功');
+                // console.log('删除成功');
                 layer.tips('删除成功','#add');
                 $('#selCkb').prop('checked',false);
             },
             error: function (XMLHttpRequest, status, errorThrown) {
-                alert(status + " " + errorThrown);
+                console.log(status + " " + errorThrown);
             }
         });
     });
@@ -168,12 +166,12 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     refresh($('#role').val());
-                    // alert('更新成功');
+                    // console.log('更新成功');
                     layer.tips('密码已重置为000000', '#add');
                     $('#selCkb').prop('checked',false);
                 },
                 error: function (XMLHttpRequest, status, errorThrown) {
-                    alert(status + " " + errorThrown);
+                    console.log(status + " " + errorThrown);
                 }
             });
         }
@@ -207,12 +205,12 @@ function changeStatus(status) {
         contentType: "application/json; charset=utf-8",
         success:function (data) {
             refresh($('#role').val());
-            // alert('更新成功');
+            // console.log('更新成功');
             layer.tips('更新成功','#add');
             $('#selCkb').prop('checked',false);
         },
         error: function (XMLHttpRequest, status, errorThrown) {
-            alert(status + " " + errorThrown);
+            console.log(status + " " + errorThrown);
         }
     });
 }
@@ -346,31 +344,22 @@ function edit(obj) {
     }
     $('#Name').val(username);
     $('input[name="id"]').val(id);
-    selectItem('college',college);
+    $('#college').val(college);
+    // selectItem('college',college);
     radioItem('status',status);
     radioItem('roleType',roleTypeVal);
 }
 
-function selectItem(selId,itemName) {
-    // alert(itemName);
-    $('#'+selId + ' option').each(function () {
-        // console.log($(this).text());
-        if($(this).text() == itemName) {
-            $(this).prop('selected',true);
-            return;
-        }
-    })
-}
-
 function radioItem(radioName,value) {
-    console.log('value:'+value);
+    $(":radio[name='"+radioName+"'][value="+value+"]").prop("checked",true);
+/*    console.log('value:'+value);
     $('input:radio[name="'+ radioName + '"]').each(function () {
         console.log($(this));
         if($(this).val() == value) {
             $(this).prop('checked',true);
             return;
         }
-    })
+    })*/
 }
 
 var allAdmin = "";
