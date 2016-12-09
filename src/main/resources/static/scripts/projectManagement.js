@@ -1,12 +1,18 @@
 ﻿
 $(function () {
     init();
+    initParams();
     showFilter();
     show();
     over();
 });
+
+var filter = "未选择";
+var filterItem = "无";
+var pageSize = 5;
 var myStatus = -1;
 var myCollege = "";
+var first = true;
 function init() {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
@@ -30,6 +36,26 @@ function init() {
     });
 }
 
+document.body.onbeforeunload = function () {
+    $.cookie('filter',filter,{expired:1});
+    $.cookie('filterItem',filterItem,{expired:1});
+    $.cookie('pageSize',pageSize,{expired:1});
+};
+
+function initParams() {
+    filter = getParamFromCookie('filter',filter);
+    filterItem = getParamFromCookie('filterItem',filterItem);
+    pageSize = getParamFromCookie('pageSize',pageSize);
+}
+
+function getParamFromCookie(name,value) {
+    if($.cookie(name) == null) {
+        return value;
+    } else {
+        return $.cookie(name);
+    }
+}
+
 function over() {
     setTotPages();
     $('#add').removeAttr('disabled');
@@ -41,8 +67,46 @@ function over() {
 }
 
 function showFilter() {
-    var filter = $('#filter').val();
-    setSelectItems('filter-list',filter);
+    $('#filter').val(filter);
+    $('#filter-list').html('');
+    if(filter == '未选择') {
+        $('#filter-list').append('<option value="无">无</option>');
+        filterItem = '无';
+        $('#filter-list').val(filterItem);
+        if(first == true) {
+            $('#size').val(pageSize);
+            first = false;
+        }
+        return;
+    }
+    var url = "/getDictItems";
+    var data = new Object();
+    data.keyword = filter;
+    $.ajax({
+        type: "POST",
+        url: url,
+        cache: false,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function (data) {
+            var items = data;
+            var html = "";
+            for (var i = 0; i < items.length; i++) {
+                html += '<option value="' + items[i] + '">' + items[i] + '</option>';
+            }
+            $('#filter-list').append(html);
+            if(first == true) {
+                $('#filter-list').val(filterItem);
+                $('#size').val(pageSize);
+                first = false;
+            }
+        },
+        error: function (XMLHttpRequest, status, errorThrown) {
+            console.log('error');
+            console.log(status + " " + status);
+        }
+    });
+    // setSelectItems('filter-list',filter);
 }
 
 $('#add').click(function () {
@@ -61,18 +125,21 @@ $('#excel').click(function () {
 
 $('#filter').change(function () {
     $('#filter-list').html('');
+    filter = $('#filter').val();
     if($('#filter').val() != "未选择") {
         $('#filter-list').append('<option value="未选择">未选择</option>');
-    }
-    showFilter();
-    if($(this).val() == '未选择') {
+    } else {
+        $('#filter-list').append('<option value="无">无</option>');
+        filterItem = '无';
         $('#tbody').html('');
         show();
     }
+    showFilter();
 });
 
 
 $('#filter-list').change(function () {
+    filterItem = $(this).val();
     changePage();
 });
 
@@ -81,6 +148,7 @@ $('#selCkb').click(function () {
 });
 
 $('#size').change(function () {
+    pageSize = $(this).val();
     $('#cur').text(1);
     changePage();
 });
@@ -204,8 +272,8 @@ function getCheckedIds() {
 }
 
 function show() {
-    var url = '/getProjects/'+$('#filter').val()+'/'
-        +$('#filter-list').val() +'/'+($('#cur').text()-1)+'/'+$('#size').val();
+    var url = '/getProjects/'+filter+'/'
+        +filterItem +'/'+($('#cur').text()-1)+'/'+pageSize;
     $.get(url,function (data) {
         list(data);
     })
@@ -217,8 +285,8 @@ function changePage() {
 }
 
 function setList() {
-    var url = '/getProjects/'+$('#filter').val()+'/'
-        +$('#filter-list').val() + '/' + ($('#cur').text()-1)+'/'+$('#size').val();
+    var url = '/getProjects/'+filter+'/'
+        +filterItem + '/' + ($('#cur').text()-1)+'/'+pageSize;
     $.get(url,function (data) {
         // console.log(JSON.stringify(data));
         $('#tbody').html('');
@@ -240,8 +308,8 @@ function setList() {
 }
 
 function setTotPages() {
-    var url = 'getTotPages/'+$('#size').val()+'/'+$('#filter').val()+'/'
-                 +$('#filter-list').val();
+    var url = 'getTotPages/'+pageSize+'/'+filter+'/'
+                 +filterItem;
     $.get(url,function (data) {
         $('#tot').text(data);
         $('#cur').text(1);
@@ -258,7 +326,7 @@ function list(data) {
     for(var i=0;i<content.length;i++) {
         var project = content[i];
         var line = '<tr>';
-        var size = Number($('#size').val());
+        var size = Number(pageSize);
         var num = (Number($('#cur').text())-1) * size + i + 1;
         line += '<input type="hidden" id="id" name="id" value="'+project.id+'"/>';
         line += '<input type="hidden" id="filePath" name="filePath" value="'+project.filePath+'"/>';
@@ -297,8 +365,8 @@ function list(data) {
 function showImg(obj) {
     var par = $(obj).parent().parent();
     var filePath = par.find('input').eq(1).val();
-    $('#showPic').show();
     $('#pic').attr('src','/getLocalPic/'+filePath);
+    $('#showPic').show();
 }
 
 function showState(obj) {

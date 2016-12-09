@@ -50,7 +50,7 @@ public class DictServiceImpl implements DictService {
     public List<Dict> addDicts(List<Dict>dictList,String flag,String keyword) {
         //如果是更新操作，则先删除原先的记录
 //        System.out.println(flag + " " + keyword);
-        if(flag.equals("update")) {
+        if("update".equals(flag)) {
             deleteKeyword(keyword);
         }
         List<Dict> dicts=dictRepository.save(dictList);

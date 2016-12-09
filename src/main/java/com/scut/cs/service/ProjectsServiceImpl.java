@@ -34,7 +34,7 @@ public class ProjectsServiceImpl implements ProjectsService {
 
     @Override
     public List<Project> getAllProjects(String college) {
-        if(college.equals("无")) {
+        if("无".equals(college)) {
             return projectRepository.findAll();
         }
         return projectRepository.findByCaptainCollege(college);
@@ -48,24 +48,24 @@ public class ProjectsServiceImpl implements ProjectsService {
         if(size > 0) {
             pageRequest = new PageRequest(page,size,new Sort(Sort.Direction.ASC,"projectName"));
         }
-        if(keyword.equals("未选择") || item.equals("未选择")) {
+        if("未选择".equals(keyword) || "未选择".equals(item)) {
             projects = projectRepository.findAll(pageRequest);
-        } else if(keyword.equals("学院")) {
+        } else if("学院".equals(keyword)) {
             projects =  projectRepository.findByCaptainCollege(item,pageRequest);
-        } else if(keyword.equals("年份")) {
+        } else if("年份".equals(keyword)) {
             try {
                 Integer year = Integer.parseInt(item);
                 projects = projectRepository.findByProjectDate(year,pageRequest);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if(keyword.equals("竞赛等级")) {
+        } else if("竞赛等级".equals(keyword)) {
             projects = projectRepository.findByLevel(item,pageRequest);
-        } else if(keyword.equals("所获奖项")) {
+        } else if("所获奖项".equals(keyword)) {
             projects = projectRepository.findByRank(item,pageRequest);
-        } else if(keyword.equals("获奖证明")) {
+        } else if("获奖证明".equals(keyword)) {
             projects = projectRepository.findByPhotoStatus(item,pageRequest);
-        } else if(keyword.equals("审核状态")) {
+        } else if("审核状态".equals(keyword)) {
             projects = projectRepository.findByState(item,pageRequest);
         }
 //        List<Project> list = projects.getContent();
@@ -89,22 +89,22 @@ public class ProjectsServiceImpl implements ProjectsService {
         if(size > 0) {
             pageRequest = new PageRequest(page,size,new Sort(Sort.Direction.ASC,"projectName"));
         }
-        if(keyword.equals("未选择") || item.equals("未选择")) {
+        if("未选择".equals(keyword) || "未选择".equals(item)) {
             projects = projectRepository.findByCaptainCollege(college,pageRequest);
-        } else if(keyword.equals("年份")) {
+        } else if("年份".equals(keyword)) {
             try {
                 Integer year = Integer.parseInt(item);
                 projects = projectRepository.findByProjectDateAndCaptainCollege(year,college,pageRequest);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if(keyword.equals("竞赛等级")) {
+        } else if("竞赛等级".equals(keyword)) {
             projects = projectRepository.findByLevelAndCaptainCollege(item,college,pageRequest);
-        } else if(keyword.equals("所获奖项")) {
+        } else if("所获奖项".equals(keyword)) {
             projects = projectRepository.findByRankAndCaptainCollege(item,college,pageRequest);
-        } else if(keyword.equals("获奖证明")) {
+        } else if("获奖证明".equals(keyword)) {
             projects = projectRepository.findByPhotoStatusAndCaptainCollege(item,college,pageRequest);
-        } else if(keyword.equals("审核状态")) {
+        } else if("审核状态".equals(keyword)) {
             projects = projectRepository.findByStateAndCaptainCollege(item,college,pageRequest);
         }
         return projects;
@@ -157,7 +157,7 @@ public class ProjectsServiceImpl implements ProjectsService {
     @PreAuthorize("hasRole('ROLE_INNER') or hasRole('ROLE_ADMIN')")
     @Override
     public int changeProjectState(Long id, String state,String msgForbid) {
-        if (null!=id && id > 0 && state != null && !state.equals("")) {
+        if (null!=id && id > 0 && state != null && !"".equals(state)) {
             if (projectRepository.exists(id)) {
                 return projectRepository.setProjectState(id,state,msgForbid);
             }
@@ -197,10 +197,10 @@ public class ProjectsServiceImpl implements ProjectsService {
         Page<Project> page = null;
         Admin a = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String roleType = a.getRoleType();
-        if (roleType.equals(RoleTypes.ADMIN) ||roleType.equals(RoleTypes.INNER)
-                || roleType.equals(RoleTypes.INNER_SPEC)) {
+        if (RoleTypes.ADMIN.equals(roleType) ||RoleTypes.INNER.equals(roleType)
+                || RoleTypes.INNER_SPEC.equals(roleType)) {
             page = getProjects(keyword,item,0,0);
-        } else if (roleType.equals(RoleTypes.OUTER) || roleType.equals(RoleTypes.OUTER_SPEC)) {
+        } else if (RoleTypes.OUTER.equals(roleType) || RoleTypes.OUTER_SPEC.equals(roleType)) {
             page = getCollegeProjects(keyword,item,a.getCollege(),0,0);
         }
         if(page == null) {

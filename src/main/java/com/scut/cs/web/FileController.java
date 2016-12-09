@@ -92,7 +92,7 @@ public class FileController  {
     public void getLocalPic(HttpServletResponse response,@PathVariable String fileName){
         logger.info("开始获取本地图片..."+"名字为:"+fileName);
         String path = dir + fileName + ".jpg";
-        if(!fileName.equals("")) {
+        if(!"".equals(fileName)) {
             try {
                 FileInputStream fis = new FileInputStream(path);
                 int sz = fis.available();

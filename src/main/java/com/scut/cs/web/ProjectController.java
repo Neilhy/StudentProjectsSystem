@@ -169,15 +169,15 @@ public class ProjectController {
         for(String header:titles) {
             headers.add(header);
         }
+        OutputStream out = null;
         try {
-            OutputStream out = response.getOutputStream();
+            out = response.getOutputStream();
             response.reset();
             String fileName = produceRandomName();
             response.setHeader("Content-Disposition","attachment;filename="+fileName+".xls");
             response.setContentType("application/vnd.ms-excel");
             ExcelFileGenerator generator = new ExcelFileGenerator(headers, rows);
             generator.expordExcel(out);
-            System.setOut(new PrintStream(out));
             out.close();
         } catch (Exception e) {
             e.printStackTrace();

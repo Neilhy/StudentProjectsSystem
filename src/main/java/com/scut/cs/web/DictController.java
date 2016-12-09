@@ -61,7 +61,7 @@ public class DictController {
             String keyword = dicts.get(0).getKeyword();
             if (dicts != null && dicts.size()>0) {
                 dictService.addDicts(dicts,flag,keyword);
-                if(flag.equals("update")) {
+                if("update".equals(flag)) {
                     dictService.updateByKeyword(keyword);
                 } else {
                     dictService.upDateKeywords();

@@ -29,7 +29,7 @@ public class AdminsServiceImpl implements AdminsService {
     @Override
     public List<Admin> getAdmins(String role) {
         List<Admin> adminList = null;
-        if(role.equals("all")) {
+        if("all".equals(role)) {
             Sort sort = new Sort(Sort.Direction.ASC,"id");
             adminList = adminRepository.findAll(sort);//TODO 分页和排序
         } else {
@@ -61,7 +61,7 @@ public class AdminsServiceImpl implements AdminsService {
         Admin a = adminRepository.findById(admin.getId());
         String password = admin.getPassword();
         if(a!=null) {
-            if(password.equals("")){
+            if("".equals(password)){
                 admin.setPassword(a.getPassword());
             } else {
                 admin.setPassword(passwordEncoder.encode(password));
@@ -111,7 +111,7 @@ public class AdminsServiceImpl implements AdminsService {
     @Override
     public void changeStatus(List<Long> id, String status) {
         int priStatus = 0;
-        if(status.equals("open")) {
+        if("open".equals(status)) {
             priStatus = 1;
         }
         for(long userid:id) {

@@ -8,6 +8,13 @@ $(function () {
         dataType: 'json',
 		autoUpload:"true",
 		singleFileUploads:"true",
+		add: function (e,data) {
+			if(data.files[0].size > 2*1024*1024) {
+				$('#responseTxt').val("文件超过大小限制:2M");
+			} else {
+				data.submit();
+			}
+		},
 		done: function (e, data) {
 			var fileName = data.result.fileName;
 			$('#upload-img').css('display','block');

@@ -21,6 +21,7 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     Project withNameAndRankAndDateQuery(@Param("name") String name, @Param("rank") String rank, @Param("date") Date date);
     Project findById(Long id);
     List<Project> findByCaptainCollege(String captainCollege);
+
     Page<Project> findByCaptainCollege(String captainCollege, Pageable pageable);
     @Query("select p from Project p where year(p.projectDate) = ?1")
     Page<Project> findByProjectDate(int year, Pageable pageable);
